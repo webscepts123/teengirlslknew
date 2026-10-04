@@ -1,0 +1,367 @@
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="noindex, nofollow"
+    title "Customer Dashboard | {{siteName}}"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600&display=swap"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
+    link rel="stylesheet" href="/public/customer-panel.css"
+  body.tg-dashboard-body
+    // Top Navigation Header
+    header.tg-top-header
+      div.tg-header-container
+        // Brand Logo
+        a.tg-header-brand href="/"
+          div.tg-brand-logo-text
+            span.tg-brand-main "teengirls"
+            span.tg-brand-tld ".lk"
+          p.tg-brand-tagline "look good, feel you"
+
+        // Search Bar
+        div.tg-header-search-wrap
+          form.tg-search-form action="/" method="GET"
+            input.tg-header-search-input type="text" name="q" placeholder="Search for products, categories..."
+            button.tg-header-search-btn type="submit"
+              span.fa-solid.fa-magnifying-glass
+
+        // Header Right Info
+        div.tg-header-right
+          div.tg-header-greeting
+            span.tg-greeting-text "Hello, {{customer.firstName}}!"
+            span.tg-greeting-heart " 💖"
+          a.tg-header-cart-btn href="/cart"
+            div.tg-cart-icon-wrap
+              span.fa-solid.fa-bag-shopping
+              span.tg-cart-badge "3"
+
+    // 3-Column Layout Container
+    div.tg-app-layout
+      // 1. Left Sidebar Navigation
+      nav.tg-sidebar-nav
+        div.tg-sidebar-menu-list
+          a.tg-menu-item.active href="/customer/dashboard"
+            div.tg-menu-icon
+              span.fa-solid.fa-house
+            span.tg-menu-label "Dashboard"
+          
+          a.tg-menu-item href="/customer/orders"
+            div.tg-menu-icon
+              span.fa-regular.fa-clipboard-list
+            span.tg-menu-label "My Orders"
+          
+          a.tg-menu-item href="/customer/wishlist"
+            div.tg-menu-icon
+              span.fa-regular.fa-heart
+            span.tg-menu-label "My Wishlist"
+          
+          a.tg-menu-item href="/customer/addresses"
+            div.tg-menu-icon
+              span.fa-solid.fa-location-dot
+            span.tg-menu-label "My Addresses"
+          
+          a.tg-menu-item href="/customer/profile"
+            div.tg-menu-icon
+              span.fa-regular.fa-user
+            span.tg-menu-label "Account Details"
+          
+          a.tg-menu-item href="/customer/size-chat"
+            div.tg-menu-icon
+              span.fa-regular.fa-comment-dots
+            span.tg-menu-label "Size Chat"
+          
+          a.tg-menu-item href="/customer/returns"
+            div.tg-menu-icon
+              span.fa-solid.fa-rotate-left
+            span.tg-menu-label "Returns & Refunds"
+          
+          a.tg-menu-item href="/customer/reviews"
+            div.tg-menu-icon
+              span.fa-regular.fa-star
+            span.tg-menu-label "My Reviews"
+          
+          a.tg-menu-item href="/customer/rewards"
+            div.tg-menu-icon
+              span.fa-solid.fa-trophy
+            span.tg-menu-label "Rewards & Points"
+          
+          a.tg-menu-item href="/customer/referrals"
+            div.tg-menu-icon
+              span.fa-solid.fa-user-group
+            span.tg-menu-label "Refer & Earn"
+          
+          a.tg-menu-item href="/customer/notifications"
+            div.tg-menu-icon
+              span.fa-regular.fa-bell
+            span.tg-menu-label "Notifications"
+          
+          a.tg-menu-item href="/customer/support"
+            div.tg-menu-icon
+              span.fa-regular.fa-circle-question
+            span.tg-menu-label "Help & Support"
+          
+          a.tg-menu-item href="/customer/logout"
+            div.tg-menu-icon
+              span.fa-solid.fa-arrow-right-from-bracket
+            span.tg-menu-label "Logout"
+
+        // Need Help Box
+        div.tg-sidebar-help-card
+          div.tg-help-icon-wrap
+            span.fa-solid.fa-headphones-simple
+          div.tg-help-content
+            h3.tg-help-title "Need Help?"
+            p.tg-help-subtitle "We're here for you!"
+            a.tg-help-btn href="#chat" onclick="alert('Live Support connected!'); return false;" "Chat with Us"
+
+      // 2. Center Main Content Area
+      main.tg-center-content
+        // Welcome Banner Card
+        div.tg-welcome-banner
+          div.tg-welcome-text-col
+            p.tg-welcome-intro "Welcome back,"
+            h1.tg-welcome-name
+              span "{{customer.firstName}}"
+              img.tg-welcome-heart-img src="/public/images/nethmi-outline-heart.png" alt="♡"
+            p.tg-welcome-note "Thanks for being a part of Teengirls.lk family."
+            p.tg-welcome-quote "You look amazing today! ✨"
+          div.tg-welcome-img-col
+            img.tg-welcome-banner-img src="/public/images/welcome-banner-girl.png" alt="Welcome Nethmi"
+
+        // 4 Summary Metrics Cards
+        div.tg-metrics-grid
+          // Card 1: Total Orders
+          div.tg-metric-card
+            div.tg-metric-icon-wrap
+              img.tg-metric-badge-img src="/public/images/stat-badge-orders.png" alt="Orders"
+            div.tg-metric-info
+              p.tg-metric-label "Total Orders"
+              h3.tg-metric-value "{{stats.totalOrders}}"
+              a.tg-metric-link href="/customer/orders" "View all orders"
+
+          // Card 2: Wishlist Items
+          div.tg-metric-card
+            div.tg-metric-icon-wrap
+              img.tg-metric-badge-img src="/public/images/stat-badge-wishlist.png" alt="Wishlist"
+            div.tg-metric-info
+              p.tg-metric-label "Wishlist Items"
+              h3.tg-metric-value "{{stats.wishlistCount}}"
+              a.tg-metric-link href="/customer/wishlist" "View wishlist"
+
+          // Card 3: Rewards Points
+          div.tg-metric-card
+            div.tg-metric-icon-wrap
+              img.tg-metric-badge-img src="/public/images/stat-badge-rewards.png" alt="Rewards"
+            div.tg-metric-info
+              p.tg-metric-label "Rewards Points"
+              h3.tg-metric-value "{{stats.rewardPoints}}"
+              a.tg-metric-link href="/customer/rewards" "View rewards"
+
+          // Card 4: Total Spent
+          div.tg-metric-card
+            div.tg-metric-icon-wrap
+              img.tg-metric-badge-img src="/public/images/stat-badge-spent.png" alt="Total Spent"
+            div.tg-metric-info
+              p.tg-metric-label "Total Spent"
+              h3.tg-metric-value "{{stats.totalSpent}}"
+              a.tg-metric-link href="/customer/orders" "View summary"
+
+        // Recent Orders Card
+        div.tg-recent-orders-card
+          div.tg-card-header-flex
+            h2.tg-card-title "Recent Orders"
+            a.tg-card-action-link href="/customer/orders" "View All Orders"
+
+          div.tg-orders-list
+            // Order 1: #TG12458
+            div.tg-order-row-item
+              div.tg-order-thumb-wrap
+                img.tg-order-thumb src="/public/images/products/floral-maxi-dress.jpg" alt="Order #TG12458"
+              div.tg-order-id-col
+                h3.tg-order-code "Order #TG12458"
+                p.tg-order-date "May 10, 2024"
+              div.tg-order-status-col
+                span.tg-status-pill.badge-delivered "Delivered"
+              div.tg-order-price-col
+                p.tg-order-price "LKR 3,499"
+                p.tg-order-items-count "1 Item"
+              div.tg-order-action-col
+                a.tg-btn-order-details href="/customer/orders?id=TG12458" "Order Details"
+
+            // Order 2: #TG12420
+            div.tg-order-row-item
+              div.tg-order-thumb-wrap
+                img.tg-order-thumb src="/public/images/products/lavender-cardigan.jpg" alt="Order #TG12420"
+              div.tg-order-id-col
+                h3.tg-order-code "Order #TG12420"
+                p.tg-order-date "May 02, 2024"
+              div.tg-order-status-col
+                span.tg-status-pill.badge-shipped "Shipped"
+              div.tg-order-price-col
+                p.tg-order-price "LKR 2,999"
+                p.tg-order-items-count "1 Item"
+              div.tg-order-action-col
+                a.tg-btn-order-details href="/customer/orders?id=TG12420" "Order Details"
+
+            // Order 3: #TG12375
+            div.tg-order-row-item
+              div.tg-order-thumb-wrap
+                img.tg-order-thumb src="/public/images/products/pink-crossbody-bag.jpg" alt="Order #TG12375"
+              div.tg-order-id-col
+                h3.tg-order-code "Order #TG12375"
+                p.tg-order-date "Apr 28, 2024"
+              div.tg-order-status-col
+                span.tg-status-pill.badge-delivered "Delivered"
+              div.tg-order-price-col
+                p.tg-order-price "LKR 4,499"
+                p.tg-order-items-count "2 Items"
+              div.tg-order-action-col
+                a.tg-btn-order-details href="/customer/orders?id=TG12375" "Order Details"
+
+            // Order 4: #TG12312
+            div.tg-order-row-item
+              div.tg-order-thumb-wrap
+                img.tg-order-thumb src="/public/images/products/pastel-sneakers.jpg" alt="Order #TG12312"
+              div.tg-order-id-col
+                h3.tg-order-code "Order #TG12312"
+                p.tg-order-date "Apr 20, 2024"
+              div.tg-order-status-col
+                span.tg-status-pill.badge-delivered "Delivered"
+              div.tg-order-price-col
+                p.tg-order-price "LKR 1,999"
+                p.tg-order-items-count "1 Item"
+              div.tg-order-action-col
+                a.tg-btn-order-details href="/customer/orders?id=TG12312" "Order Details"
+
+            // Order 5: #TG12280
+            div.tg-order-row-item
+              div.tg-order-thumb-wrap
+                img.tg-order-thumb src="/public/images/products/butterfly-hairpins.jpg" alt="Order #TG12280"
+              div.tg-order-id-col
+                h3.tg-order-code "Order #TG12280"
+                p.tg-order-date "Apr 10, 2024"
+              div.tg-order-status-col
+                span.tg-status-pill.badge-cancelled "Cancelled"
+              div.tg-order-price-col
+                p.tg-order-price "LKR 2,499"
+                p.tg-order-items-count "1 Item"
+              div.tg-order-action-col
+                a.tg-btn-order-details href="/customer/orders?id=TG12280" "Order Details"
+
+        // 4 Benefits / Service Highlights Strip
+        div.tg-benefits-strip
+          div.tg-benefit-pill
+            div.tg-benefit-icon
+              span.fa-solid.fa-truck-fast
+            div.tg-benefit-texts
+              strong "Islandwide Delivery"
+              span "Fast & Reliable"
+          
+          div.tg-benefit-pill
+            div.tg-benefit-icon
+              span.fa-solid.fa-money-bill-wave
+            div.tg-benefit-texts
+              strong "Cash on Delivery"
+              span "Pay when you receive"
+          
+          div.tg-benefit-pill
+            div.tg-benefit-icon
+              span.fa-solid.fa-rotate-left
+            div.tg-benefit-texts
+              strong "Easy Returns"
+              span "Hassle free returns"
+          
+          div.tg-benefit-pill
+            div.tg-benefit-icon
+              span.fa-solid.fa-shield-halved
+            div.tg-benefit-texts
+              strong "Secure Payments"
+              span "100% Safe & Secure"
+
+      // 3. Right Sidebar Column
+      div.tg-right-sidebar
+        // Card 1: User Profile Card (Horizontal layout matching photo)
+        div.tg-profile-card
+          div.tg-profile-heart-corner
+            img.tg-profile-heart-img src="/public/images/glossy-heart-transparent.png" alt="Heart"
+          div.tg-profile-card-flex
+            div.tg-profile-avatar-wrap
+              img.tg-profile-avatar-img src="/public/images/avatars/nethmi-avatar.png" alt="{{customer.name}}"
+            div.tg-profile-info-col
+              h2.tg-profile-name "{{customer.name}}"
+              p.tg-profile-email "{{customer.email}}"
+              p.tg-profile-phone "{{customer.phone}}"
+              a.tg-btn-edit-profile href="/customer/profile"
+                span.tg-edit-icon
+                span "Edit Profile"
+
+        // Card 2: Your Rewards Card
+        div.tg-rewards-card
+          div.tg-rewards-card-head
+            h2.tg-rewards-title "Your Rewards"
+            span.tg-rewards-points-badge "{{stats.rewardPoints}} Points"
+          
+          div.tg-rewards-desc-row
+            div.tg-rewards-desc-text
+              p "You are {{stats.voucherAway}} away from {{stats.targetVoucher}} voucher!"
+            div.tg-rewards-voucher-icon
+              span "%"
+          
+          div.tg-rewards-progress-bar-wrap
+            div.tg-rewards-progress-track
+              div.tg-rewards-progress-fill style="width: 56%"
+            p.tg-rewards-progress-label "{{stats.voucherProgressLabel}}"
+          
+          a.tg-btn-view-rewards href="/customer/rewards" "View Rewards"
+
+        // Card 3: Quick Actions Card
+        div.tg-quick-actions-card
+          h2.tg-quick-actions-title "Quick Actions"
+          div.tg-quick-actions-grid
+            a.tg-quick-action-item href="/customer/size-chat"
+              div.tg-quick-action-box
+                img.tg-quick-box-img src="/public/images/action-box-ruler.png" alt="Size Chat"
+              span.tg-quick-action-label "Size Chat"
+            
+            a.tg-quick-action-item href="/customer/wishlist"
+              div.tg-quick-action-box
+                img.tg-quick-box-img src="/public/images/action-box-wishlist.png" alt="My Wishlist"
+              span.tg-quick-action-label "My Wishlist"
+            
+            a.tg-quick-action-item href="/customer/referrals"
+              div.tg-quick-action-box
+                img.tg-quick-box-img src="/public/images/action-box-refer.png" alt="Refer & Earn"
+              span.tg-quick-action-label "Refer & Earn"
+            
+            a.tg-quick-action-item href="/customer/support"
+              div.tg-quick-action-box
+                img.tg-quick-box-img src="/public/images/action-box-help.png" alt="Help Center"
+              span.tg-quick-action-label "Help Center"
+
+        // Card 4: New Arrivals Promo Banner
+        div.tg-promo-banner-card
+          div.tg-promo-content
+            h2.tg-promo-title "New Arrivals"
+            h3.tg-promo-subtitle "Just For You!"
+            a.tg-btn-shop-now href="/shop?filter=new-arrivals" "Shop Now"
+          div.tg-promo-img-wrap
+            img.tg-promo-img src="/public/images/new-arrivals-model-blossom.png" alt="New Arrivals"
+
+    // Footer Strip
+    footer.tg-portal-footer
+      div.tg-footer-inner
+        span "© 2024 Teengirls.lk | All Rights Reserved   |   Follow us: "
+        a.tg-social-icon href="#"
+          span.fa-brands.fa-facebook-f
+        a.tg-social-icon href="#"
+          span.fa-brands.fa-instagram
+        a.tg-social-icon href="#"
+          span.fa-brands.fa-tiktok
+
+    // Floating Chat Button
+    div.tg-floating-chat-wrap
+      button.tg-floating-chat-btn onclick="alert('Starting live chat with customer support...');"
+        span.fa-solid.fa-comment-dots
+        span "Chat with Us"

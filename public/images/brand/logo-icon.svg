@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 36" fill="none">
+  <!-- Stylized Boutique Fashion Ribbon & Silhouette -->
+  <path d="M6 8C6 5 9 2.5 13 3C17 3.5 19 7 21 11C23 7 25 3.5 29 3C33 2.5 36 5 36 8C36 12 31 16 23 20L21 21L19 20C11 16 6 12 6 8Z" fill="url(#tglRoseGrad)"/>
+  <!-- Boutique Ribbon Tails -->
+  <path d="M16 19L9 33C8.5 34 7.2 34.2 6.5 33.5C5.8 32.8 6 31.5 7 30.5L14 17" fill="url(#tglRoseGrad)"/>
+  <path d="M26 19L33 33C33.5 34 34.8 34.2 35.5 33.5C36.2 32.8 36 31.5 35 30.5L28 17" fill="url(#tglRoseGrad)"/>
+  <!-- Center Heart Jewel -->
+  <circle cx="21" cy="11.5" r="3.5" fill="#FFFFFF"/>
+  <circle cx="21" cy="11.5" r="2" fill="#FF2A7A"/>
+  <!-- Sparkle Accent -->
+  <path d="M33 5C33 7 34 8 36 8C34 8 33 9 33 11C33 9 32 8 30 8C32 8 33 7 33 5Z" fill="#FFD166"/>
+  
+  <defs>
+    <linearGradient id="tglRoseGrad" x1="0" y1="0" x2="42" y2="36" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF2A7A"/>
+      <stop offset="0.6" stop-color="#FF1493"/>
+      <stop offset="1" stop-color="#E01865"/>
+    </linearGradient>
+  </defs>
+</svg>

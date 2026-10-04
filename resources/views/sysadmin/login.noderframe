@@ -1,0 +1,48 @@
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="noindex, nofollow"
+    title "{{pageTitle}} | {{siteName}}"
+    link rel="stylesheet" href="/public/cool.css"
+    link rel="stylesheet" href="/public/admin-login.css"
+  body.admin-body
+    div.admin-orb.admin-orb-1 aria-hidden="true"
+    div.admin-orb.admin-orb-2 aria-hidden="true"
+    div.admin-grid-pattern aria-hidden="true"
+    main.admin-layout
+      div.admin-login-card
+        div.admin-header
+          div.admin-brand-icon "⚡"
+          div.admin-badge
+            span.admin-live-dot
+            span "SysAdmin Console"
+          h1.admin-title "Administrator Login"
+          p.admin-subtitle "Secure access gateway for system administration"
+        if error
+          div.admin-alert.error
+            strong "Authentication Error:"
+            span "{{error}}"
+        if success
+          div.admin-alert.success
+            span "{{success}}"
+        form method="post" action="/sysadmin/login"
+          input type="hidden" name="_csrf" value="{{csrfToken}}"
+          div.admin-form-group
+            label.admin-label for="admin-username" "Admin Username or Email"
+            div.admin-input-wrap
+              input#admin-username.admin-input type="text" name="username" placeholder="sysadmin@example.com" required="required" autocomplete="username"
+          div.admin-form-group
+            label.admin-label for="admin-password" "Master Password / Security Key"
+            div.admin-input-wrap
+              input#admin-password.admin-input type="password" name="password" placeholder="••••••••••••" required="required" autocomplete="current-password"
+          div.admin-options-row
+            label.admin-checkbox-label
+              input type="checkbox" name="remember" value="1"
+              span "Remember this device for 30 days"
+          button.admin-btn-primary type="submit" "Authenticate & Sign In"
+        div.admin-footer-links
+          a.admin-back-link href="/" "← Return to Main Application"
+        div.admin-security-note
+          span "🔒 Protected with 256-Bit Session Key Encryption"
+    script src="/public/untitled-live.js" defer="defer"

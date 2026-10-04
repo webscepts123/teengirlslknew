@@ -1,0 +1,3159 @@
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="noindex, nofollow"
+    title "{{pageTitle}} | {{siteName}}"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
+    link rel="stylesheet" href="/public/admin-dashboard.css"
+  body.tgl-admin-portal
+    input type="hidden" name="_csrf" value="{{csrfToken}}"
+    
+    div.tgl-layout
+      // Left Sidebar Navigation
+      nav.tgl-sidebar
+        div.tgl-sidebar-header
+          a.tgl-brand-link href="/sysadmin/dashboard"
+            div.tgl-brand-logo
+              img.tgl-brand-logo-img src="/public/images/brand/logo-icon.svg" alt="TeenGirlsLK"
+            span.tgl-brand-name "TeenGirlsLK"
+
+        // Administrator Profile Quick Card
+        div.tgl-admin-profile-card
+          div.tgl-avatar-wrap
+            div.tgl-avatar "{{adminInitials}}"
+            span.tgl-avatar-status
+          div.tgl-admin-meta
+            span.tgl-admin-name "{{adminUser}}"
+            span.tgl-admin-role "{{adminRole}}"
+          button.tgl-profile-arrow type="button" aria-label="Profile actions"
+            span.fa-solid.fa-chevron-right
+
+        // Sidebar Navigation Links
+        div.tgl-sidebar-nav
+          // MAIN SECTION
+          div.tgl-nav-group
+            span.tgl-group-heading "MAIN"
+            
+            a.tgl-nav-item.active href="#dashboard" data-tab="dashboard"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="home"
+                span "Dashboard"
+            
+            div.tgl-nav-accordion
+              button.tgl-nav-item.tgl-accordion-btn type="button" data-toggle="sub-categories" data-tab="categories"
+                div.tgl-nav-content
+                  span.tgl-nav-icon data-icon="categories"
+                  span "Categories"
+                span.tgl-chevron
+                  span.fa-solid.fa-chevron-right
+              div#sub-categories.tgl-sub-menu
+                a.tgl-sub-item href="#categories" data-tab="categories" "All Categories"
+                a.tgl-sub-item href="#category-form" data-tab="category-form" data-action="add-category" "Add Category"
+                a.tgl-sub-item href="#category-tree" onclick="showToast('Category hierarchy viewer', 'fa-network-wired')" "Hierarchy Tree"
+
+            div.tgl-nav-accordion
+              button.tgl-nav-item.tgl-accordion-btn type="button" data-toggle="sub-products" data-tab="products"
+                div.tgl-nav-content
+                  span.tgl-nav-icon data-icon="products"
+                  span "Products"
+                span.tgl-chevron
+                  span.fa-solid.fa-chevron-right
+              div#sub-products.tgl-sub-menu
+                a.tgl-sub-item href="#products" data-tab="products" "All Products"
+                a.tgl-sub-item href="#product-form" data-tab="product-form" data-action="add-product" "Add Product"
+                a.tgl-sub-item href="#inventory" onclick="showToast('Inventory & stock control', 'fa-boxes-stacked')" "Stock & Inventory"
+                a.tgl-sub-item href="#reviews" onclick="showToast('Customer product reviews', 'fa-star')" "Product Reviews"
+
+            div.tgl-nav-accordion
+              button.tgl-nav-item.tgl-accordion-btn type="button" data-toggle="sub-orders" data-tab="orders"
+                div.tgl-nav-content
+                  span.tgl-nav-icon data-icon="cart"
+                  span "Orders"
+                span.tgl-chevron
+                  span.fa-solid.fa-chevron-right
+              div#sub-orders.tgl-sub-menu
+                a.tgl-sub-item href="#orders" data-tab="orders" "All Orders"
+                a.tgl-sub-item href="#order-form" data-tab="order-form" data-action="new-order" "New Order"
+                a.tgl-sub-item href="#orders-pending" onclick="showToast('Filtering pending orders', 'fa-clock')" "Pending Orders"
+                a.tgl-sub-item href="#orders-shipped" onclick="showToast('Filtering shipped packages', 'fa-truck-fast')" "Shipped Orders"
+                a.tgl-sub-item href="#orders-returns" onclick="showToast('Refund & returns list', 'fa-arrow-rotate-left')" "Return Requests"
+
+            a.tgl-nav-item href="#delivery" data-tab="delivery"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="truck"
+                span "Delivery"
+
+            a.tgl-nav-item href="#payouts" data-tab="payouts"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="credit-card"
+                span "Payouts"
+
+            a.tgl-nav-item href="#customers" data-tab="customers"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="users"
+                span "Customers"
+
+          // PROMOTIONS SECTION
+          div.tgl-nav-group
+            span.tgl-group-heading "PROMOTIONS"
+
+            a.tgl-nav-item href="#surprise-box" data-tab="surprise-box"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="star"
+                span "Surprise Box"
+              span.tgl-nav-badge "New"
+
+            a.tgl-nav-item href="#promotions" data-tab="promotions"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="tag"
+                span "Promotions"
+
+            a.tgl-nav-item href="#flash-sale" data-tab="flash-sale"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="zap"
+                span "Flash Sale"
+              span.tgl-nav-badge.badge-hot "Live"
+
+            a.tgl-nav-item href="#bidding" data-tab="bidding"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="dollar"
+                span "Bidding"
+
+            a.tgl-nav-item href="#coupons" data-tab="coupons"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="coupon"
+                span "Coupons"
+
+          // MANAGEMENT SECTION
+          div.tgl-nav-group
+            span.tgl-group-heading "MANAGEMENT"
+
+            a.tgl-nav-item href="#manage-admin" data-tab="manage-admin"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="shield"
+                span "Manage Admin"
+
+            a.tgl-nav-item href="#reports" data-tab="reports"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="chart"
+                span "Reports"
+
+            a.tgl-nav-item href="#tickets" data-tab="tickets"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="ticket"
+                span "Tickets"
+
+            a.tgl-nav-item href="#faq" data-tab="faq"
+              div.tgl-nav-content
+                span.tgl-nav-icon data-icon="help-circle"
+                span "FAQ"
+
+        // Sidebar Footer Sign Out
+        div.tgl-sidebar-footer
+          a.tgl-nav-item.tgl-signout-link href="/sysadmin/logout"
+            div.tgl-nav-content
+              span.tgl-nav-icon data-icon="log-out"
+              span "Sign Out"
+
+      // Main Content Area
+      main.tgl-main-wrapper
+        // Top Navigation Bar
+        header.tgl-topbar
+          div.tgl-topbar-left
+            button#tgl-mobile-toggle.tgl-btn-icon type="button" aria-label="Toggle navigation menu"
+              span.tgl-nav-icon data-icon="menu"
+            h1.tgl-page-title "Dashboard"
+
+          // Global Search Bar with ⌘K
+          div.tgl-search-bar
+            span.tgl-search-icon data-icon="search"
+            input#tgl-global-search.tgl-search-input type="text" placeholder="Search for anything..." aria-label="Search dashboard"
+            span.tgl-kbd-shortcut "⌘ K"
+
+          // Topbar Right Actions
+          div.tgl-topbar-right
+            // Date Range Picker Pill
+            button#tgl-date-picker-btn.tgl-date-pill type="button" aria-label="Select date range"
+              span "{{dateRange}}"
+              span.tgl-icon-inline data-icon="calendar"
+
+            // Notifications Bell with Badge
+            div.tgl-dropdown-wrapper
+              button#tgl-notification-btn.tgl-btn-icon.tgl-has-badge type="button" aria-label="Notifications"
+                span.tgl-nav-icon data-icon="bell"
+                span.tgl-badge-count "3"
+              div#tgl-notification-dropdown.tgl-dropdown-menu
+                div.tgl-dropdown-header
+                  span "Recent Notifications"
+                  button.tgl-link-btn type="button" onclick="showToast('All notifications marked read', 'fa-bell')" "Mark all read"
+                div.tgl-dropdown-body
+                  div.tgl-notif-row
+                    span.tgl-notif-icon
+                      span.fa-solid.fa-box
+                    div.tgl-notif-meta
+                      span.tgl-notif-text "Order #TG1004 is out for delivery"
+                      span.tgl-notif-time "1 min ago"
+                  div.tgl-notif-row
+                    span.tgl-notif-icon
+                      span.fa-solid.fa-truck
+                    div.tgl-notif-meta
+                      span.tgl-notif-text "Order #TG1003 has been shipped"
+                      span.tgl-notif-time "2 hours ago"
+                  div.tgl-notif-row
+                    span.tgl-notif-icon
+                      span.fa-solid.fa-user
+                    div.tgl-notif-meta
+                      span.tgl-notif-text "New customer registered: Guest Customer"
+                      span.tgl-notif-time "5 hours ago"
+
+            // Theme Toggle Switcher (Light / Dark)
+            button#tgl-theme-toggle.tgl-btn-icon type="button" aria-label="Toggle visual theme" title="Toggle Theme"
+              span.tgl-nav-icon data-icon="sun"
+
+            // Admin Profile Summary Pill
+            div.tgl-topbar-profile
+              img.tgl-avatar-small-img src="/public/images/avatars/admin-avatar.jpg" alt="{{adminUser}}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              div.tgl-avatar-small style="display:none;" "{{adminInitials}}"
+              div.tgl-profile-col
+                span.tgl-topbar-name "{{adminUser}}"
+                span.tgl-topbar-role "{{adminRole}}"
+
+        // Page Content Tabs
+        div.tgl-content-body
+          // DASHBOARD MAIN TAB
+          div#tab-dashboard.tgl-tab-pane.active
+            // 1. TOP METRIC CARDS (6 CARDS ROW)
+            // 1. TOP METRIC CARDS (6 CARDS ROW)
+            div.tgl-kpi-grid
+              // Card 1: Total Customers
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.fa-solid.fa-users
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Customers"
+                    span.tgl-kpi-number "3"
+                div.tgl-kpi-trend.trend-text-down
+                  span.fa-solid.fa-arrow-trend-down.trend-arrow
+                  span "25% vs last 31 days"
+
+              // Card 2: Active Users
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.fa-solid.fa-user
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Active Users"
+                    span.tgl-kpi-number "2"
+                div.tgl-kpi-trend.trend-text-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "100% vs last 31 days"
+
+              // Card 3: Total Revenue
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.fa-regular.fa-credit-card
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Revenue"
+                    span.tgl-kpi-number "Rs 0.00"
+                div.tgl-kpi-trend.trend-text-down
+                  span.fa-solid.fa-arrow-trend-down.trend-arrow
+                  span "100% vs last 31 days"
+
+              // Card 4: Total Sales
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.fa-solid.fa-bag-shopping
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Sales"
+                    span.tgl-kpi-number "0"
+                div.tgl-kpi-trend.trend-text-down
+                  span.fa-solid.fa-arrow-trend-down.trend-arrow
+                  span "100% vs last 31 days"
+
+              // Card 5: Total Orders
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-orange
+                    span.fa-solid.fa-clipboard-list
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Orders"
+                    span.tgl-kpi-number "4"
+                div.tgl-kpi-trend.trend-text-down
+                  span.fa-solid.fa-arrow-trend-down.trend-arrow
+                  span "20% vs last 31 days"
+
+              // Card 6: Return Orders
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-rose
+                    span.fa-solid.fa-rotate-left
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Return Orders"
+                    span.tgl-kpi-number "0"
+                div.tgl-kpi-trend.trend-text-neutral
+                  span "No change"
+
+            // 2. MAIN 2-COLUMN DASHBOARD GRID
+            div.tgl-dashboard-grid
+              // LEFT MAIN COLUMN (Fulfillment + Middle Row + Recent Orders)
+              div.tgl-dashboard-main
+                // Fulfillment Status Pipeline (4 Cards)
+                div.tgl-fulfillment-grid
+                  div.tgl-card.tgl-fulfill-card
+                    div.tgl-fulfill-content
+                      div.tgl-icon-box.icon-blue-soft
+                        span.fa-solid.fa-truck
+                      div.tgl-fulfill-meta
+                        div.tgl-fulfill-top
+                          span.tgl-fulfill-label "Dispatched"
+                          span.tgl-fulfill-count "0"
+                        span.tgl-fulfill-desc "Packed, awaiting pickup"
+
+                  div.tgl-card.tgl-fulfill-card
+                    div.tgl-fulfill-content
+                      div.tgl-icon-box.icon-purple-soft
+                        span.fa-solid.fa-box
+                      div.tgl-fulfill-meta
+                        div.tgl-fulfill-top
+                          span.tgl-fulfill-label "Shipped"
+                          span.tgl-fulfill-count "1"
+                        span.tgl-fulfill-desc "With the courier"
+
+                  div.tgl-card.tgl-fulfill-card
+                    div.tgl-fulfill-content
+                      div.tgl-icon-box.icon-orange-soft
+                        span.fa-solid.fa-clock-rotate-left
+                      div.tgl-fulfill-meta
+                        div.tgl-fulfill-top
+                          span.tgl-fulfill-label "Out for Delivery"
+                          span.tgl-fulfill-count "1"
+                        span.tgl-fulfill-desc "After shipped"
+
+                  div.tgl-card.tgl-fulfill-card
+                    div.tgl-fulfill-content
+                      div.tgl-icon-box.icon-green-soft
+                        span.fa-solid.fa-circle-check
+                      div.tgl-fulfill-meta
+                        div.tgl-fulfill-top
+                          span.tgl-fulfill-label "Delivered"
+                          span.tgl-fulfill-count "0"
+                        span.tgl-fulfill-desc "Handed to the customer"
+
+                // Middle Grid: Revenue Overview + Sales by Category (Side-by-Side)
+                div.tgl-middle-grid
+                  // Revenue Overview Card
+                  div.tgl-card.tgl-chart-card
+                    div.tgl-card-head
+                      div
+                        h2.tgl-card-title "Revenue Overview"
+                        p.tgl-card-sub "Daily revenue (monthly view for ranges > 31 days)"
+                      div.tgl-filter-dropdown
+                        button.tgl-btn-filter type="button"
+                          span "Daily"
+                          span.fa-solid.fa-chevron-down style="font-size: 0.65rem; margin-left: 4px;"
+                    
+                    // Interactive SVG Revenue Chart Container
+                    div#tgl-revenue-chart-mount.tgl-chart-container
+
+                    // Bottom 3 Revenue Metrics Pills
+                    div.tgl-revenue-stats
+                      div.tgl-revenue-pill
+                        div.tgl-pill-icon.icon-pink
+                          span.fa-regular.fa-credit-card
+                        div
+                          div.tgl-pill-val "Rs 0.00"
+                          div.tgl-pill-label "Total Revenue"
+
+                      div.tgl-revenue-pill
+                        div.tgl-pill-icon.icon-green
+                          span.fa-solid.fa-arrow-trend-down
+                        div
+                          div.tgl-pill-val.trend-text-down
+                            span.fa-solid.fa-arrow-trend-down style="font-size:0.8rem; margin-right:0.25rem;"
+                            span "100%"
+                          div.tgl-pill-label "vs May 10 - Jun 8, 2025"
+
+                      div.tgl-revenue-pill
+                        div.tgl-pill-icon.icon-purple
+                          span.fa-solid.fa-chart-column
+                        div
+                          div.tgl-pill-val "Rs 0.00"
+                          div.tgl-pill-label "Average Daily Revenue"
+
+                  // Sales by Category Card
+                  div.tgl-card.tgl-category-card
+                    div.tgl-card-head
+                      div
+                        h2.tgl-card-title "Sales by Category"
+                        p.tgl-card-sub "Units ordered per main category"
+                    
+                    div#tgl-donut-chart-mount.tgl-donut-container
+                    
+                    div.tgl-category-card-footer
+                      a.tgl-btn-view-categories href="#categories" data-tab="categories"
+                        span "View All Categories"
+                        span.fa-solid.fa-arrow-right style="margin-left: 6px;"
+
+                // Recent Orders Card
+                div.tgl-card.tgl-orders-card
+                  div.tgl-orders-header
+                    h2.tgl-card-title "Recent Orders"
+                    a.tgl-btn-pink-pill href="#orders" data-tab="orders"
+                      span "View All Orders"
+                      span.fa-solid.fa-arrow-right style="margin-left: 6px;"
+
+                  div.tgl-table-wrap.table-orders
+                    div.tgl-thead
+                      div.tgl-th.col-order-id "ORDER ID"
+                      div.tgl-th.col-order-cust "CUSTOMER"
+                      div.tgl-th.col-order-date "DATE"
+                      div.tgl-th.col-order-status "STATUS"
+                      div.tgl-th.col-order-total "TOTAL"
+                      div.tgl-th.col-order-pay "PAYMENT"
+                      div.tgl-th.col-order-act ""
+                    div.tgl-tbody
+                      div.tgl-tr
+                        div.tgl-td.col-order-id
+                          a.tgl-order-id-link href="#orders" data-order-view="#TG1004" "#TG1004"
+                        div.tgl-td.col-order-cust "Guest Customer"
+                        div.tgl-td.col-order-date "Jun 9, 2025 11:17 AM"
+                        div.tgl-td.col-order-status
+                          span.tgl-status-pill.status-delivery
+                            span.fa-regular.fa-circle-dot style="font-size: 0.68rem; margin-right: 4px;"
+                            span "Out for Delivery"
+                        div.tgl-td.col-order-total "Rs 1,799.00"
+                        div.tgl-td.col-order-pay
+                          span.tgl-pay-badge.pay-cod "Cod"
+                        div.tgl-td.col-order-act
+                          button.tgl-btn-dots type="button" aria-label="Order actions" title="Actions"
+                            span.fa-solid.fa-ellipsis-vertical
+
+              // RIGHT SIDEBAR COLUMN (Quick Summary + Top Performing + Recent Activity)
+              div.tgl-dashboard-sidebar
+                // Quick Summary Card
+                div.tgl-card.tgl-widget-card
+                  h3.tgl-widget-title "Quick Summary"
+                  div.tgl-summary-list
+                    a.tgl-summary-row href="#products" data-tab="products"
+                      div.tgl-summary-left
+                        div.tgl-icon-box.icon-pink
+                          span.fa-solid.fa-bag-shopping
+                        span.tgl-summary-label "Products"
+                      div.tgl-summary-right
+                        span.tgl-summary-count "12"
+                        span.tgl-summary-arrow
+                          span.fa-solid.fa-chevron-right style="font-size: 0.75rem;"
+
+                    a.tgl-summary-row href="#categories" data-tab="categories"
+                      div.tgl-summary-left
+                        div.tgl-icon-box.icon-orange
+                          span.fa-solid.fa-table-cells-large
+                        span.tgl-summary-label "Categories"
+                      div.tgl-summary-right
+                        span.tgl-summary-count "7"
+                        span.tgl-summary-arrow
+                          span.fa-solid.fa-chevron-right style="font-size: 0.75rem;"
+
+                    a.tgl-summary-row href="#promotions" data-tab="promotions"
+                      div.tgl-summary-left
+                        div.tgl-icon-box.icon-green
+                          span.fa-solid.fa-bullhorn
+                        span.tgl-summary-label "Active Promotions"
+                      div.tgl-summary-right
+                        span.tgl-summary-count "3"
+                        span.tgl-summary-arrow
+                          span.fa-solid.fa-chevron-right style="font-size: 0.75rem;"
+
+                    a.tgl-summary-row href="#flash-sale" data-tab="flash-sale"
+                      div.tgl-summary-left
+                        div.tgl-icon-box.icon-purple
+                          span.fa-solid.fa-bolt
+                        span.tgl-summary-label "Flash Sale"
+                      div.tgl-summary-right
+                        span.tgl-summary-count "1"
+                        span.tgl-summary-arrow
+                          span.fa-solid.fa-chevron-right style="font-size: 0.75rem;"
+
+                // Top Performing Categories Card
+                div.tgl-card.tgl-widget-card
+                  div.tgl-widget-head
+                    h3.tgl-widget-title "Top Performing Categories"
+                    span.tgl-badge-pink "This Month"
+                  
+                  div.tgl-empty-leaderboard
+                    div.tgl-empty-icon
+                      span.fa-solid.fa-chart-simple
+                    div.tgl-empty-title "No sales data yet"
+                    p.tgl-empty-sub "Category performance will appear here once you have sales."
+
+                // Recent Activity Card
+                div.tgl-card.tgl-widget-card
+                  h3.tgl-widget-title "Recent Activity"
+                  div.tgl-activity-list
+                    div.tgl-activity-row
+                      div.tgl-icon-box.icon-pink-soft
+                        span.fa-solid.fa-cart-shopping
+                      div.tgl-activity-meta
+                        span.tgl-activity-title "Order #TG1004 is out for delivery"
+                        span.tgl-activity-time "1 minute ago"
+
+                    div.tgl-activity-row
+                      div.tgl-icon-box.icon-purple-soft
+                        span.fa-solid.fa-truck
+                      div.tgl-activity-meta
+                        span.tgl-activity-title "Order #TG1003 has been shipped"
+                        span.tgl-activity-time "2 hours ago"
+
+                    div.tgl-activity-row
+                      div.tgl-icon-box.icon-blue-soft
+                        span.fa-solid.fa-box
+                      div.tgl-activity-meta
+                        span.tgl-activity-title "Order #TG1002 has been dispatched"
+                        span.tgl-activity-time "4 hours ago"
+
+          // CATEGORIES TAB
+          div#tab-categories.tgl-tab-pane
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Category Management"
+                  p.tgl-card-sub "Organize e-commerce catalog structure, tags, and navigation filters"
+                button.tgl-btn-primary#btn-add-category type="button" data-action="add-category" "+ Add Category"
+              div.tgl-categories-grid
+                div.tgl-cat-card
+                  div.tgl-cat-icon
+                    span.fa-solid.fa-person-dress style="color: #FF2A7A;"
+                  h3 "Dresses & Outfits"
+                  p "14 products listed"
+                  button.tgl-btn-xs-outline type="button" data-action="edit-category" data-cat-name="Dresses & Outfits" data-cat-slug="dresses-outfits" data-cat-icon="fa-person-dress" "Edit"
+                div.tgl-cat-card
+                  div.tgl-cat-icon
+                    span.fa-solid.fa-bag-shopping style="color: #06B6D4;"
+                  h3 "Bags & Accessories"
+                  p "9 products listed"
+                  button.tgl-btn-xs-outline type="button" data-action="edit-category" data-cat-name="Bags & Accessories" data-cat-slug="bags-accessories" data-cat-icon="fa-bag-shopping" "Edit"
+                div.tgl-cat-card
+                  div.tgl-cat-icon
+                    span.fa-solid.fa-shoe-prints style="color: #F59E0B;"
+                  h3 "Footwear"
+                  p "6 products listed"
+                  button.tgl-btn-xs-outline type="button" data-action="edit-category" data-cat-name="Footwear" data-cat-slug="footwear" data-cat-icon="fa-shoe-prints" "Edit"
+                div.tgl-cat-card
+                  div.tgl-cat-icon
+                    span.fa-solid.fa-wand-magic-sparkles style="color: #EC4899;"
+                  h3 "Beauty & Skincare"
+                  p "11 products listed"
+                  button.tgl-btn-xs-outline type="button" data-action="edit-category" data-cat-name="Beauty & Skincare" data-cat-slug="beauty-skincare" data-cat-icon="fa-wand-magic-sparkles" "Edit"
+
+          // PRODUCTS TAB
+          div#tab-products.tgl-tab-pane
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Product Catalog"
+                  p.tgl-card-sub "Manage product listings, inventory levels, SKUs, and retail pricing"
+                div.tgl-card-head-actions
+                  button.tgl-btn-primary#btn-add-product type="button" data-action="add-product" "+ Add Product"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search products, SKUs, categories..." aria-label="Search products"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="category" aria-label="Filter by Category"
+                      option value="" "All Categories"
+                      option value="Dresses" "Dresses"
+                      option value="Accessories" "Accessories"
+                      option value="Tops & Knitwear" "Tops & Knitwear"
+                      option value="Jewelry" "Jewelry"
+                      option value="Footwear" "Footwear"
+                      option value="Beauty" "Beauty"
+                      option value="Bottoms" "Bottoms"
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="status" aria-label="Filter by Stock Status"
+                      option value="" "All Stock Statuses"
+                      option value="Active" "Active"
+                      option value="Low Stock" "Low Stock"
+                      option value="Out of Stock" "Out of Stock"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-products
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all products"
+                  div.tgl-th.sortable data-sort="prod" data-type="text"
+                    span "PRODUCT"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="sku" data-type="text"
+                    span "SKU"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="category" data-type="text"
+                    span "CATEGORY"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="stock" data-type="number"
+                    span "STOCK"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="price" data-type="currency"
+                    span "PRICE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="status" data-type="text"
+                    span "STATUS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr data-prod="Floral Summer Maxi Dress" data-sku="TG-DR-001" data-category="Dresses" data-stock="24" data-price="Rs 3,450.00" data-status="Active" data-img="/public/images/products/floral-maxi-dress.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/floral-maxi-dress.jpg" alt="Floral Summer Maxi Dress" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Floral Summer Maxi Dress"
+                          div.tgl-td-sub "Pastel floral chiffon dress with bow straps"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-DR-001"
+                    div.tgl-td.col-category "Dresses"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "24 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 3,450.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Pastel Pink Crossbody Bag" data-sku="TG-BG-004" data-category="Accessories" data-stock="12" data-price="Rs 2,890.00" data-status="Active" data-img="/public/images/products/pink-crossbody-bag.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/pink-crossbody-bag.jpg" alt="Pastel Pink Crossbody Bag" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Pastel Pink Crossbody Bag"
+                          div.tgl-td-sub "Vegan leather mini satchel with gold chain"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-BG-004"
+                    div.tgl-td.col-category "Accessories"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "12 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 2,890.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Crop Knit Lavender Cardigan" data-sku="TG-TP-012" data-category="Tops & Knitwear" data-stock="35" data-price="Rs 2,450.00" data-status="Active" data-img="/public/images/products/lavender-cardigan.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/lavender-cardigan.jpg" alt="Crop Knit Lavender Cardigan" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Crop Knit Lavender Cardigan"
+                          div.tgl-td-sub "Soft acrylic rib knit with daisy buttons"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-TP-012"
+                    div.tgl-td.col-category "Tops & Knitwear"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "35 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 2,450.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Crystal Butterfly Hairpins Set" data-sku="TG-JW-008" data-category="Jewelry" data-stock="80" data-price="Rs 850.00" data-status="Active" data-img="/public/images/products/butterfly-hairpins.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/butterfly-hairpins.jpg" alt="Crystal Butterfly Hairpins Set" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Crystal Butterfly Hairpins Set"
+                          div.tgl-td-sub "Set of 4 sparkling zinc alloy pins"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-JW-008"
+                    div.tgl-td.col-category "Jewelry"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "80 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 850.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Platform Canvas Pastel Sneakers" data-sku="TG-FW-003" data-category="Footwear" data-stock="5" data-price="Rs 4,950.00" data-status="Low Stock" data-img="/public/images/products/pastel-sneakers.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/pastel-sneakers.jpg" alt="Platform Canvas Pastel Sneakers" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Platform Canvas Pastel Sneakers"
+                          div.tgl-td-sub "3cm cushioned sole with cute pastel piping"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-FW-003"
+                    div.tgl-td.col-category "Footwear"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-low "5 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 4,950.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-limited
+                        span.status-dot
+                        span "Low Stock"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Glossy Berry Lip Tint Trio" data-sku="TG-BY-002" data-category="Beauty" data-stock="42" data-price="Rs 1,650.00" data-status="Active" data-img="/public/images/products/lip-tint-trio.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/lip-tint-trio.jpg" alt="Glossy Berry Lip Tint Trio" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Glossy Berry Lip Tint Trio"
+                          div.tgl-td-sub "Hydrating hyaluronic berry stain trio"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-BY-002"
+                    div.tgl-td.col-category "Beauty"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "42 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 1,650.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Pleated High-Waist Tennis Skirt" data-sku="TG-SK-009" data-category="Bottoms" data-stock="18" data-price="Rs 2,290.00" data-status="Active" data-img="/public/images/products/floral-maxi-dress.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/floral-maxi-dress.jpg" alt="Pleated High-Waist Tennis Skirt" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Pleated High-Waist Tennis Skirt"
+                          div.tgl-td-sub "Anti-crease poly-spandex with safety shorts"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-SK-009"
+                    div.tgl-td.col-category "Bottoms"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "18 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 2,290.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+                  div.tgl-tr data-prod="Kawaii Surprise Box Edition" data-sku="TG-SB-001" data-category="Accessories" data-stock="14" data-price="Rs 5,500.00" data-status="Active" data-img="/public/images/products/surprise-box.jpg"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select product"
+                    div.tgl-td.col-prod
+                      div.tgl-prod-cell
+                        div.tgl-prod-thumb-wrap
+                          img.tgl-prod-thumb src="/public/images/products/surprise-box.jpg" alt="Kawaii Surprise Box Edition" onerror="this.onerror=null; this.src='/public/images/placeholder.svg';"
+                        div
+                          strong.tgl-prod-name "Kawaii Surprise Box Edition"
+                          div.tgl-td-sub "Monthly mystery box with curated pastel items"
+                    div.tgl-td.col-sku
+                      code.tgl-sku "TG-SB-001"
+                    div.tgl-td.col-category "Accessories"
+                    div.tgl-td.col-stock
+                      span.tgl-stock-badge.stock-in "14 in stock"
+                    div.tgl-td.col-price
+                      strong.tgl-price "Rs 5,500.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-product" "Edit"
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 5 of 8 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                    option value="25" "25"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                    button.tgl-page-num "2"
+                  button.tgl-page-btn.next
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // ORDERS TAB
+          div#tab-orders.tgl-tab-pane
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "All Store Orders"
+                  p.tgl-card-sub "Filter, process, and track customer shipments and delivery statuses"
+                div.tgl-card-head-actions
+                  button.tgl-btn-primary#btn-new-order type="button" data-action="new-order" "+ New Order"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search orders, customers, amounts..." aria-label="Search orders"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="status" aria-label="Filter by Status"
+                      option value="" "All Statuses"
+                      option value="Out for Delivery" "Out for Delivery"
+                      option value="Shipped" "Shipped"
+                      option value="Dispatched" "Dispatched"
+                      option value="Delivered" "Delivered"
+                      option value="Processing" "Processing"
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="pay" aria-label="Filter by Payment"
+                      option value="" "All Payments"
+                      option value="Card" "Card"
+                      option value="Cod" "Cash on Delivery (COD)"
+                      option value="Bank" "Bank Transfer"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-orders
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all orders"
+                  div.tgl-th.sortable data-sort="id" data-type="text"
+                    span "ORDER ID"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="cust" data-type="text"
+                    span "CUSTOMER"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="date" data-type="date"
+                    span "DATE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="status" data-type="text"
+                    span "STATUS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="total" data-type="currency"
+                    span "TOTAL"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="pay" data-type="text"
+                    span "PAYMENT"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  for order in recentOrders
+                    div.tgl-tr data-id="{{order.id}}" data-cust="{{order.customer}}" data-date="{{order.date}}" data-status="{{order.status}}" data-total="{{order.total}}" data-pay="{{order.payment}}"
+                      div.tgl-td.col-check
+                        input.tgl-row-check type="checkbox" aria-label="Select order {{order.id}}"
+                      div.tgl-td.col-id
+                        a.tgl-order-link href="#orders" data-order-view="{{order.id}}" "{{order.id}}"
+                      div.tgl-td.col-cust
+                        div.tgl-cust-cell
+                          span.tgl-cust-avatar "{{order.initials}}"
+                          span.tgl-customer-name "{{order.customer}}"
+                      div.tgl-td.col-date
+                        span.tgl-order-date "{{order.date}}"
+                      div.tgl-td.col-status
+                        span.tgl-status-pill class="{{order.statusBadge}}"
+                          span.status-dot
+                          span "{{order.status}}"
+                      div.tgl-td.col-total
+                        strong.tgl-order-total "{{order.total}}"
+                      div.tgl-td.col-pay
+                        span.tgl-pay-pill class="{{order.paymentBadge}}" "{{order.payment}}"
+                      div.tgl-td.col-act
+                        button.tgl-btn-more type="button" aria-label="Order actions" data-order-view="{{order.id}}" title="View Order Details"
+                          span.fa-solid.fa-eye
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 5 of 8 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                    option value="25" "25"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                    button.tgl-page-num "2"
+                  button.tgl-page-btn.next
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // CUSTOMERS TAB
+          div#tab-customers.tgl-tab-pane
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Customer Directory"
+                  p.tgl-card-sub "Registered accounts, VIP clubs, purchase histories, and buyer statistics"
+                div.tgl-card-head-actions
+                  button.tgl-btn-primary#btn-add-customer type="button" data-action="add-customer" "+ Invite Customer"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search customer name, email..." aria-label="Search customers"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="tier" aria-label="Filter by Customer Tier"
+                      option value="" "All Customer Tiers"
+                      option value="VIP Gold" "VIP Gold"
+                      option value="Silver Club" "Silver Club"
+                      option value="Bronze" "Bronze"
+                      option value="Guest" "Guest"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-customers
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all customers"
+                  div.tgl-th.sortable data-sort="cust" data-type="text"
+                    span "CUSTOMER"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="email" data-type="text"
+                    span "EMAIL"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="orders" data-type="number"
+                    span "ORDERS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="spent" data-type="currency"
+                    span "SPENT"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="active" data-type="text"
+                    span "LAST ACTIVE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="tier" data-type="text"
+                    span "TIER"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr data-cust="Amara Jayawardena" data-email="amara.j@gmail.com" data-phone="+94 77 123 4567" data-city="Colombo 07" data-orders="5" data-spent="Rs 18,450.00" data-active="Today" data-tier="VIP Gold"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        img.tgl-cust-avatar-photo src="/public/images/avatars/avatar-1.jpg" alt="Amara" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        span.tgl-cust-avatar.avatar-vip style="display:none;" "AJ"
+                        div
+                          strong.tgl-customer-name "Amara Jayawardena"
+                          div.tgl-td-sub "Colombo 07"
+                    div.tgl-td.col-email "amara.j@gmail.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "5 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 18,450.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-green
+                        span "Today"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-vip "VIP Gold"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Dinithi Silva" data-email="dinithi@outlook.com" data-phone="+94 71 987 6543" data-city="Kandy" data-orders="3" data-spent="Rs 9,800.00" data-active="Today" data-tier="Silver Club"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        img.tgl-cust-avatar-photo src="/public/images/avatars/avatar-2.jpg" alt="Dinithi" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        span.tgl-cust-avatar style="display:none;" "DS"
+                        div
+                          strong.tgl-customer-name "Dinithi Silva"
+                          div.tgl-td-sub "Kandy"
+                    div.tgl-td.col-email "dinithi@outlook.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "3 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 9,800.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-green
+                        span "Today"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-silver "Silver Club"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Kasun Fernando" data-email="kasun.f@yahoo.com" data-phone="+94 76 555 4321" data-city="Negombo" data-orders="2" data-spent="Rs 7,220.00" data-active="Today" data-tier="Bronze"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar "KF"
+                        div
+                          strong.tgl-customer-name "Kasun Fernando"
+                          div.tgl-td-sub "Negombo"
+                    div.tgl-td.col-email "kasun.f@yahoo.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "2 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 7,220.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-green
+                        span "Today"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-bronze "Bronze"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Pooja Weerasinghe" data-email="pooja.w@gmail.com" data-phone="+94 72 333 8899" data-city="Galle" data-orders="4" data-spent="Rs 14,100.00" data-active="Today" data-tier="Silver Club"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        img.tgl-cust-avatar-photo src="/public/images/avatars/avatar-3.jpg" alt="Pooja" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        span.tgl-cust-avatar style="display:none;" "PW"
+                        div
+                          strong.tgl-customer-name "Pooja Weerasinghe"
+                          div.tgl-td-sub "Galle"
+                    div.tgl-td.col-email "pooja.w@gmail.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "4 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 14,100.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-green
+                        span "Today"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-silver "Silver Club"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Guest Customer" data-email="guest@teengirls.lk" data-phone="" data-city="Express Checkout" data-orders="1" data-spent="Rs 1,799.00" data-active="Today" data-tier="Guest"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar "GC"
+                        div
+                          strong.tgl-customer-name "Guest Customer"
+                          div.tgl-td-sub "Express Checkout"
+                    div.tgl-td.col-email "guest@teengirls.lk"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "1 order"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 1,799.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-green
+                        span "Today"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-guest "Guest"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Sarah Connor" data-email="sconnor@teensgirls.com" data-phone="+94 77 444 1122" data-city="Mount Lavinia" data-orders="2" data-spent="Rs 5,550.00" data-active="Yesterday" data-tier="Bronze"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar "SC"
+                        div
+                          strong.tgl-customer-name "Sarah Connor"
+                          div.tgl-td-sub "Mount Lavinia"
+                    div.tgl-td.col-email "sconnor@teensgirls.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "2 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 5,550.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-gray
+                        span "Yesterday"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-bronze "Bronze"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+                  div.tgl-tr data-cust="Alex Mercer" data-email="mercer.a@gmail.com" data-phone="+94 75 888 9900" data-city="Battaramulla" data-orders="6" data-spent="Rs 22,900.00" data-active="2 days ago" data-tier="VIP Gold"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select customer"
+                    div.tgl-td.col-cust
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar.avatar-vip "AM"
+                        div
+                          strong.tgl-customer-name "Alex Mercer"
+                          div.tgl-td-sub "Battaramulla"
+                    div.tgl-td.col-email "mercer.a@gmail.com"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "6 orders"
+                    div.tgl-td.col-spent
+                      strong.tgl-order-total "Rs 22,900.00"
+                    div.tgl-td.col-active
+                      span.tgl-badge-active-dot
+                        span.dot-gray
+                        span "2 days ago"
+                    div.tgl-td.col-tier
+                      span.tgl-status-pill.badge-vip "VIP Gold"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-customer" "Edit"
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 5 of 7 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                    option value="25" "25"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                    button.tgl-page-num "2"
+                  button.tgl-page-btn.next
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // SURPRISE BOX TAB
+          div#tab-surprise-box.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-gift
+                  span " Mystery Box Program"
+                h2.tgl-card-title "Surprise Mystery Boxes"
+                p.tgl-card-sub "Curate and manage exclusive mystery packages, tier bundles, reveal schedules, and allocated inventory."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Exporting subscriber roster...', 'fa-download')" "Export Subscribers"
+                button.tgl-btn-primary type="button" onclick="showToast('Create Surprise Box Tier Drawer', 'fa-gift')" "+ New Surprise Box"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.tgl-card-icon data-icon="star"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Active Tiers"
+                    span.tgl-kpi-number "4 Packages"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "All tiers published"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.tgl-card-icon data-icon="users"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Boxes Sold (June)"
+                    span.tgl-kpi-number "158 Sold"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "32% vs last month"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-orange
+                    span.tgl-card-icon data-icon="calendar"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Next Reveal Date"
+                    span.tgl-kpi-number "June 25, 2025"
+                div.tgl-kpi-trend.trend-neutral
+                  span "Unboxing countdown active"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.tgl-card-icon data-icon="receipt"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Mystery GMV"
+                    span.tgl-kpi-number "Rs 428,500.00"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "+Rs 84,200 this week"
+
+            div.tgl-promo-tier-grid
+              div.tgl-card.tgl-tier-card
+                div.tgl-tier-badge.badge-pink "Most Popular"
+                div.tgl-tier-img-wrap
+                  img.tgl-tier-img src="/public/images/products/surprise-box.jpg" alt="Teen Sparkle Box"
+                h3.tgl-tier-name "Teen Sparkle Box"
+                p.tgl-tier-desc "A handpicked assortment of trendy summer accessories, cosmetics & hairpins."
+                div.tgl-tier-price
+                  span.tgl-price-curr "Rs"
+                  span.tgl-price-num "2,990"
+                  span.tgl-price-val "/ box"
+                div.tgl-tier-meta
+                  div.tgl-tier-meta-row
+                    span "Guaranteed Value:"
+                    strong "Rs 4,500+"
+                  div.tgl-tier-meta-row
+                    span "Mystery Items:"
+                    strong "4 Curated Gifts"
+                  div.tgl-tier-meta-row
+                    span "Subscribers:"
+                    strong "68 Active"
+                div.tgl-tier-footer
+                  span.tgl-status-pill.badge-active "Active"
+                  button.tgl-btn-sm-outline type="button" data-action="edit-tier" data-tier-name="Teen Sparkle Box" data-tier-price="2,990" "Edit Tier"
+
+              div.tgl-card.tgl-tier-card.featured-tier
+                div.tgl-tier-badge.badge-purple "Best Value"
+                div.tgl-tier-img-wrap
+                  img.tgl-tier-img src="/public/images/products/surprise-box.jpg" alt="Glam Diva Deluxe Box"
+                h3.tgl-tier-name "Glam Diva Deluxe Box"
+                p.tgl-tier-desc "High-end jewelry, boutique mini clutch, luxury lip glaze, and surprise fragrance."
+                div.tgl-tier-price
+                  span.tgl-price-curr "Rs"
+                  span.tgl-price-num "4,990"
+                  span.tgl-price-val "/ box"
+                div.tgl-tier-meta
+                  div.tgl-tier-meta-row
+                    span "Guaranteed Value:"
+                    strong "Rs 8,000+"
+                  div.tgl-tier-meta-row
+                    span "Mystery Items:"
+                    strong "6 Luxury Gifts"
+                  div.tgl-tier-meta-row
+                    span "Subscribers:"
+                    strong "54 Active"
+                div.tgl-tier-footer
+                  span.tgl-status-pill.badge-active "Active"
+                  button.tgl-btn-sm-outline type="button" data-action="edit-tier" data-tier-name="Glam Diva Deluxe Box" data-tier-price="4,990" "Edit Tier"
+
+              div.tgl-card.tgl-tier-card
+                div.tgl-tier-badge.badge-blue "Trending"
+                div.tgl-tier-img-wrap
+                  img.tgl-tier-img src="/public/images/products/surprise-box.jpg" alt="Kawaii Anime & Style Box"
+                h3.tgl-tier-name "Kawaii Anime & Style Box"
+                p.tgl-tier-desc "Pastel stationery, anime-inspired charm keychain, mini pouch, and cute socks."
+                div.tgl-tier-price
+                  span.tgl-price-curr "Rs"
+                  span.tgl-price-num "3,490"
+                  span.tgl-price-val "/ box"
+                div.tgl-tier-meta
+                  div.tgl-tier-meta-row
+                    span "Guaranteed Value:"
+                    strong "Rs 5,200+"
+                  div.tgl-tier-meta-row
+                    span "Mystery Items:"
+                    strong "5 Cute Gifts"
+                  div.tgl-tier-meta-row
+                    span "Subscribers:"
+                    strong "24 Active"
+                div.tgl-tier-footer
+                  span.tgl-status-pill.badge-active "Active"
+                  button.tgl-btn-sm-outline type="button" data-action="edit-tier" data-tier-name="Kawaii Anime & Style Box" data-tier-price="3,490" "Edit Tier"
+
+              div.tgl-card.tgl-tier-card
+                div.tgl-tier-badge.badge-orange "Limited 8/20 Left"
+                div.tgl-tier-img-wrap
+                  img.tgl-tier-img src="/public/images/products/surprise-box.jpg" alt="Birthday Mega Celebration"
+                h3.tgl-tier-name "Birthday Mega Celebration"
+                p.tgl-tier-desc "Full celebration kit with custom party sash, birthday crown, apparel drop & vouchers."
+                div.tgl-tier-price
+                  span.tgl-price-curr "Rs"
+                  span.tgl-price-num "7,500"
+                  span.tgl-price-val "/ box"
+                div.tgl-tier-meta
+                  div.tgl-tier-meta-row
+                    span "Guaranteed Value:"
+                    strong "Rs 12,000+"
+                  div.tgl-tier-meta-row
+                    span "Mystery Items:"
+                    strong "8 Deluxe Gifts"
+                  div.tgl-tier-meta-row
+                    span "Subscribers:"
+                    strong "12 Active"
+                div.tgl-tier-footer
+                  span.tgl-status-pill.badge-limited "Low Stock"
+                  button.tgl-btn-sm-outline type="button" data-action="edit-tier" data-tier-name="Birthday Mega Celebration" data-tier-price="7,500" "Edit Tier"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Mystery Box Pool & Dispatch Queue"
+                  p.tgl-card-sub "Configure monthly reveal timeline, physical inventory allocation, and fulfillment"
+                div.tgl-card-head-actions
+                  button.tgl-btn-outline type="button" onclick="showToast('Inventory pool refreshed', 'fa-arrows-rotate')" "Refresh Pool"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search mystery boxes, cycles..." aria-label="Search mystery boxes"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="status" aria-label="Filter by Status"
+                      option value="" "All Statuses"
+                      option value="Ready for Packing" "Ready for Packing"
+                      option value="Curation Open" "Curation Open"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-surprise
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all tiers"
+                  div.tgl-th.sortable data-sort="tier" data-type="text"
+                    span "PACKAGE TIER"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="cycle" data-type="text"
+                    span "CYCLE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="reveal" data-type="date"
+                    span "REVEAL DATE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="alloc" data-type="text"
+                    span "ALLOCATION"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="price" data-type="currency"
+                    span "UNIT PRICE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="status" data-type="text"
+                    span "STATUS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr data-tier="Teen Sparkle Box - Vol 4" data-cycle="June 2025 Edition" data-reveal="Jun 25, 2025" data-alloc="68 / 100 claimed" data-price="Rs 2,990.00" data-status="Ready for Packing"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select tier"
+                    div.tgl-td.col-tier
+                      strong "Teen Sparkle Box - Vol 4"
+                    div.tgl-td.col-cycle "June 2025 Edition"
+                    div.tgl-td.col-reveal "Jun 25, 2025"
+                    div.tgl-td.col-alloc
+                      div.tgl-alloc-meter
+                        span.alloc-text "68 / 100 claimed"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 68%;"
+                    div.tgl-td.col-price
+                      strong "Rs 2,990.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Ready for Packing"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Packing sheet downloaded for Sparkle Box', 'fa-box')" "Pack List"
+
+                  div.tgl-tr data-tier="Glam Diva Deluxe - Vol 2" data-cycle="June 2025 Edition" data-reveal="Jun 25, 2025" data-alloc="54 / 60 claimed" data-price="Rs 4,990.00" data-status="Ready for Packing"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select tier"
+                    div.tgl-td.col-tier
+                      strong "Glam Diva Deluxe - Vol 2"
+                    div.tgl-td.col-cycle "June 2025 Edition"
+                    div.tgl-td.col-reveal "Jun 25, 2025"
+                    div.tgl-td.col-alloc
+                      div.tgl-alloc-meter
+                        span.alloc-text "54 / 60 claimed"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 90%;"
+                    div.tgl-td.col-price
+                      strong "Rs 4,990.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Ready for Packing"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Packing sheet downloaded for Glam Diva', 'fa-box')" "Pack List"
+
+                  div.tgl-tr data-tier="Kawaii Anime Style - Vol 1" data-cycle="June 2025 Edition" data-reveal="Jun 28, 2025" data-alloc="24 / 50 claimed" data-price="Rs 3,490.00" data-status="Curation Open"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select tier"
+                    div.tgl-td.col-tier
+                      strong "Kawaii Anime Style - Vol 1"
+                    div.tgl-td.col-cycle "June 2025 Edition"
+                    div.tgl-td.col-reveal "Jun 28, 2025"
+                    div.tgl-td.col-alloc
+                      div.tgl-alloc-meter
+                        span.alloc-text "24 / 50 claimed"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 48%;"
+                    div.tgl-td.col-price
+                      strong "Rs 3,490.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Curation Open"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Opening item pool for Kawaii', 'fa-pen-to-square')" "Item Pool"
+
+                  div.tgl-tr data-tier="Birthday Surprise Mega Hamper" data-cycle="Evergreen Edition" data-reveal="On Customer Request" data-alloc="14 / 20 claimed" data-price="Rs 6,990.00" data-status="Ready for Packing"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select tier"
+                    div.tgl-td.col-tier
+                      strong "Birthday Surprise Mega Hamper"
+                    div.tgl-td.col-cycle "Evergreen Edition"
+                    div.tgl-td.col-reveal "On Request"
+                    div.tgl-td.col-alloc
+                      div.tgl-alloc-meter
+                        span.alloc-text "14 / 20 claimed"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 70%;"
+                    div.tgl-td.col-price
+                      strong "Rs 6,990.00"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Ready for Packing"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Packing sheet downloaded for Birthday Mega', 'fa-box')" "Pack List"
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 4 of 4 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                  button.tgl-page-btn.next disabled="disabled"
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // PROMOTIONS TAB
+          div#tab-promotions.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-tag
+                  span " Marketing & Campaigns"
+                h2.tgl-card-title "Promotions & Marketing Deals"
+                p.tgl-card-sub "Create promotional banners, seasonal clearance discounts, cart bundles, and automated promo rules."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Downloading campaign analytics...', 'fa-chart-line')" "Analytics Report"
+                button.tgl-btn-primary type="button" onclick="showToast('Campaign builder modal opened', 'fa-tag')" "+ Create Campaign"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.tgl-card-icon data-icon="tag"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Live Campaigns"
+                    span.tgl-kpi-number "3 Active"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "1 scheduled for weekend"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.tgl-card-icon data-icon="receipt"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Discounts Granted"
+                    span.tgl-kpi-number "Rs 48,200.00"
+                div.tgl-kpi-trend.trend-neutral
+                  span "Within 10% budget cap"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.tgl-card-icon data-icon="shopping-bag"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Orders with Promo"
+                    span.tgl-kpi-number "142 Orders"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "62% conversion rate"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.tgl-card-icon data-icon="trending-up"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Campaign ROI"
+                    span.tgl-kpi-number "4.8x Return"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "High efficiency"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Active Promotional Campaigns"
+                  p.tgl-card-sub "Live storewide rules, voucher associations, and campaign scheduling"
+                div.tgl-card-head-actions
+                  button.tgl-btn-primary type="button" onclick="showToast('Campaign builder modal opened', 'fa-tag')" "+ Add Campaign"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search campaigns, discount codes..." aria-label="Search campaigns"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="status" aria-label="Filter by Status"
+                      option value="" "All Statuses"
+                      option value="Active" "Active"
+                      option value="Scheduled" "Scheduled"
+                      option value="Paused" "Paused"
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="type" aria-label="Filter by Type"
+                      option value="" "All Campaign Types"
+                      option value="Percentage Off" "Percentage Off"
+                      option value="Bundle Deal" "Bundle Deal"
+                      option value="Fixed Voucher" "Fixed Voucher"
+                      option value="Category Sale" "Category Sale"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-promotions
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all campaigns"
+                  div.tgl-th.sortable data-sort="name" data-type="text"
+                    span "CAMPAIGN NAME"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="type" data-type="text"
+                    span "TYPE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="value" data-type="text"
+                    span "OFFER VALUE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="valid" data-type="text"
+                    span "VALIDITY"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="orders" data-type="number"
+                    span "ORDERS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="status" data-type="text"
+                    span "STATUS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr data-name="Summer Breeze Mega Clearance" data-type="Percentage Off" data-value="25% OFF" data-valid="Jun 01 - Jun 30, 2025" data-orders="78" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select campaign"
+                    div.tgl-td.col-name
+                      strong "Summer Breeze Mega Clearance"
+                      div.tgl-td-sub "Code: SUMMER25 | Storewide eligible"
+                    div.tgl-td.col-type
+                      span.tgl-badge-soft "Percentage Off"
+                    div.tgl-td.col-value
+                      strong.text-pink "25% OFF"
+                    div.tgl-td.col-valid "Jun 01 - Jun 30, 2025"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "78 Orders"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Campaign SUMMER25 paused', 'fa-pause')" "Pause"
+
+                  div.tgl-tr data-name="Buy 2 Get 1 Free - Tops & Rompers" data-type="Bundle Deal" data-value="100% Off 3rd Item" data-valid="Jun 10 - Jun 22, 2025" data-orders="41" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select campaign"
+                    div.tgl-td.col-name
+                      strong "Buy 2 Get 1 Free - Tops & Rompers"
+                      div.tgl-td-sub "Automatic cart bundle application"
+                    div.tgl-td.col-type
+                      span.tgl-badge-soft "Bundle Deal"
+                    div.tgl-td.col-value
+                      strong.text-purple "100% Off 3rd Item"
+                    div.tgl-td.col-valid "Jun 10 - Jun 22, 2025"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "41 Orders"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Editing Bundle Rule', 'fa-pen-to-square')" "Edit"
+
+                  div.tgl-tr data-name="Teen Girl First Order Welcome" data-type="Fixed Voucher" data-value="Rs 500.00 OFF" data-valid="Ongoing Evergreen" data-orders="123" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select campaign"
+                    div.tgl-td.col-name
+                      strong "Teen Girl First Order Welcome"
+                      div.tgl-td-sub "Code: HELLO500 | Min spend Rs 3,000"
+                    div.tgl-td.col-type
+                      span.tgl-badge-soft "Fixed Voucher"
+                    div.tgl-td.col-value
+                      strong.text-green "Rs 500.00 OFF"
+                    div.tgl-td.col-valid "Ongoing Evergreen"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "123 Orders"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Viewing Welcome campaign', 'fa-eye')" "View"
+
+                  div.tgl-tr data-name="Weekend Accessories Flash Blitz" data-type="Category Sale" data-value="15% OFF" data-valid="Starts Friday 6:00 PM" data-orders="0" data-status="Scheduled"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select campaign"
+                    div.tgl-td.col-name
+                      strong "Weekend Accessories Flash Blitz"
+                      div.tgl-td-sub "Jewelry & Handbags exclusive"
+                    div.tgl-td.col-type
+                      span.tgl-badge-soft "Category Sale"
+                    div.tgl-td.col-value
+                      strong.text-orange "15% OFF"
+                    div.tgl-td.col-valid "Starts Friday 6:00 PM"
+                    div.tgl-td.col-orders
+                      span.tgl-badge-count "0 Orders"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-scheduled
+                        span.status-dot
+                        span "Scheduled"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" onclick="showToast('Launching Blitz now', 'fa-bolt')" "Launch Now"
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 4 of 4 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                  button.tgl-page-btn.next disabled="disabled"
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // FLASH SALE TAB
+          div#tab-flash-sale.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge.badge-hot
+                  span.fa-solid.fa-bolt
+                  span " High-Demand Lightning Deals"
+                h2.tgl-card-title "Flash Sale Central"
+                p.tgl-card-sub "Real-time flash sales, urgent countdown tickers, automated price drops, and reserved inventory quotas."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Flash Sale stock audit complete', 'fa-magnifying-glass')" "Audit Quotas"
+                button.tgl-btn-primary type="button" onclick="showToast('Schedule Flash Deal modal opened', 'fa-bolt')" "+ Schedule Flash Deal"
+
+            div.tgl-card.tgl-flash-live-banner
+              div.tgl-flash-banner-left
+                div.tgl-live-pulsar
+                  span.pulse-ring
+                  span.pulse-dot
+                  span.pulse-text "LIVE EVENT NOW"
+                h3.tgl-flash-banner-title "Midnight Glow Lightning Sale"
+                p.tgl-flash-banner-sub "Deep discounts on bestselling teenage dresses & boutique accessories."
+              
+              div.tgl-flash-timer-box
+                span.timer-title "SALE CLOSES IN"
+                div.tgl-timer-display
+                  div.timer-block
+                    span.timer-num#fs-hours "04"
+                    span.timer-lbl "Hours"
+                  span.timer-sep ":"
+                  div.timer-block
+                    span.timer-num#fs-mins "28"
+                    span.timer-lbl "Mins"
+                  span.timer-sep ":"
+                  div.timer-block
+                    span.timer-num#fs-secs "12"
+                    span.timer-lbl "Secs"
+
+            div.tgl-flash-grid
+              div.tgl-card.tgl-flash-deal-card
+                div.tgl-flash-discount-tag "-45% OFF"
+                div.tgl-flash-deal-head
+                  h3.tgl-flash-product-title "Floral Summer Maxi Dress"
+                  span.tgl-sku "SKU: TG-DR-001"
+                div.tgl-flash-price-row
+                  span.tgl-sale-price "Rs 1,890.00"
+                  span.tgl-orig-price "Rs 3,450.00"
+                div.tgl-stock-meter
+                  div.meter-label-row
+                    span "Claimed 18 of 20 units"
+                    strong.text-pink "90% Claimed"
+                  div.meter-bar
+                    div.meter-fill style="width: 90%;"
+                div.tgl-flash-deal-actions
+                  button.tgl-btn-sm-primary type="button" onclick="showToast('+5 Units added to flash stock', 'fa-bolt')" "+ Add 5 Units"
+                  button.tgl-btn-sm-outline type="button" onclick="showToast('Item removed from flash sale', 'fa-trash-can')" "End Item"
+
+              div.tgl-card.tgl-flash-deal-card
+                div.tgl-flash-discount-tag "-45% OFF"
+                div.tgl-flash-deal-head
+                  h3.tgl-flash-product-title "Pastel Pink Crossbody Bag"
+                  span.tgl-sku "SKU: TG-BG-004"
+                div.tgl-flash-price-row
+                  span.tgl-sale-price "Rs 1,590.00"
+                  span.tgl-orig-price "Rs 2,890.00"
+                div.tgl-stock-meter
+                  div.meter-label-row
+                    span "Claimed 12 of 15 units"
+                    strong.text-purple "80% Claimed"
+                  div.meter-bar
+                    div.meter-fill.fill-purple style="width: 80%;"
+                div.tgl-flash-deal-actions
+                  button.tgl-btn-sm-primary type="button" onclick="showToast('+5 Units added to flash stock', 'fa-bolt')" "+ Add 5 Units"
+                  button.tgl-btn-sm-outline type="button" onclick="showToast('Item removed from flash sale', 'fa-trash-can')" "End Item"
+
+              div.tgl-card.tgl-flash-deal-card
+                div.tgl-flash-discount-tag "-40% OFF"
+                div.tgl-flash-deal-head
+                  h3.tgl-flash-product-title "Chunky Platform Retro Sneakers"
+                  span.tgl-sku "SKU: TG-FT-002"
+                div.tgl-flash-price-row
+                  span.tgl-sale-price "Rs 2,990.00"
+                  span.tgl-orig-price "Rs 4,990.00"
+                div.tgl-stock-meter
+                  div.meter-label-row
+                    span "Claimed 22 of 25 units"
+                    strong.text-orange "88% Claimed"
+                  div.meter-bar
+                    div.meter-fill.fill-orange style="width: 88%;"
+                div.tgl-flash-deal-actions
+                  button.tgl-btn-sm-primary type="button" onclick="showToast('+5 Units added to flash stock', 'fa-bolt')" "+ Add 5 Units"
+                  button.tgl-btn-sm-outline type="button" onclick="showToast('Item removed from flash sale', 'fa-trash-can')" "End Item"
+
+              div.tgl-card.tgl-flash-deal-card
+                div.tgl-flash-discount-tag "-45% OFF"
+                div.tgl-flash-deal-head
+                  h3.tgl-flash-product-title "Sparkle Sequined Evening Top"
+                  span.tgl-sku "SKU: TG-TP-009"
+                div.tgl-flash-price-row
+                  span.tgl-sale-price "Rs 1,750.00"
+                  span.tgl-orig-price "Rs 3,200.00"
+                div.tgl-stock-meter
+                  div.meter-label-row
+                    span "Claimed 7 of 10 units"
+                    strong.text-green "70% Claimed"
+                  div.meter-bar
+                    div.meter-fill.fill-green style="width: 70%;"
+                div.tgl-flash-deal-actions
+                  button.tgl-btn-sm-primary type="button" onclick="showToast('+5 Units added to flash stock', 'fa-bolt')" "+ Add 5 Units"
+                  button.tgl-btn-sm-outline type="button" onclick="showToast('Item removed from flash sale', 'fa-trash-can')" "End Item"
+
+          // BIDDING TAB
+          div#tab-bidding.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-gem
+                  span " Exclusive Fashion Drops"
+                h2.tgl-card-title "Live Bidding & Fashion Auctions"
+                p.tgl-card-sub "Auction 1-of-1 exclusive outfits, rare runway pieces, and customized celebrity designer items."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Exporting auction bid ledger...', 'fa-file-lines')" "Bid Ledger"
+                button.tgl-btn-primary type="button" onclick="showToast('Create Auction modal opened', 'fa-gavel')" "+ Create Auction"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.tgl-card-icon data-icon="dollar"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Active Auctions"
+                    span.tgl-kpi-number "3 Live"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "High participant engagement"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.tgl-card-icon data-icon="receipt"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Highest Active Bid"
+                    span.tgl-kpi-number "Rs 14,500.00"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "Silk Kimono Jacket"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.tgl-card-icon data-icon="users"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Bids Placed"
+                    span.tgl-kpi-number "89 Bids"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "+28 bids in last 24h"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-orange
+                    span.tgl-card-icon data-icon="chart"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Auctions Completed"
+                    span.tgl-kpi-number "12 Settled"
+                div.tgl-kpi-trend.trend-neutral
+                  span "100% payment clearance"
+
+            div.tgl-bidding-grid
+              div.tgl-card.tgl-bidding-card
+                div.tgl-bidding-status.status-live
+                  span.fa-solid.fa-circle style="font-size:0.5rem; margin-right:0.35rem;"
+                  span "LIVE AUCTION"
+                div.tgl-bidding-image-preview
+                  span.bidding-placeholder
+                    span.fa-solid.fa-person-dress
+                h3.tgl-bidding-title "Limited Edition Embroidered Silk Kimono"
+                p.tgl-bidding-sub "Only 1 produced. Hand-embroidered golden cherry blossoms."
+                
+                div.tgl-bidding-values
+                  div.val-col
+                    span.val-lbl "Starting Bid"
+                    strong.val-num "Rs 5,000"
+                  div.val-col.highlight
+                    span.val-lbl "Current Highest Bid"
+                    strong.val-num.text-pink "Rs 14,500"
+                
+                div.tgl-bidder-pill
+                  span "Top Bidder: "
+                  strong "@fashion_maya"
+                  span.tgl-badge-soft "18 Bids"
+                
+                div.tgl-bidding-clock
+                  span
+                    span.fa-regular.fa-clock style="margin-right:0.25rem;"
+                    span "Closes in: "
+                  strong#bid-timer-1 "02h 45m 18s"
+
+                div.tgl-bidding-actions
+                  button.tgl-btn-primary type="button" onclick="showToast('Leading bidder notification sent', 'fa-bell')" "Notify Top Bidder"
+                  button.tgl-btn-outline type="button" onclick="showToast('Finalize and award auction to @fashion_maya?', 'fa-trophy')" "Accept Highest"
+
+              div.tgl-card.tgl-bidding-card
+                div.tgl-bidding-status.status-live
+                  span.fa-solid.fa-circle style="font-size:0.5rem; margin-right:0.35rem;"
+                  span "LIVE AUCTION"
+                div.tgl-bidding-image-preview
+                  span.bidding-placeholder
+                    span.fa-solid.fa-shirt
+                h3.tgl-bidding-title "Vintage Pastel Y2K Leather Jacket"
+                p.tgl-bidding-sub "Original retro Y2K piece customized with baby pink faux fur collar."
+                
+                div.tgl-bidding-values
+                  div.val-col
+                    span.val-lbl "Starting Bid"
+                    strong.val-num "Rs 4,000"
+                  div.val-col.highlight
+                    span.val-lbl "Current Highest Bid"
+                    strong.val-num.text-purple "Rs 9,200"
+                
+                div.tgl-bidder-pill
+                  span "Top Bidder: "
+                  strong "@chloe_lk"
+                  span.tgl-badge-soft "11 Bids"
+                
+                div.tgl-bidding-clock
+                  span
+                    span.fa-regular.fa-clock style="margin-right:0.25rem;"
+                    span "Closes in: "
+                  strong#bid-timer-2 "05h 12m 44s"
+
+                div.tgl-bidding-actions
+                  button.tgl-btn-primary type="button" onclick="showToast('Leading bidder notification sent', 'fa-bell')" "Notify Top Bidder"
+                  button.tgl-btn-outline type="button" onclick="showToast('Finalize and award auction to @chloe_lk?', 'fa-trophy')" "Accept Highest"
+
+              div.tgl-card.tgl-bidding-card
+                div.tgl-bidding-status.status-live
+                  span.fa-solid.fa-circle style="font-size:0.5rem; margin-right:0.35rem;"
+                  span "LIVE AUCTION"
+                div.tgl-bidding-image-preview
+                  span.bidding-placeholder
+                    span.fa-solid.fa-bag-shopping
+                h3.tgl-bidding-title "Designer Handcrafted Crystal Bag"
+                p.tgl-bidding-sub "Over 800 hand-set sparkling acrylic crystals on rose-gold mesh."
+                
+                div.tgl-bidding-values
+                  div.val-col
+                    span.val-lbl "Starting Bid"
+                    strong.val-num "Rs 6,500"
+                  div.val-col.highlight
+                    span.val-lbl "Current Highest Bid"
+                    strong.val-num.text-blue "Rs 12,000"
+                
+                div.tgl-bidder-pill
+                  span "Top Bidder: "
+                  strong "@ananya99"
+                  span.tgl-badge-soft "14 Bids"
+                
+                div.tgl-bidding-clock
+                  span
+                    span.fa-regular.fa-clock style="margin-right:0.25rem;"
+                    span "Closes in: "
+                  strong#bid-timer-3 "1d 04h 30m"
+
+                div.tgl-bidding-actions
+                  button.tgl-btn-primary type="button" onclick="showToast('Leading bidder notification sent', 'fa-bell')" "Notify Top Bidder"
+                  button.tgl-btn-outline type="button" onclick="showToast('Finalize and award auction to @ananya99?', 'fa-trophy')" "Accept Highest"
+
+          // COUPONS TAB
+          div#tab-coupons.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-ticket
+                  span " Voucher Management"
+                h2.tgl-card-title "Coupons & Promotional Vouchers"
+                p.tgl-card-sub "Create discount codes, set percentage or flat deductions, minimum cart spending, and per-user limits."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Coupon usage exported to CSV', 'fa-download')" "Export Vouchers"
+                button.tgl-btn-primary#btn-add-coupon type="button" data-action="add-coupon" "+ Create Coupon"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.tgl-card-icon data-icon="coupon"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Active Coupons"
+                    span.tgl-kpi-number "4 Active"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "Ready for checkout"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.tgl-card-icon data-icon="receipt"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Redemptions (June)"
+                    span.tgl-kpi-number "184 Uses"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "24% redemption growth"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.tgl-card-icon data-icon="shopping-bag"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Total Savings Given"
+                    span.tgl-kpi-number "Rs 64,800.00"
+                div.tgl-kpi-trend.trend-neutral
+                  span "Profitable cart lift"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.tgl-card-icon data-icon="trending-up"
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Cart Size Impact"
+                    span.tgl-kpi-number "+32% Avg AOV"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "Higher basket value"
+
+            div.tgl-coupons-grid
+              div.tgl-card.tgl-coupon-ticket
+                div.tgl-ticket-cut-top
+                div.tgl-ticket-cut-bottom
+                div.tgl-ticket-body
+                  div.tgl-ticket-top
+                    span.tgl-badge-pink "Summer Special"
+                    strong.tgl-ticket-discount "15% OFF"
+                  div.tgl-ticket-code-row
+                    code.tgl-code-pill "TEENGIRL15"
+                    button.tgl-btn-copy type="button" onclick="copyCouponCode('TEENGIRL15')" title="Copy Code"
+                      span.fa-solid.fa-copy
+                      span " Copy"
+                  p.tgl-ticket-rules "Min Spend: Rs 2,500 • Max Discount: Rs 1,500"
+                  div.tgl-ticket-foot
+                    span "Used: 78 / 200"
+                    span.tgl-status-pill.badge-active "Active"
+
+              div.tgl-card.tgl-coupon-ticket
+                div.tgl-ticket-cut-top
+                div.tgl-ticket-cut-bottom
+                div.tgl-ticket-body
+                  div.tgl-ticket-top
+                    span.tgl-badge-green "Delivery Perk"
+                    strong.tgl-ticket-discount "FREE DELIVERY"
+                  div.tgl-ticket-code-row
+                    code.tgl-code-pill "FREESHIP"
+                    button.tgl-btn-copy type="button" onclick="copyCouponCode('FREESHIP')" title="Copy Code"
+                      span.fa-solid.fa-copy
+                      span " Copy"
+                  p.tgl-ticket-rules "Min Spend: Rs 3,500 • Islandwide"
+                  div.tgl-ticket-foot
+                    span "Used: 142 / 500"
+                    span.tgl-status-pill.badge-active "Active"
+
+              div.tgl-card.tgl-coupon-ticket
+                div.tgl-ticket-cut-top
+                div.tgl-ticket-cut-bottom
+                div.tgl-ticket-body
+                  div.tgl-ticket-top
+                    span.tgl-badge-purple "VIP Tier"
+                    strong.tgl-ticket-discount "Rs 1,000 FLAT"
+                  div.tgl-ticket-code-row
+                    code.tgl-code-pill "VIPSPARKLE"
+                    button.tgl-btn-copy type="button" onclick="copyCouponCode('VIPSPARKLE')" title="Copy Code"
+                      span.fa-solid.fa-copy
+                      span " Copy"
+                  p.tgl-ticket-rules "Min Spend: Rs 6,000 • VIP Members"
+                  div.tgl-ticket-foot
+                    span "Used: 24 / 50"
+                    span.tgl-status-pill.badge-active "Active"
+
+              div.tgl-card.tgl-coupon-ticket
+                div.tgl-ticket-cut-top
+                div.tgl-ticket-cut-bottom
+                div.tgl-ticket-body
+                  div.tgl-ticket-top
+                    span.tgl-badge-orange "New Buyer"
+                    strong.tgl-ticket-discount "10% OFF"
+                  div.tgl-ticket-code-row
+                    code.tgl-code-pill "WELCOME10"
+                    button.tgl-btn-copy type="button" onclick="copyCouponCode('WELCOME10')" title="Copy Code"
+                      span.fa-solid.fa-copy
+                      span " Copy"
+                  p.tgl-ticket-rules "No min spend • First order only"
+                  div.tgl-ticket-foot
+                    span "Used: 312 / 1000"
+                    span.tgl-status-pill.badge-active "Active"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Coupon Code Directory"
+                  p.tgl-card-sub "Manage voucher expiration dates, redemption quotas, and status toggles"
+                div.tgl-card-head-actions
+                  button.tgl-btn-primary type="button" data-action="add-coupon" "+ Add Voucher"
+
+              div.tgl-table-toolbar
+                div.tgl-toolbar-left
+                  div.tgl-table-search-box
+                    span.tgl-search-icon
+                      span.fa-solid.fa-magnifying-glass
+                    input.tgl-table-search type="text" placeholder="Search coupon codes, types..." aria-label="Search coupons"
+                    button.tgl-search-clear type="button" aria-label="Clear search"
+                      span.fa-solid.fa-xmark
+                  div.tgl-filter-select-wrap
+                    select.tgl-table-filter data-filter-col="type" aria-label="Filter by Type"
+                      option value="" "All Coupon Types"
+                      option value="Percentage" "Percentage"
+                      option value="Shipping" "Shipping"
+                      option value="Flat Deduction" "Flat Deduction"
+                div.tgl-toolbar-right
+                  button.tgl-btn-toolbar.tgl-density-toggle type="button" title="Toggle Table Density"
+                    span.fa-solid.fa-arrows-left-right
+                    span "Compact"
+                  button.tgl-btn-toolbar.tgl-export-csv type="button" title="Export Table to CSV"
+                    span.fa-solid.fa-download
+                    span "Export CSV"
+
+              div.tgl-table-wrap.table-coupons
+                div.tgl-thead
+                  div.tgl-th.col-check
+                    input.tgl-check-all type="checkbox" aria-label="Select all coupons"
+                  div.tgl-th.sortable data-sort="code" data-type="text"
+                    span "VOUCHER CODE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="type" data-type="text"
+                    span "TYPE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="disc" data-type="text"
+                    span "DISCOUNT"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="spend" data-type="currency"
+                    span "MIN SPEND"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="redemp" data-type="text"
+                    span "REDEMPTIONS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="expiry" data-type="text"
+                    span "EXPIRY DATE"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.sortable data-sort="status" data-type="text"
+                    span "STATUS"
+                    span.tgl-sort-icon
+                      span.fa-solid.fa-sort
+                  div.tgl-th.col-act "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr data-code="TEENGIRL15" data-type="Percentage" data-disc="15%" data-spend="Rs 2,500.00" data-redemp="78 / 200" data-expiry="Jul 15, 2025" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select coupon"
+                    div.tgl-td.col-code
+                      code.tgl-code-pill "TEENGIRL15"
+                    div.tgl-td.col-type "Percentage"
+                    div.tgl-td.col-disc
+                      strong.text-pink "15%"
+                    div.tgl-td.col-spend "Rs 2,500.00"
+                    div.tgl-td.col-redemp
+                      div.tgl-alloc-meter
+                        span.alloc-text "78 / 200"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 39%;"
+                    div.tgl-td.col-expiry "Jul 15, 2025"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-coupon" "Edit"
+                      button.tgl-btn-table-action type="button" onclick="copyCouponCode('TEENGIRL15')" "Copy"
+
+                  div.tgl-tr data-code="FREESHIP" data-type="Shipping" data-disc="100% Delivery" data-spend="Rs 3,500.00" data-redemp="142 / 500" data-expiry="Aug 01, 2025" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select coupon"
+                    div.tgl-td.col-code
+                      code.tgl-code-pill "FREESHIP"
+                    div.tgl-td.col-type "Shipping"
+                    div.tgl-td.col-disc
+                      strong.text-green "100% Delivery"
+                    div.tgl-td.col-spend "Rs 3,500.00"
+                    div.tgl-td.col-redemp
+                      div.tgl-alloc-meter
+                        span.alloc-text "142 / 500"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 28%;"
+                    div.tgl-td.col-expiry "Aug 01, 2025"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-coupon" "Edit"
+                      button.tgl-btn-table-action type="button" onclick="copyCouponCode('FREESHIP')" "Copy"
+
+                  div.tgl-tr data-code="VIPSPARKLE" data-type="Flat Deduction" data-disc="Rs 1,000.00" data-spend="Rs 6,000.00" data-redemp="24 / 50" data-expiry="Jun 30, 2025" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select coupon"
+                    div.tgl-td.col-code
+                      code.tgl-code-pill "VIPSPARKLE"
+                    div.tgl-td.col-type "Flat Deduction"
+                    div.tgl-td.col-disc
+                      strong.text-purple "Rs 1,000.00"
+                    div.tgl-td.col-spend "Rs 6,000.00"
+                    div.tgl-td.col-redemp
+                      div.tgl-alloc-meter
+                        span.alloc-text "24 / 50"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 48%;"
+                    div.tgl-td.col-expiry "Jun 30, 2025"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-coupon" "Edit"
+                      button.tgl-btn-table-action type="button" onclick="copyCouponCode('VIPSPARKLE')" "Copy"
+
+                  div.tgl-tr data-code="WELCOME10" data-type="Percentage" data-disc="10%" data-spend="Rs 0.00" data-redemp="312 / 1000" data-expiry="Never (Evergreen)" data-status="Active"
+                    div.tgl-td.col-check
+                      input.tgl-row-check type="checkbox" aria-label="Select coupon"
+                    div.tgl-td.col-code
+                      code.tgl-code-pill "WELCOME10"
+                    div.tgl-td.col-type "Percentage"
+                    div.tgl-td.col-disc
+                      strong.text-orange "10%"
+                    div.tgl-td.col-spend "Rs 0.00"
+                    div.tgl-td.col-redemp
+                      div.tgl-alloc-meter
+                        span.alloc-text "312 / 1000"
+                        div.alloc-bar
+                          div.alloc-fill style="width: 31%;"
+                    div.tgl-td.col-expiry "Never (Evergreen)"
+                    div.tgl-td.col-status
+                      span.tgl-status-pill.badge-active
+                        span.status-dot
+                        span "Active"
+                    div.tgl-td.col-act
+                      button.tgl-btn-table-action type="button" data-action="edit-coupon" "Edit"
+                      button.tgl-btn-table-action type="button" onclick="copyCouponCode('WELCOME10')" "Copy"
+
+              div.tgl-table-pagination
+                div.tgl-pagination-info "Showing 1 to 4 of 4 entries"
+                div.tgl-pagination-size
+                  label "Rows:"
+                  select.tgl-page-size aria-label="Rows per page"
+                    option value="5" "5"
+                    option value="10" "10"
+                div.tgl-pagination-nav
+                  button.tgl-page-btn.prev disabled="disabled"
+                    span.fa-solid.fa-chevron-left
+                    span " Prev"
+                  div.tgl-page-numbers
+                    button.tgl-page-num.active "1"
+                  button.tgl-page-btn.next disabled="disabled"
+                    span "Next "
+                    span.fa-solid.fa-chevron-right
+
+          // DELIVERY & DISPATCH LOGISTICS TAB
+          div#tab-delivery.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-truck-fast
+                  span " Islandwide Logistics"
+                h2.tgl-card-title "Delivery & Dispatch Management"
+                p.tgl-card-sub "Real-time courier synchronization, tracking updates, and dispatch manifested across Sri Lanka."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Courier tracking refreshed', 'fa-rotate')" "Sync Couriers"
+                button.tgl-btn-primary type="button" onclick="showToast('Manifest generated for 12 shipments', 'fa-file-pdf')" "+ Create Dispatch"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.fa-solid.fa-truck
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Ready to Ship"
+                    span.tgl-kpi-number "8 Packages"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-clock
+                  span "Awaiting pickup"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.fa-solid.fa-route
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "In Transit"
+                    span.tgl-kpi-number "14 Packages"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "Regional routing"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-orange
+                    span.fa-solid.fa-truck-ramp-box
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Out for Delivery"
+                    span.tgl-kpi-number "5 Packages"
+                div.tgl-kpi-trend.trend-neutral
+                  span "Final delivery route"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.fa-solid.fa-circle-check
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Delivered Today"
+                    span.tgl-kpi-number "57 Orders"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "98.4% On-time rate"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Dispatch & Courier Manifest"
+                  p.tgl-card-sub "Active delivery shipments, courier partners, and tracking status"
+              div.tgl-table-wrap
+                div.tgl-thead
+                  div.tgl-th "TRACKING #"
+                  div.tgl-th "ORDER"
+                  div.tgl-th "COURIER"
+                  div.tgl-th "RECIPIENT & DESTINATION"
+                  div.tgl-th "STATUS"
+                  div.tgl-th "EST. ARRIVAL"
+                  div.tgl-th "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "DOM-884920"
+                    div.tgl-td
+                      strong "#TG1004"
+                    div.tgl-td "Domex Express"
+                    div.tgl-td "Guest Customer • Colombo 07"
+                    div.tgl-td
+                      span.tgl-status-pill.status-delivery "Out for Delivery"
+                    div.tgl-td "Today, 04:00 PM"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Tracking Domex #DOM-884920', 'fa-route')" "Track"
+
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "PRM-194029"
+                    div.tgl-td
+                      strong "#TG1003"
+                    div.tgl-td "PromptXpress"
+                    div.tgl-td "Dinithi Silva • Kandy Central"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "In Transit"
+                    div.tgl-td "Tomorrow, 11:00 AM"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Tracking PromptXpress #PRM-194029', 'fa-route')" "Track"
+
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "DOM-773821"
+                    div.tgl-td
+                      strong "#TG1002"
+                    div.tgl-td "Domex Express"
+                    div.tgl-td "Sarah Connor • Galle Fort"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Dispatched"
+                    div.tgl-td "Tomorrow, 02:30 PM"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Tracking Domex #DOM-773821', 'fa-route')" "Track"
+
+          // PAYOUTS & SETTLEMENTS TAB
+          div#tab-payouts.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-money-bill-wave
+                  span " Financial Settlements"
+                h2.tgl-card-title "Payouts & Merchant Accounting"
+                p.tgl-card-sub "Automated bank transfers, payment gateway reconciliations, and weekly payout schedules."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Payout statements exported to Excel', 'fa-file-excel')" "Export Statements"
+                button.tgl-btn-primary type="button" onclick="showToast('Payout transfer initiated successfully', 'fa-paper-plane')" "Request Payout"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.fa-solid.fa-wallet
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Available Balance"
+                    span.tgl-kpi-number "Rs 148,250.00"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-arrow-trend-up.trend-arrow
+                  span "Ready for withdrawal"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.fa-solid.fa-circle-check
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Paid Out (June)"
+                    span.tgl-kpi-number "Rs 420,000.00"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-building-columns
+                  span "Settled to Commercial Bank"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-orange
+                    span.fa-solid.fa-clock
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Processing Payouts"
+                    span.tgl-kpi-number "Rs 36,400.00"
+                div.tgl-kpi-trend.trend-neutral
+                  span "Clearing in 24h"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.fa-solid.fa-percent
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Avg Gateway Fee"
+                    span.tgl-kpi-number "2.4%"
+                div.tgl-kpi-trend.trend-up
+                  span.fa-solid.fa-shield-halved
+                  span "Secured transactions"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Recent Settlement Transfers"
+                  p.tgl-card-sub "Direct bank deposit records, reference numbers, and payment status"
+              div.tgl-table-wrap
+                div.tgl-thead
+                  div.tgl-th "PAYOUT REF"
+                  div.tgl-th "TRANSFER DATE"
+                  div.tgl-th "BANK & ACCOUNT"
+                  div.tgl-th "NET AMOUNT"
+                  div.tgl-th "FEE"
+                  div.tgl-th "STATUS"
+                  div.tgl-th "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "PAY-2025-06-08"
+                    div.tgl-td "Jun 8, 2025"
+                    div.tgl-td "Commercial Bank (**** 4892)"
+                    div.tgl-td
+                      strong.text-green "Rs 210,000.00"
+                    div.tgl-td "Rs 250.00"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Settled"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Downloading receipt PAY-2025-06-08', 'fa-download')" "Receipt"
+
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "PAY-2025-06-01"
+                    div.tgl-td "Jun 1, 2025"
+                    div.tgl-td "Commercial Bank (**** 4892)"
+                    div.tgl-td
+                      strong.text-green "Rs 210,000.00"
+                    div.tgl-td "Rs 250.00"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Settled"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Downloading receipt PAY-2025-06-01', 'fa-download')" "Receipt"
+
+          // MANAGE ADMIN & PERMISSIONS TAB
+          div#tab-manage-admin.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-shield-halved
+                  span " Access Control"
+                h2.tgl-card-title "Administrator Team & Security"
+                p.tgl-card-sub "Role-based access permissions, team accounts, audit logs, and security controls."
+              div.tgl-hero-actions
+                button.tgl-btn-outline type="button" onclick="showToast('Security audit log downloaded', 'fa-shield')" "Audit Logs"
+                button.tgl-btn-primary type="button" onclick="showToast('Invite sent to new administrator', 'fa-user-plus')" "+ Add Administrator"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Active System Administrators"
+                  p.tgl-card-sub "Authorized personnel with administrative privileges"
+              div.tgl-table-wrap
+                div.tgl-thead
+                  div.tgl-th "ADMINISTRATOR"
+                  div.tgl-th "EMAIL"
+                  div.tgl-th "ROLE & PRIVILEGES"
+                  div.tgl-th "2FA STATUS"
+                  div.tgl-th "LAST ACTIVE"
+                  div.tgl-th "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr
+                    div.tgl-td
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar "TA"
+                        strong "Texting Admin"
+                    div.tgl-td "admin@teengirls.lk"
+                    div.tgl-td
+                      span.tgl-badge-pink "Super Administrator"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Enabled"
+                    div.tgl-td "Active Now"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Managing permissions for Texting Admin', 'fa-key')" "Edit Role"
+
+                  div.tgl-tr
+                    div.tgl-td
+                      div.tgl-cust-cell
+                        span.tgl-cust-avatar "SK"
+                        strong "Sachini Kaluarachchi"
+                    div.tgl-td "sachini@teengirls.lk"
+                    div.tgl-td
+                      span.tgl-badge-purple "Catalog Manager"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Enabled"
+                    div.tgl-td "2 hours ago"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Managing permissions for Sachini', 'fa-key')" "Edit Role"
+
+          // REPORTS & ANALYTICS INTELLIGENCE TAB
+          div#tab-reports.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-chart-pie
+                  span " Business Intelligence"
+                h2.tgl-card-title "Reports & Performance Audits"
+                p.tgl-card-sub "Export comprehensive revenue breakdown, catalog performance, tax audits, and inventory velocity."
+              div.tgl-hero-actions
+                button.tgl-btn-primary type="button" onclick="showToast('Generating monthly PDF executive brief...', 'fa-file-pdf')" "Generate Custom Report"
+
+            div.tgl-kpi-grid.kpi-cols-4
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-pink
+                    span.fa-solid.fa-file-invoice-dollar
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Sales Audit"
+                    span.tgl-kpi-number "Monthly Summary"
+                div.tgl-kpi-trend.trend-up
+                  button.tgl-btn-xs-outline type="button" onclick="showToast('Downloading Sales Report PDF', 'fa-download')" "Export PDF"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-blue
+                    span.fa-solid.fa-boxes-stacked
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Stock Valuation"
+                    span.tgl-kpi-number "Inventory Worth"
+                div.tgl-kpi-trend.trend-up
+                  button.tgl-btn-xs-outline type="button" onclick="showToast('Downloading Stock Report Excel', 'fa-download')" "Export Excel"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-purple
+                    span.fa-solid.fa-users-gear
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "Customer LTV"
+                    span.tgl-kpi-number "Cohort Retention"
+                div.tgl-kpi-trend.trend-up
+                  button.tgl-btn-xs-outline type="button" onclick="showToast('Downloading Cohort Analysis CSV', 'fa-download')" "Export CSV"
+
+              div.tgl-card.tgl-kpi-card
+                div.tgl-kpi-header
+                  div.tgl-icon-box.icon-green
+                    span.fa-solid.fa-calculator
+                  div.tgl-kpi-titles
+                    span.tgl-kpi-label "VAT & Taxes"
+                    span.tgl-kpi-number "Tax Settlement"
+                div.tgl-kpi-trend.trend-up
+                  button.tgl-btn-xs-outline type="button" onclick="showToast('Downloading Tax Settlement Manifest', 'fa-download')" "Export Tax"
+
+          // SUPPORT TICKETS & HELPDESK TAB
+          div#tab-tickets.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-headset
+                  span " Customer Support"
+                h2.tgl-card-title "Helpdesk & Support Inquiries"
+                p.tgl-card-sub "Customer inquiry management, return assistance, sizing consultations, and live resolution tracking."
+              div.tgl-hero-actions
+                button.tgl-btn-primary type="button" onclick="showToast('Opening ticket response editor', 'fa-reply')" "+ New Ticket"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Customer Support Tickets"
+                  p.tgl-card-sub "Active service requests and resolution pipeline"
+              div.tgl-table-wrap
+                div.tgl-thead
+                  div.tgl-th "TICKET #"
+                  div.tgl-th "CUSTOMER"
+                  div.tgl-th "SUBJECT"
+                  div.tgl-th "PRIORITY"
+                  div.tgl-th "STATUS"
+                  div.tgl-th "LAST UPDATE"
+                  div.tgl-th "ACTIONS"
+                div.tgl-tbody
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "#TCK-8812"
+                    div.tgl-td "Amara Jayawardena"
+                    div.tgl-td "Sizing swap request for Floral Maxi Dress"
+                    div.tgl-td
+                      span.tgl-badge-pink "High"
+                    div.tgl-td
+                      span.tgl-status-pill.status-delivery "In Progress"
+                    div.tgl-td "15 mins ago"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Replying to ticket #TCK-8812', 'fa-reply')" "Reply"
+
+                  div.tgl-tr
+                    div.tgl-td
+                      code.tgl-code-pill "#TCK-8809"
+                    div.tgl-td "Kasun Fernando"
+                    div.tgl-td "Surprise Box jewelry choice inquiry"
+                    div.tgl-td
+                      span.tgl-badge-purple "Normal"
+                    div.tgl-td
+                      span.tgl-status-pill.badge-active "Open"
+                    div.tgl-td "1 hour ago"
+                    div.tgl-td
+                      button.tgl-btn-table-action type="button" onclick="showToast('Replying to ticket #TCK-8809', 'fa-reply')" "Reply"
+
+          // FAQ & STORE KNOWLEDGEBASE TAB
+          div#tab-faq.tgl-tab-pane
+            div.tgl-card.tgl-section-hero
+              div.tgl-hero-content
+                div.tgl-hero-badge
+                  span.fa-solid.fa-circle-question
+                  span " Knowledge Center"
+                h2.tgl-card-title "FAQ & Policy Management"
+                p.tgl-card-sub "Configure public storefront frequently asked questions, sizing guides, and return policies."
+              div.tgl-hero-actions
+                button.tgl-btn-primary type="button" onclick="showToast('New FAQ item added', 'fa-plus')" "+ Add FAQ Item"
+
+            div.tgl-card
+              div.tgl-card-head
+                div
+                  h2.tgl-card-title "Storefront FAQ Questions"
+                  p.tgl-card-sub "Publicly visible shopper knowledge base entries"
+              div.tgl-summary-list
+                div.tgl-summary-row
+                  div.tgl-summary-left
+                    div.tgl-icon-box.icon-pink
+                      span.fa-solid.fa-truck
+                    div
+                      strong "How fast is Islandwide Delivery across Sri Lanka?"
+                      p.tgl-card-sub "Colombo & suburbs within 24-48 hours. Islandwide outstations within 2-3 business days."
+                  div.tgl-summary-right
+                    button.tgl-btn-table-action type="button" onclick="showToast('Editing FAQ entry', 'fa-pen')" "Edit"
+
+                div.tgl-summary-row
+                  div.tgl-summary-left
+                    div.tgl-icon-box.icon-purple
+                      span.fa-solid.fa-gift
+                    div
+                      strong "How does the TeenGirls Surprise Box subscription work?"
+                      p.tgl-card-sub "Every month members receive 3-5 curated fashion items matched to their style profile."
+                  div.tgl-summary-right
+                    button.tgl-btn-table-action type="button" onclick="showToast('Editing FAQ entry', 'fa-pen')" "Edit"
+
+                div.tgl-summary-row
+                  div.tgl-summary-left
+                    div.tgl-icon-box.icon-green
+                      span.fa-solid.fa-rotate-left
+                    div
+                      strong "What is the return & exchange policy?"
+                      p.tgl-card-sub "Unworn items with original tags can be exchanged within 7 days of delivery."
+                  div.tgl-summary-right
+                    button.tgl-btn-table-action type="button" onclick="showToast('Editing FAQ entry', 'fa-pen')" "Edit"
+
+          // PRODUCT FORM PAGE (ADD & EDIT SEPARATE PAGE)
+          div#tab-product-form.tgl-tab-pane
+            div.tgl-form-page-wrapper
+              div.tgl-form-page-top
+                div.tgl-form-page-nav
+                  button.tgl-btn-back type="button" data-back="products"
+                    span.tgl-back-arrow
+                      span.fa-solid.fa-arrow-left
+                    span "Back to Products"
+                  div.tgl-breadcrumb-trail
+                    span.tgl-bc-item onclick="switchTab('dashboard')" "Dashboard"
+                    span.tgl-bc-sep "/"
+                    span.tgl-bc-item onclick="switchTab('products')" "Products"
+                    span.tgl-bc-sep "/"
+                    span#prod-breadcrumb-current.tgl-bc-current "Add New Product"
+                div.tgl-form-page-header
+                  div.tgl-form-header-title-box
+                    div.tgl-form-header-meta
+                      span#modal-prod-badge.tgl-badge-pink "Product Catalog"
+                      span#prod-mode-pill.tgl-status-pill.badge-active "Creating Entry"
+                    h1#modal-prod-title.tgl-form-page-title "Add New Product"
+                    p.tgl-form-page-sub "Configure merchandising details, retail pricing, inventory stock, and boutique photography."
+                  div.tgl-form-header-actions
+                    button.tgl-btn-outline#tgl-prod-cancel-top type="button" data-back="products" "Cancel"
+                    button.tgl-btn-primary type="button" onclick="document.getElementById('tgl-product-form').requestSubmit()"
+                      span.fa-solid.fa-floppy-disk
+                      span "Save Product"
+              form#tgl-product-form
+                div.tgl-form-grid-layout
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "General Merchandising Information"
+                        p.tgl-section-card-sub "Primary product identifiers, SKU barcodes, and department categorisation"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="prod-name"
+                              span "Product Name"
+                              span.tgl-req " *"
+                            input#prod-name.tgl-input type="text" name="name" placeholder="e.g. Floral Summer Chiffon Maxi Dress" required="required"
+                          div.tgl-form-group
+                            label.tgl-form-label for="prod-sku"
+                              span "SKU Code"
+                              span.tgl-req " *"
+                            div.tgl-input-action-wrap
+                              input#prod-sku.tgl-input type="text" name="sku" placeholder="TG-DR-001" required="required"
+                              button#btn-gen-sku.tgl-btn-inside type="button" title="Generate SKU" "Auto"
+                          div.tgl-form-group
+                            label.tgl-form-label for="prod-category"
+                              span "Category"
+                              span.tgl-req " *"
+                            select#prod-category.tgl-select name="category" required="required"
+                              option value="Dresses" "Dresses"
+                              option value="Accessories" "Accessories"
+                              option value="Tops & Knitwear" "Tops & Knitwear"
+                              option value="Jewelry" "Jewelry"
+                              option value="Footwear" "Footwear"
+                              option value="Beauty" "Beauty"
+                              option value="Bottoms" "Bottoms"
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Pricing & Stock Management"
+                        p.tgl-section-card-sub "Set retail selling price and real-time inventory quantity allocation"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group
+                            label.tgl-form-label for="prod-price"
+                              span "Retail Price (LKR)"
+                              span.tgl-req " *"
+                            div.tgl-input-prefix-wrap
+                              span.tgl-input-prefix "Rs"
+                              input#prod-price.tgl-input.has-prefix type="number" step="0.01" name="price" placeholder="3450.00" required="required"
+                          div.tgl-form-group
+                            label.tgl-form-label for="prod-stock"
+                              span "Stock Quantity"
+                              span.tgl-req " *"
+                            input#prod-stock.tgl-input type="number" min="0" name="stock" placeholder="25" required="required"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="prod-status" "Listing & Fulfillment Status"
+                            select#prod-status.tgl-select name="status"
+                              option value="Active" "Active (Available on Storefront)"
+                              option value="Low Stock" "Low Stock (Warning Alert)"
+                              option value="Out of Stock" "Out of Stock (Backorder only)"
+                              option value="Draft" "Draft (Hidden from Public)"
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Product Description & Styling Notes"
+                        p.tgl-section-card-sub "Describe fabric composition, fit recommendations, and customer care tips"
+                      div.tgl-section-card-body
+                        div.tgl-form-group
+                          label.tgl-form-label for="prod-desc" "Description & Styling Notes"
+                          textarea#prod-desc.tgl-textarea name="description" rows="4" placeholder="Brief summary of fabrics, silhouette, fit, and model specs..."
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Product Photography & Media"
+                        p.tgl-section-card-sub "Upload images or select curated boutique presets"
+                      div.tgl-section-card-body
+                        div.tgl-image-picker-zone
+                          div.tgl-preview-thumb-box
+                            img#prod-img-preview.tgl-preview-img src="/public/images/products/floral-maxi-dress.jpg" alt="Preview" onerror="this.src='/public/images/placeholder.svg'"
+                          div.tgl-picker-controls
+                            div.tgl-url-input-wrap
+                              input#prod-img-url.tgl-input type="text" name="img" placeholder="Image URL or choose preset below" value="/public/images/products/floral-maxi-dress.jpg"
+                            div.tgl-upload-row
+                              label.tgl-btn-upload-file
+                                input#prod-img-file type="file" accept="image/*" style="display:none;"
+                                span.fa-solid.fa-folder-open
+                                span " Choose Local Image"
+                              span.tgl-picker-hint "or pick boutique preset:"
+                            div.tgl-preset-chips
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/floral-maxi-dress.jpg"
+                                span.fa-solid.fa-person-dress
+                                span " Maxi Dress"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/pink-crossbody-bag.jpg"
+                                span.fa-solid.fa-bag-shopping
+                                span " Pink Bag"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/lavender-cardigan.jpg"
+                                span.fa-solid.fa-shirt
+                                span " Cardigan"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/butterfly-hairpins.jpg"
+                                span.fa-solid.fa-gem
+                                span " Hairpins"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/pastel-sneakers.jpg"
+                                span.fa-solid.fa-shoe-prints
+                                span " Sneakers"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/lip-tint-trio.jpg"
+                                span.fa-solid.fa-wand-magic-sparkles
+                                span " Lip Tint"
+                              button.tgl-chip-btn type="button" data-preset="/public/images/products/surprise-box.jpg"
+                                span.fa-solid.fa-gift
+                                span " Surprise Box"
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Available Sizing & Attributes"
+                        p.tgl-section-card-sub "Standard TeenGirlsLK sizes for catalog filters"
+                      div.tgl-section-card-body
+                        div.tgl-options-cluster
+                          label.tgl-option-check-label
+                            input type="checkbox" checked="checked"
+                            span "XS - Extra Small"
+                          label.tgl-option-check-label
+                            input type="checkbox" checked="checked"
+                            span "S - Small"
+                          label.tgl-option-check-label
+                            input type="checkbox" checked="checked"
+                            span "M - Medium"
+                          label.tgl-option-check-label
+                            input type="checkbox" checked="checked"
+                            span "L - Large"
+                          label.tgl-option-check-label
+                            input type="checkbox"
+                            span "XL - Free Size"
+                div.tgl-form-actions-bar
+                  button.tgl-btn-outline#tgl-prod-cancel type="button" data-back="products" "Cancel"
+                  button.tgl-btn-primary#tgl-prod-submit type="submit"
+                    span.fa-solid.fa-floppy-disk
+                    span#tgl-prod-submit-text "Save Product"
+
+          // CATEGORY FORM PAGE (ADD & EDIT SEPARATE PAGE)
+          div#tab-category-form.tgl-tab-pane
+            div.tgl-form-page-wrapper
+              div.tgl-form-page-top
+                div.tgl-form-page-nav
+                  button.tgl-btn-back type="button" data-back="categories"
+                    span.tgl-back-arrow
+                      span.fa-solid.fa-arrow-left
+                    span "Back to Categories"
+                  div.tgl-breadcrumb-trail
+                    span.tgl-bc-item onclick="switchTab('dashboard')" "Dashboard"
+                    span.tgl-bc-sep "/"
+                    span.tgl-bc-item onclick="switchTab('categories')" "Categories"
+                    span.tgl-bc-sep "/"
+                    span#cat-breadcrumb-current.tgl-bc-current "Add Category"
+                div.tgl-form-page-header
+                  div.tgl-form-header-title-box
+                    div.tgl-form-header-meta
+                      span.tgl-badge-purple "Catalog Taxonomy"
+                      span#cat-mode-pill.tgl-status-pill.badge-active "New Category"
+                    h1#modal-cat-title.tgl-form-page-title "Add Category"
+                    p.tgl-form-page-sub "Define department collections, URL slug hierarchy, collection badges, and navigation order."
+                  div.tgl-form-header-actions
+                    button.tgl-btn-outline#tgl-cat-cancel-top type="button" data-back="categories" "Cancel"
+                    button.tgl-btn-primary type="button" onclick="document.getElementById('tgl-category-form').requestSubmit()"
+                      span.fa-solid.fa-folder
+                      span "Save Category"
+              form#tgl-category-form
+                div.tgl-form-grid-layout
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Category Identity & SEO"
+                        p.tgl-section-card-sub "Name, URL path, and boutique emoji icons"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="cat-name"
+                              span "Category Name"
+                              span.tgl-req " *"
+                            input#cat-name.tgl-input type="text" name="catName" placeholder="e.g. Dresses & Outfits" required="required"
+                          div.tgl-form-group
+                            label.tgl-form-label for="cat-slug" "URL Slug"
+                            input#cat-slug.tgl-input type="text" name="catSlug" placeholder="dresses-outfits"
+                          div.tgl-form-group
+                            label.tgl-form-label for="cat-icon" "Icon / Emoji"
+                            input#cat-icon.tgl-input type="text" name="catIcon" placeholder="fa-person-dress" value="fa-person-dress"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="cat-desc" "Description & Collection Intro"
+                            textarea#cat-desc.tgl-textarea name="catDesc" rows="3" placeholder="Catalog description for collection banner..."
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Display & Ordering"
+                        p.tgl-section-card-sub "Navigation menu positioning and visibility"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label "Display Status"
+                            select.tgl-select name="catStatus"
+                              option value="Active" "Active (Visible in Header Menu)"
+                              option value="Hidden" "Hidden (Direct Link Only)"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label "Display Order"
+                            input.tgl-input type="number" name="catOrder" value="1" min="1"
+                div.tgl-form-actions-bar
+                  button.tgl-btn-outline#tgl-cat-cancel type="button" data-back="categories" "Cancel"
+                  button.tgl-btn-primary#tgl-cat-submit type="submit"
+                    span.fa-solid.fa-folder
+                    span "Save Category"
+
+          // COUPON FORM PAGE (ADD & EDIT SEPARATE PAGE)
+          div#tab-coupon-form.tgl-tab-pane
+            div.tgl-form-page-wrapper
+              div.tgl-form-page-top
+                div.tgl-form-page-nav
+                  button.tgl-btn-back type="button" data-back="coupons"
+                    span.tgl-back-arrow
+                      span.fa-solid.fa-arrow-left
+                    span "Back to Coupons"
+                  div.tgl-breadcrumb-trail
+                    span.tgl-bc-item onclick="switchTab('dashboard')" "Dashboard"
+                    span.tgl-bc-sep "/"
+                    span.tgl-bc-item onclick="switchTab('coupons')" "Coupons"
+                    span.tgl-bc-sep "/"
+                    span#coup-breadcrumb-current.tgl-bc-current "Create Coupon Voucher"
+                div.tgl-form-page-header
+                  div.tgl-form-header-title-box
+                    div.tgl-form-header-meta
+                      span.tgl-badge-pink "Vouchers & Offers"
+                      span#coup-mode-pill.tgl-status-pill.badge-active "New Voucher"
+                    h1#modal-coup-title.tgl-form-page-title "Create Coupon Voucher"
+                    p.tgl-form-page-sub "Issue promotional discount codes, spend thresholds, and redemption quotas."
+                  div.tgl-form-header-actions
+                    button.tgl-btn-outline#tgl-coup-cancel-top type="button" data-back="coupons" "Cancel"
+                    button.tgl-btn-primary type="button" onclick="document.getElementById('tgl-coupon-form').requestSubmit()"
+                      span.fa-solid.fa-ticket
+                      span "Save Coupon"
+              form#tgl-coupon-form
+                div.tgl-form-grid-layout
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Discount Rules & Triggers"
+                        p.tgl-section-card-sub "Coupon code, discount computation, and minimum cart spend"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="coup-code"
+                              span "Coupon Voucher Code"
+                              span.tgl-req " *"
+                            div.tgl-input-action-wrap
+                              input#coup-code.tgl-input type="text" name="code" placeholder="e.g. SUMMER25" required="required" style="text-transform:uppercase;"
+                              button#btn-gen-code.tgl-btn-inside type="button" title="Generate Code" "Generate"
+                          div.tgl-form-group
+                            label.tgl-form-label for="coup-type" "Discount Type"
+                            select#coup-type.tgl-select name="type"
+                              option value="Percentage" "Percentage (%)"
+                              option value="Flat Deduction" "Flat Deduction (Rs)"
+                              option value="Shipping" "Free Delivery Perk"
+                          div.tgl-form-group
+                            label.tgl-form-label for="coup-val"
+                              span "Discount Value"
+                              span.tgl-req " *"
+                            input#coup-val.tgl-input type="text" name="val" placeholder="25% or 1000.00" required="required"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="coup-spend" "Minimum Order Spend (LKR)"
+                            input#coup-spend.tgl-input type="number" step="0.01" name="spend" placeholder="3500.00" value="0.00"
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Limits & Scheduling"
+                        p.tgl-section-card-sub "Redemption capacity and expiration timeline"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="coup-limit" "Redemption Quota (Used / Max)"
+                            input#coup-limit.tgl-input type="text" name="limit" placeholder="e.g. 0 / 100" value="0 / 100"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="coup-expiry" "Expiry Date"
+                            input#coup-expiry.tgl-input type="date" name="expiry" value="2026-12-31"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="coup-status" "Campaign Status"
+                            select#coup-status.tgl-select name="status"
+                              option value="Active" "Active (Available for checkout)"
+                              option value="Scheduled" "Scheduled (Upcoming launch)"
+                              option value="Paused" "Paused (Temporarily disabled)"
+                div.tgl-form-actions-bar
+                  button.tgl-btn-outline#tgl-coup-cancel type="button" data-back="coupons" "Cancel"
+                  button.tgl-btn-primary#tgl-coup-submit type="submit"
+                    span.fa-solid.fa-ticket
+                    span "Save Coupon"
+
+          // CUSTOMER FORM PAGE (ADD & EDIT SEPARATE PAGE)
+          div#tab-customer-form.tgl-tab-pane
+            div.tgl-form-page-wrapper
+              div.tgl-form-page-top
+                div.tgl-form-page-nav
+                  button.tgl-btn-back type="button" data-back="customers"
+                    span.tgl-back-arrow
+                      span.fa-solid.fa-arrow-left
+                    span "Back to Customers"
+                  div.tgl-breadcrumb-trail
+                    span.tgl-bc-item onclick="switchTab('dashboard')" "Dashboard"
+                    span.tgl-bc-sep "/"
+                    span.tgl-bc-item onclick="switchTab('customers')" "Customers"
+                    span.tgl-bc-sep "/"
+                    span#cust-breadcrumb-current.tgl-bc-current "Customer Profile"
+                div.tgl-form-page-header
+                  div.tgl-form-header-title-box
+                    div.tgl-form-header-meta
+                      span.tgl-badge-green "Customer Directory"
+                      span#cust-mode-pill.tgl-status-pill.badge-active "Customer Record"
+                    h1#modal-cust-title.tgl-form-page-title "Customer Profile"
+                    p.tgl-form-page-sub "Manage client contact information, membership tier, and delivery addresses."
+                  div.tgl-form-header-actions
+                    button.tgl-btn-outline#tgl-cust-cancel-top type="button" data-back="customers" "Cancel"
+                    button.tgl-btn-primary type="button" onclick="document.getElementById('tgl-customer-form').requestSubmit()"
+                      span.fa-solid.fa-user
+                      span "Save Customer"
+              form#tgl-customer-form
+                div.tgl-form-grid-layout
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Personal & Contact Details"
+                        p.tgl-section-card-sub "Primary profile information for dispatch and communication"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="cust-name"
+                              span "Full Name"
+                              span.tgl-req " *"
+                            input#cust-name.tgl-input type="text" name="custName" placeholder="e.g. Amara Jayawardena" required="required"
+                          div.tgl-form-group
+                            label.tgl-form-label for="cust-email"
+                              span "Email Address"
+                              span.tgl-req " *"
+                            input#cust-email.tgl-input type="email" name="custEmail" placeholder="name@example.com" required="required"
+                          div.tgl-form-group
+                            label.tgl-form-label for="cust-phone" "Phone / WhatsApp"
+                            input#cust-phone.tgl-input type="tel" name="custPhone" placeholder="+94 77 123 4567"
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="cust-city" "City / Delivery Region"
+                            input#cust-city.tgl-input type="text" name="custCity" placeholder="Colombo 07"
+                  div.tgl-form-col
+                    div.tgl-form-section-card
+                      div.tgl-section-card-head
+                        h3.tgl-section-card-title "Membership & Account Privileges"
+                        p.tgl-section-card-sub "Loyalty club tier, discount perks, and internal notes"
+                      div.tgl-section-card-body
+                        div.tgl-form-grid
+                          div.tgl-form-group.col-span-2
+                            label.tgl-form-label for="cust-tier" "Membership Club Tier"
+                            select#cust-tier.tgl-select name="custTier"
+                              option value="VIP Gold" "VIP Gold (15% Store Perk)"
+                              option value="Silver Club" "Silver Club (10% Store Perk)"
+                              option value="Bronze" "Bronze (Standard Member)"
+                              option value="Guest" "Guest (One-time Buyer)"
+                div.tgl-form-actions-bar
+                  button.tgl-btn-outline#tgl-cust-cancel type="button" data-back="customers" "Cancel"
+                  button.tgl-btn-primary#tgl-cust-submit type="submit"
+                    span.fa-solid.fa-user
+                    span "Save Customer"
+
+          // ORDER DETAILS & EDIT PAGE (SEPARATE PAGE)
+          div#tab-order-form.tgl-tab-pane
+            div.tgl-form-page-wrapper
+              div.tgl-form-page-top
+                div.tgl-form-page-nav
+                  button.tgl-btn-back type="button" data-back="orders"
+                    span.tgl-back-arrow
+                      span.fa-solid.fa-arrow-left
+                    span "Back to Orders"
+                  div.tgl-breadcrumb-trail
+                    span.tgl-bc-item onclick="switchTab('dashboard')" "Dashboard"
+                    span.tgl-bc-sep "/"
+                    span.tgl-bc-item onclick="switchTab('orders')" "Orders"
+                    span.tgl-bc-sep "/"
+                    span#order-breadcrumb-current.tgl-bc-current "Order #TG1004"
+                div.tgl-form-page-header
+                  div.tgl-form-header-title-box
+                    div.tgl-form-header-meta
+                      span.tgl-badge-pink "Order Processing"
+                      span#modal-order-badge.tgl-status-pill.badge-active "Processing"
+                    h1#modal-order-title.tgl-form-page-title "Order #TG1004"
+                    p#order-page-meta-sub.tgl-form-page-sub "Customer order details, items purchased, shipment progression, and payment slip."
+                  div.tgl-form-header-actions
+                    button.tgl-btn-outline#tgl-modal-print type="button"
+                      span.fa-solid.fa-print
+                      span "Print Packing Slip"
+                    button.tgl-btn-primary#tgl-modal-action type="button"
+                      span.fa-solid.fa-check
+                      span "Mark as Delivered"
+              div#tgl-modal-content.tgl-order-page-body
+                // Rendered dynamically by openOrderPage()
+              div.tgl-form-actions-bar
+                button.tgl-btn-outline type="button" data-back="orders" "Back to Orders"
+                button.tgl-btn-primary type="button" onclick="showToast('Order status and notes updated! ', 'fa-box')" "Update Order Status"
+
+    // Floating Bulk Action Bar
+    div#tgl-bulk-actions-bar.tgl-bulk-bar aria-hidden="true"
+      div.tgl-bulk-inner
+        div.tgl-bulk-badge
+          span#tgl-bulk-count "0"
+          span "selected"
+        div.tgl-bulk-actions
+          button.tgl-bulk-btn#tgl-bulk-export type="button"
+            span.fa-solid.fa-download
+            span "Export Selected"
+          button.tgl-bulk-btn#tgl-bulk-status type="button"
+            span.fa-solid.fa-bolt
+            span "Mark Completed"
+          button.tgl-bulk-btn.btn-danger#tgl-bulk-delete type="button"
+            span.fa-solid.fa-trash-can
+            span "Batch Delete"
+          button.tgl-bulk-clear#tgl-bulk-clear type="button" aria-label="Clear selection" title="Deselect All"
+            span.fa-solid.fa-xmark
+
+    // Interactive Toast Notification
+    div#tgl-toast-container.tgl-toast-container aria-live="polite"
+
+    // Scripts
+    script src="/public/admin-dashboard.js" defer="defer"

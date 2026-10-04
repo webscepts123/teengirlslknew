@@ -1,0 +1,113 @@
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="index, follow"
+    title "{{pageTitle}} | {{siteName}}"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
+    link rel="stylesheet" href="/public/customer-auth.css"
+  body.tgl-auth-body
+    // Top-Left Floating Brand Link
+    a.tgl-floating-brand href="/"
+      div.tgl-brand-icon-mini
+        span.fa-solid.fa-wand-magic-sparkles
+      span.tgl-brand-text-mini "TeenGirlsLK"
+
+    // Screen Layout Container
+    main.tgl-auth-screen-layout
+      div.tgl-login-card-exact
+        div.tgl-card-head
+          h1.tgl-login-title "Welcome Back!"
+          p.tgl-login-sub
+            span "Don't have an account? "
+            a.tgl-pink-link href="/customer/register" "Register free"
+          div.tgl-accent-dots
+            span.tgl-dot-pill
+            span.tgl-dot-circle
+            span.tgl-dot-circle
+
+        if error
+          div.tgl-alert.error
+            span.fa-solid.fa-circle-exclamation
+            span "{{error}}"
+
+        if success
+          div.tgl-alert.success
+            span.fa-solid.fa-circle-check
+            span "{{success}}"
+
+        // 1-Click Demo Login Bar
+        div.tgl-demo-bar-compact
+          span.tgl-demo-bar-label
+            span.fa-solid.fa-bolt
+            span "1-Click Demo"
+          div style="display:flex; gap:6px;"
+            form method="post" action="/customer/demo-login" style="margin:0;"
+              input type="hidden" name="_csrf" value="{{csrfToken}}"
+              input type="hidden" name="customerId" value="CUST-1001"
+              button.tgl-demo-btn-chip type="submit"
+                span "⭐ Kavindi (Gold)"
+            form method="post" action="/customer/demo-login" style="margin:0;"
+              input type="hidden" name="_csrf" value="{{csrfToken}}"
+              input type="hidden" name="customerId" value="CUST-1002"
+              button.tgl-demo-btn-chip type="submit"
+                span "🥈 Ananya"
+
+        form.tgl-form-exact method="post" action="/customer/login"
+          input type="hidden" name="_csrf" value="{{csrfToken}}"
+          input type="hidden" name="returnUrl" value="{{returnUrl}}"
+
+          div.tgl-form-group
+            label.tgl-label-caps for="login-email-input" "EMAIL ADDRESS"
+            div.tgl-input-wrapper
+              span.fa-regular.fa-envelope.tgl-input-left-icon
+              input#login-email-input.tgl-input-modern type="text" name="emailOrPhone" placeholder="you@example.com" value="kavindi.silva@gmail.com" required="required" autocomplete="username"
+              div.tgl-input-right-actions
+                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-email-input').value='kavindi.silva@gmail.com'"
+                  span.fa-solid.fa-ellipsis
+
+          div.tgl-form-group
+            label.tgl-label-caps for="login-password-input" "PASSWORD"
+            div.tgl-input-wrapper
+              span.fa-solid.fa-lock.tgl-input-left-icon
+              input#login-password-input.tgl-input-modern type="password" name="password" placeholder="••••••••" value="password123" required="required" autocomplete="current-password"
+              div.tgl-input-right-actions
+                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-password-input').value='password123'"
+                  span.fa-solid.fa-ellipsis
+                button#toggle-pass-btn.tgl-input-icon-btn type="button" title="Show/Hide Password" onclick="const p=document.getElementById('login-password-input'); const i=document.getElementById('pass-eye-icon'); if(p.type==='password'){ p.type='text'; i.className='fa-regular fa-eye-slash'; }else{ p.type='password'; i.className='fa-regular fa-eye'; }"
+                  span#pass-eye-icon.fa-regular.fa-eye
+
+          div.tgl-auth-meta-row
+            label.tgl-checkbox-label
+              input type="checkbox" name="remember" value="1" checked="checked"
+              span "Remember me"
+            a.tgl-pink-link href="/customer/forgot-password" "Forgot password?"
+
+          button.tgl-btn-signin type="submit"
+            span.fa-solid.fa-right-to-bracket
+            span "Sign In"
+
+        div.tgl-divider-wrap
+          span.tgl-divider-text "Or"
+
+        div.tgl-bottom-actions-row
+          a.tgl-btn-outline href="/customer/register"
+            span.fa-solid.fa-user-plus style="color:#e11d48;"
+            span "Register"
+          button.tgl-btn-outline type="button" onclick="alert('OTP verification code sent via WhatsApp & SMS to your registered number!')"
+            span.fa-solid.fa-mobile-screen-button style="color:#e11d48;"
+            span "Verify OTP"
+
+        div.tgl-trust-badges-row
+          div.tgl-trust-item
+            span.fa-solid.fa-shield-halved style="color:#e11d48;"
+            span "Secure Login"
+          div.tgl-trust-item
+            span.fa-solid.fa-lock style="color:#e11d48;"
+            span "SSL Encrypted"
+          div.tgl-trust-item
+            span.fa-solid.fa-star style="color:#e11d48;"
+            span "Trusted by 5K+"

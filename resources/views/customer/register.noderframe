@@ -1,0 +1,115 @@
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="index, follow"
+    title "{{pageTitle}} | {{siteName}}"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
+    link rel="stylesheet" href="/public/customer-auth.css"
+  body.tgl-auth-body
+    div.tgl-auth-orb.tgl-auth-orb-1 aria-hidden="true"
+    div.tgl-auth-orb.tgl-auth-orb-2 aria-hidden="true"
+    
+    div.tgl-auth-container.wide
+      div.tgl-auth-header
+        a.tgl-auth-brand href="/"
+          div.tgl-auth-logo-badge
+            span.fa-solid.fa-wand-magic-sparkles
+          span.tgl-auth-brand-name "TeenGirlsLK"
+        p.tgl-auth-tagline "Join 12,000+ stylish teens across Sri Lanka"
+
+      div.tgl-auth-card
+        div.tgl-card-title-row
+          h1.tgl-auth-title "Create Your Account"
+          span.tgl-perk-badge
+            span.fa-solid.fa-gift
+            span "Rs 500 Gift"
+        p.tgl-auth-desc "Get Rs 500 welcome credit, earn reward points on every order & enjoy free express delivery."
+
+        if error
+          div.tgl-alert.error
+            span.fa-solid.fa-circle-exclamation
+            span "{{error}}"
+
+        if success
+          div.tgl-alert.success
+            span.fa-solid.fa-circle-check
+            span "{{success}}"
+
+        form.tgl-form method="post" action="/customer/register"
+          input type="hidden" name="_csrf" value="{{csrfToken}}"
+          
+          div.tgl-form-row
+            div.tgl-form-group
+              label.tgl-label for="reg-first-name" "First Name *"
+              div.tgl-input-wrap
+                span.fa-solid.fa-user.tgl-input-icon
+                input#reg-first-name.tgl-input type="text" name="firstName" placeholder="e.g. Kavindi" required="required" autocomplete="given-name"
+            div.tgl-form-group
+              label.tgl-label for="reg-last-name" "Last Name"
+              div.tgl-input-wrap
+                span.fa-solid.fa-user.tgl-input-icon
+                input#reg-last-name.tgl-input type="text" name="lastName" placeholder="e.g. Silva" autocomplete="family-name"
+
+          div.tgl-form-row
+            div.tgl-form-group
+              label.tgl-label for="reg-email" "Email Address *"
+              div.tgl-input-wrap
+                span.fa-solid.fa-envelope.tgl-input-icon
+                input#reg-email.tgl-input type="email" name="email" placeholder="kavindi@example.com" required="required" autocomplete="email"
+            div.tgl-form-group
+              label.tgl-label for="reg-phone" "Mobile Phone Number (WhatsApp updates)"
+              div.tgl-input-wrap
+                span.fa-solid.fa-phone.tgl-input-icon
+                input#reg-phone.tgl-input type="tel" name="phone" placeholder="+94 77 123 4567" autocomplete="tel"
+
+          div.tgl-form-row
+            div.tgl-form-group
+              label.tgl-label for="reg-password" "Password *"
+              div.tgl-input-wrap
+                span.fa-solid.fa-lock.tgl-input-icon
+                input#reg-password.tgl-input type="password" name="password" placeholder="At least 6 characters" required="required" autocomplete="new-password"
+            div.tgl-form-group
+              label.tgl-label for="reg-confirm-password" "Confirm Password *"
+              div.tgl-input-wrap
+                span.fa-solid.fa-lock.tgl-input-icon
+                input#reg-confirm-password.tgl-input type="password" name="confirmPassword" placeholder="Re-enter password" required="required" autocomplete="new-password"
+
+          div.tgl-form-row
+            div.tgl-form-group
+              label.tgl-label for="reg-size" "Preferred Top / Dress Size"
+              select#reg-size.tgl-select name="topSize"
+                option value="XS" "XS (UK 6)"
+                option value="S" "S (UK 8)"
+                option value="M" selected="selected" "M (UK 10)"
+                option value="L" "L (UK 12)"
+                option value="XL" "XL (UK 14)"
+            div.tgl-form-group
+              label.tgl-label for="reg-style" "Favorite Fashion Aesthetic"
+              select#reg-style.tgl-select name="styleInterest"
+                option value="Streetwear & Oversized" selected="selected" "Streetwear & Oversized"
+                option value="Pastel & Soft Aesthetic" "Pastel & Soft Aesthetic"
+                option value="Floral & Casual Chic" "Floral & Casual Chic"
+                option value="Y2K & Vintage Trends" "Y2K & Vintage Trends"
+                option value="Glam & Partywear" "Glam & Partywear"
+
+          div.tgl-form-group style="margin-top: 4px;"
+            label.tgl-checkbox-label
+              input type="checkbox" name="terms" required="required" checked="checked"
+              span "I agree to TeenGirlsLK Terms of Service & Privacy Policy"
+
+          button.tgl-btn-submit type="submit"
+            span "Create Account & Claim Rs 500 Gift"
+            span.fa-solid.fa-sparkles
+
+        div.tgl-auth-switch
+          span "Already have an account? "
+          a.tgl-link href="/customer/login" "Sign In Here"
+
+      div style="text-align: center;"
+        a.tgl-auth-back href="/"
+          span.fa-solid.fa-store
+          span "Return to TeenGirlsLK Store"

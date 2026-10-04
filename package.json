@@ -1,0 +1,35 @@
+{
+  "name": "teensgirls",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "noderyx-framework serve --watch",
+    "live": "noderyx-framework live",
+    "start": "node server.js",
+    "framework:update": "noderyx-framework update",
+    "qa": "noderyx-framework qa",
+    "build": "noderyx-framework build resources/views public/generated",
+    "cpanel:build": "noderyx-framework cpanel:build",
+    "build:native": "noderyx-framework build:native --views=resources/mobile",
+    "mobile:builder": "noderyx-framework mobile:builder",
+    "native:init": "noderyx-framework native:init",
+    "native:android": "noderyx-framework native:run android",
+    "native:ios": "noderyx-framework native:run ios",
+    "native:start": "noderyx-framework native:start",
+    "build:mobile": "noderyx-framework build:mobile",
+    "mobile:init": "noderyx-framework mobile:init",
+    "mobile:android": "noderyx-framework mobile:run android",
+    "mobile:ios": "noderyx-framework mobile:run ios",
+    "editor:install": "noderyx-framework editor:install",
+    "migrate": "noderyx-framework migrate",
+    "seed": "noderyx-framework db:seed"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "noderyx-framework": ">=0.7.2 <1.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
