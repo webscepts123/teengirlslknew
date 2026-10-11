@@ -1,5 +1,6 @@
 html lang="en"
   head
+    link rel="icon" type="image/png" href="/public/favicon.png"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="robots" content="index, follow"
@@ -12,9 +13,7 @@ html lang="en"
     script type="module" src="/public/customer-register.js"
   body.tgl-auth-body.tgl-register-body
     a.tgl-floating-brand href="/"
-      div.tgl-brand-icon-mini
-        span.fa-solid.fa-wand-magic-sparkles
-      span.tgl-brand-text-mini "TeenGirlsLK"
+      img.tgl-auth-site-logo src="/public/images/brand/teengirls-logo-wide.png" alt="Teengirls.lk home" width="170" height="70"
 
     main.tgl-auth-screen-layout.tgl-register-layout
       div.tgl-register-card

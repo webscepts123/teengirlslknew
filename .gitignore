@@ -35,6 +35,7 @@ qa-results/
 # Noderyx generated output and local recovery data
 .noderyx/
 public/generated/
+public/uploads/
 platforms/mobile/www/
 platforms/native/
 

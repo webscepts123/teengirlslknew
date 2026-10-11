@@ -1,0 +1,14 @@
+/* Only new feature controls; existing dashboard and storefront styles stay intact. */
+#store-dialog { margin:auto; border:0; border-radius:18px; padding:28px; max-width:620px; width:90%; max-height:85vh; overflow:auto; font-family:inherit; color:#1e293b; }
+#store-dialog::backdrop { background:rgba(15,23,42,.35); }
+#store-dialog [data-close] { float:right; border:0; background:#fff1f2; padding:6px 12px; border-radius:8px; cursor:pointer; }
+#store-dialog img { width:150px; max-height:200px; object-fit:contain; border-radius:12px; margin:12px 0; }
+#store-dialog label { display:block; margin:12px 0; }
+#store-dialog input, #store-dialog select { padding:8px; border:1px solid #e2e8f0; border-radius:8px; margin-left:8px; max-width:100%; }
+#store-dialog p { margin:12px 0; }
+.tg-center-content [data-customer-action] label { display:block; margin:12px 0; }
+.tg-center-content [data-customer-action] input:not([type=hidden]):not([type=checkbox]) { display:block; border:1px solid #e2e8f0; border-radius:8px; padding:10px; width:100%; }
+.tg-center-content [data-customer-action] select { padding:8px; border:1px solid #e2e8f0; border-radius:8px; }
+.tg-center-content [data-feature-row] { padding:18px; border-bottom:1px solid #e2e8f0; }
+.tg-center-content [data-customer-action] { padding:12px 0; }
+.tg-center-content [data-feature-message], #store-dialog [data-feature-message], [data-feature-form] [data-feature-message] { margin:12px 0; color:#9f1239; }

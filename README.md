@@ -60,11 +60,60 @@ npm run seed      # load demo data; safe to run again
 | `02_CatalogSeeder` | 10 products and 3 coupons |
 | `03_DemoCustomerSeeder` | Nethmi Perera and Kavindi Silva (password `password123`) with addresses, orders and a wishlist |
 | `04_AuditLogSeeder` | Sample admin audit log entries |
+| `05_FeatureSeeder` | Store settings, categories, and development promotions, auctions, surprise boxes and support examples |
+| `06_LegacyCatalogSeeder` | Actual products and category hierarchy from the legacy backup; hides sample catalog records |
+| `07_SurpriseBoxSeeder` | Initial published 25-point Surprise Box; preserves admin changes |
+| `08_PointsBiddingSeeder` | Initial points bidding round for an imported product; preserves admin changes |
 
 Run one seeder with `npx noderyx db:seed --class=02_CatalogSeeder`. With `NODE_ENV=production`
-only the superadmin is seeded; demo data is skipped. Other commands: `npx noderyx migrate:status`
+the superadmin, store settings and categories are seeded; demo data is skipped. Other commands: `npx noderyx migrate:status`
 and `npx noderyx migrate:rollback`.
 
-The app still reads its in-memory demo data; the controllers are not wired to these tables yet.
+The storefront and dashboards now use these database tables. Run migrations and seeders
+before starting the app. Repeated seeding preserves edited records.
+
+The legacy catalog snapshot is from February 19, 2025: 7 products and 110 categories
+including subcategories. All seven original photos were recovered from
+`https://teengirls.lk/storage/` and saved locally under `public/images/legacy-catalog`.
+Run `node scripts/import-legacy-images.js` to recover missing photos again;
+it preserves custom images uploaded through admin. Original image filenames are
+retained in `database/data/legacy-catalog.json`. Repeated catalog seeding preserves
+admin changes. `node scripts/extract-legacy-catalog.js <legacy-project-path>` regenerates
+the snapshot from that project's SQL backup without importing customer data.
+
+Admin forms manage products and variants, categories, coupons, customers, staff,
+orders, returns, reviews, support, settings and feature records. Customers can manage
+addresses, profiles, wishlists, carts, orders, rewards, referrals and support tickets.
+Checkout calculates prices and stock on the server and supports cash on delivery,
+bank transfer and points. Reports export CSV.
+
+Legacy card payment gateways, SMS/OTP and social login, automated courier services,
+label printing and automatic payouts still require integration. Delivery and payment
+statuses can be managed manually; payout records do not transfer money.
+
+Surprise Boxes follow the legacy rewards flow: the latest published box costs
+points only, includes free delivery, has hidden contents and is limited to one
+claim per customer. Claims debit points and create a paid order atomically;
+the permanent claim prevents repeat purchases. Boxes have no inventory link.
+Configure their name, whole-number point cost, description and private packing
+reference in admin. The homepage has an interactive gift preview and address
+confirmation. Automatic courier booking and claim emails/SMS are not connected.
+
+Bid & Win uses 1 point per click. The round closes when its configured total is
+reached; the highest total contributor wins, with first participation breaking ties.
+Open-round cancellations refund the customer's contribution within the configured
+window (24 hours by default). Winners claim a free product with free delivery within
+the configured deadline (24 hours by default). If a prize remains unclaimed, the
+next status or bidding request refunds every participant and reopens the round.
+Non-winning bids in a successfully claimed round are not refunded. Admin manages
+the product SKU, target and windows; rounds with existing bids cannot be edited.
+The homepage shows live progress, personal points, cancellation and prize claiming.
+
+Configure `MAIL_DRIVER=smtp` and the mail settings in `.env` for password reset
+emails in production. Development mail is printed to the server console.
+
+Run `npm test` for business rule checks. To include the HTTP integration test, set
+`FEATURE_TEST_URL` to a separately migrated and seeded test app; it creates orders
+and modifies test inventory, so use a test database.
 
 Health check: `GET /health`. For deploying to cPanel, see [deployment/README.md](deployment/README.md).

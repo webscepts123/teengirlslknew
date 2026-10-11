@@ -29,7 +29,7 @@ export async function run(db) {
     await db.query(
       `INSERT INTO admin_users (username, name, email, role, status)
        VALUES (?, ?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE name = VALUES(name), role = VALUES(role), status = VALUES(status)`,
+       ON DUPLICATE KEY UPDATE id = id`,
       [member.username, member.name, member.email, member.role, member.status]
     );
   }

@@ -1,0 +1,11 @@
+.tgl-offer-stack { display:grid; align-content:start; gap:22px; min-width:0; }
+.tgl-bidding-panel { align-self:start; }
+.tgl-bidding-photo { width:100%; height:220px; object-fit:cover; object-position:center 30%; border-radius:14px; background:var(--pink-light); }
+.tgl-bidding-panel h3 { font-size:16px; margin:14px 0; color:var(--heading); }
+.tgl-bid-count { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; font-weight:700; margin:16px 0 8px; }.tgl-bid-count span { color:var(--pink-deep); }
+.tgl-bidding-panel progress { width:100%; height:9px; display:block; appearance:none; border:0; border-radius:8px; overflow:hidden; background:var(--pink-light); }.tgl-bidding-panel progress::-webkit-progress-bar { background:var(--pink-light); }.tgl-bidding-panel progress::-webkit-progress-value { background:var(--pink); border-radius:8px; }.tgl-bidding-panel progress::-moz-progress-bar { background:var(--pink); }
+.tgl-bidding-panel p { font-size:12px; line-height:1.7; color:var(--muted); margin:12px 0; }.tgl-bidding-panel [data-my-bids] { color:var(--pink-deep); background:var(--pink-light); padding:12px; border-radius:10px; text-align:center; font-weight:600; }
+.tgl-bidding-panel .tgl-btn { width:100%; justify-content:center; }.tgl-bidding-panel button:disabled { opacity:.6; cursor:default; }.tgl-bidding-panel [hidden] { display:none!important; }
+.tgl-bid-cancel { display:block; width:100%; border:0; background:transparent; color:var(--pink-deep); text-decoration:underline; padding:12px 0 0; cursor:pointer; font:inherit; font-size:12px; }
+.tgl-bid-progressbar { width:100%; height:9px; border-radius:8px; overflow:hidden; background:var(--pink-light); }.tgl-bid-progressbar span { display:block; width:0; height:100%; background:var(--pink); border-radius:8px; transition:width .3s; }
+.tgl-bidding-panel [data-bid-outcome] { color:var(--heading); }.tgl-bidding-panel [data-bidding-message] { color:var(--pink-deep); }.tgl-bidding-panel [data-bidding-message]:empty { display:none; }.tgl-bid-confirm-prize { margin-top:20px; }

@@ -1,530 +1,463 @@
-import { Controller } from "noderyx-framework";
-import { customersDb } from "./CustomerAuthController.js";
+﻿import { randomUUID } from "node:crypto";
+import { hashPassword, verifyPassword } from "noderyx-framework";
+import { AppController } from "../AppController.js";
+import {
+  database,
+  transaction,
+  fail,
+  required,
+  number,
+  boolean,
+  money,
+  jsonValue,
+} from "../../Services/database.js";
+import { settingsFor } from "../../Services/settings.js";
+import {
+  customerView,
+  addressesFor,
+  ordersFor,
+  couponView,
+} from "../../Services/customer.js";
+import { normalizeSriLankanPhone } from "../../../public/customer-registration-rules.js";
 
-// Mock customer orders repository matching exact reference mockup
-export let customerOrders = [
-  {
-    id: "#TG12458",
-    orderNumber: "TG12458",
-    date: "May 10, 2024",
-    rawDate: "2024-05-10",
-    status: "Delivered",
-    statusBadge: "badge-delivered",
-    price: "LKR 3,499",
-    itemsCount: "1 Item",
-    paymentMethod: "Cash on Delivery (COD)",
-    paymentStatus: "Paid on Delivery",
-    courierName: "Domex Express LK",
-    trackingNumber: "DMX-98214402-LK",
-    image: "/public/images/products/floral-maxi-dress.jpg",
-    items: [
-      {
-        id: "PROD-101",
-        title: "Floral Tiered Smocked Mini Dress",
-        variant: "Blush Pink Floral / Size M",
-        price: "LKR 3,499",
-        quantity: 1,
-        image: "/public/images/products/floral-maxi-dress.jpg"
-      }
-    ]
-  },
-  {
-    id: "#TG12420",
-    orderNumber: "TG12420",
-    date: "May 02, 2024",
-    rawDate: "2024-05-02",
-    status: "Shipped",
-    statusBadge: "badge-shipped",
-    price: "LKR 2,999",
-    itemsCount: "1 Item",
-    paymentMethod: "Visa / Mastercard",
-    paymentStatus: "Paid Online",
-    courierName: "Flash Express LK",
-    trackingNumber: "FLS-882910-LK",
-    image: "/public/images/products/lavender-cardigan.jpg",
-    items: [
-      {
-        id: "PROD-102",
-        title: "Lavender Cable Knit Cardigan",
-        variant: "Lavender / Size S",
-        price: "LKR 2,999",
-        quantity: 1,
-        image: "/public/images/products/lavender-cardigan.jpg"
-      }
-    ]
-  },
-  {
-    id: "#TG12375",
-    orderNumber: "TG12375",
-    date: "Apr 28, 2024",
-    rawDate: "2024-05-28",
-    status: "Delivered",
-    statusBadge: "badge-delivered",
-    price: "LKR 4,499",
-    itemsCount: "2 Items",
-    paymentMethod: "Koko: 3 Installments",
-    paymentStatus: "Completed",
-    courierName: "Pronto Lanka Delivery",
-    trackingNumber: "PRN-551029-LK",
-    image: "/public/images/products/pink-crossbody-bag.jpg",
-    items: [
-      {
-        id: "PROD-103",
-        title: "Pastel Pink Quilted Crossbody Bag",
-        variant: "Pastel Pink",
-        price: "LKR 2,500",
-        quantity: 1,
-        image: "/public/images/products/pink-crossbody-bag.jpg"
-      },
-      {
-        id: "PROD-104",
-        title: "Velvet Lip Tint Trio Set",
-        variant: "Rose & Berry",
-        price: "LKR 1,999",
-        quantity: 1,
-        image: "/public/images/products/lip-tint-trio.jpg"
-      }
-    ]
-  },
-  {
-    id: "#TG12312",
-    orderNumber: "TG12312",
-    date: "Apr 20, 2024",
-    rawDate: "2024-04-20",
-    status: "Delivered",
-    statusBadge: "badge-delivered",
-    price: "LKR 1,999",
-    itemsCount: "1 Item",
-    paymentMethod: "Cash on Delivery",
-    paymentStatus: "Paid on Delivery",
-    courierName: "Domex Express LK",
-    trackingNumber: "DMX-772102-LK",
-    image: "/public/images/products/pastel-sneakers.jpg",
-    items: [
-      {
-        id: "PROD-105",
-        title: "Pastel Platform Casual Sneakers",
-        variant: "Blush White / Size 38",
-        price: "LKR 1,999",
-        quantity: 1,
-        image: "/public/images/products/pastel-sneakers.jpg"
-      }
-    ]
-  },
-  {
-    id: "#TG12280",
-    orderNumber: "TG12280",
-    date: "Apr 10, 2024",
-    rawDate: "2024-04-10",
-    status: "Cancelled",
-    statusBadge: "badge-cancelled",
-    price: "LKR 2,499",
-    itemsCount: "1 Item",
-    paymentMethod: "Cash on Delivery",
-    paymentStatus: "Cancelled",
-    courierName: "N/A",
-    trackingNumber: "N/A",
-    image: "/public/images/products/butterfly-hairpins.jpg",
-    items: [
-      {
-        id: "PROD-106",
-        title: "Dainty Butterfly Hairpins & Clips Set",
-        variant: "Gold / Crystal",
-        price: "LKR 2,499",
-        quantity: 1,
-        image: "/public/images/products/butterfly-hairpins.jpg"
-      }
-    ]
-  }
-];
-
-// Mock customer wishlist items
-export let customerWishlist = [
-  {
-    id: "WISH-101",
-    productId: "PROD-304",
-    title: "Y2K Aesthetic Chunky Knit Cardigan",
-    category: "Outerwear & Knits",
-    price: "Rs 3,450.00",
-    originalPrice: "Rs 4,200.00",
-    discountTag: "18% OFF",
-    stockStatus: "In Stock (Only 4 left)",
-    stockClass: "stock-low",
-    image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=350&q=80",
-    colors: ["Lavender", "Sage Green", "Oatmeal"],
-    sizes: ["XS", "S", "M", "L"]
-  },
-  {
-    id: "WISH-102",
-    productId: "PROD-309",
-    title: "Pleated Pastel Tennis Mini Skirt",
-    category: "Skirts & Bottoms",
-    price: "Rs 2,290.00",
-    originalPrice: "Rs 2,800.00",
-    discountTag: "Flash Sale",
-    stockStatus: "In Stock",
-    stockClass: "stock-available",
-    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=350&q=80",
-    colors: ["Baby Pink", "Lilac", "Crisp White"],
-    sizes: ["S", "M", "L"]
-  },
-  {
-    id: "WISH-103",
-    productId: "PROD-412",
-    title: "Layered Dainty Butterfly Pendant Necklace",
-    category: "Jewelry & Accessories",
-    price: "Rs 950.00",
-    originalPrice: "Rs 1,200.00",
-    discountTag: "Best Seller",
-    stockStatus: "In Stock",
-    stockClass: "stock-available",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=350&q=80",
-    colors: ["18k Gold Plated", "Silver"],
-    sizes: ["One Size"]
-  },
-  {
-    id: "WISH-104",
-    productId: "PROD-510",
-    title: "Retro Canvas Crossbody Tote Bag with Charms",
-    category: "Bags & Totes",
-    price: "Rs 1,850.00",
-    originalPrice: "Rs 2,200.00",
-    discountTag: "Trending",
-    stockStatus: "Pre-Order Restock",
-    stockClass: "stock-preorder",
-    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=350&q=80",
-    colors: ["Off-White", "Midnight Black"],
-    sizes: ["Free Size"]
-  }
-];
-
-// Mock coupons and vouchers
-export const customerCoupons = [
-  {
-    code: "TEEN10",
-    title: "10% Off Everything",
-    discount: "10% OFF",
-    minSpend: "Min spend Rs 2,500",
-    validTill: "Valid till Jun 30, 2025",
-    type: "Percentage",
-    badge: "Active",
-    badgeClass: "badge-pink"
-  },
-  {
-    code: "FREESHIP",
-    title: "Islandwide Free Courier Delivery",
-    discount: "FREE SHIPPING",
-    minSpend: "Orders over Rs 3,500",
-    validTill: "Valid till Jul 15, 2025",
-    type: "Shipping",
-    badge: "Popular",
-    badgeClass: "badge-teal"
-  },
-  {
-    code: "VIPGOLD15",
-    title: "VIP Gold Tier Member Exclusive",
-    discount: "Rs 1,000 OFF",
-    minSpend: "Min spend Rs 5,000",
-    validTill: "Exclusive to Gold Members",
-    type: "VIP Reward",
-    badge: "VIP Perk",
-    badgeClass: "badge-gold"
-  }
-];
-
-export class CustomerPanelController extends Controller {
-  /**
-   * Helper: ensure customer is authenticated, default to Nethmi Perera for seamless access
-   */
-  getAuthenticatedCustomer() {
-    return customersDb[0];
-  }
-
-  /**
-   * Main Customer Portal View
-   */
-  async dashboard() {
-    const customer = this.getAuthenticatedCustomer();
-
-    const activeTab = this.query.tab || "dashboard";
-    const welcome = this.query.welcome === "true";
-
-    // Active in-transit order
-    const activeOrder = customerOrders.find((o) => o.status === "Out for Delivery" || o.status === "Shipped") || customerOrders[0];
-
-    // Compute stats matching exact mockup
+export class CustomerPanelController extends AppController {
+  async dashboard(asJson = false) {
+    let row;
+    try {
+      row = await this.customerRecord();
+    } catch (error) {
+      if (error.status === 401)
+        return asJson
+          ? this.json({ success: false, error: "Please sign in." }, 401)
+          : this.redirect("/login");
+      throw error;
+    }
+    const db = await database();
+    const [addresses, orders, wishlist, coupons] = await Promise.all([
+      addressesFor(row.id),
+      ordersFor(row.id),
+      db.query(
+        "SELECT w.id AS wishlist_id, p.* FROM wishlist_items w JOIN products p ON p.id=w.product_id WHERE w.customer_id=? AND p.is_active=1",
+        [row.id],
+      ),
+      db.query(
+        "SELECT * FROM coupons WHERE is_active=1 AND (customer_id IS NULL OR customer_id=?) AND (valid_until IS NULL OR valid_until>=CURRENT_DATE) AND (valid_from IS NULL OR valid_from<=CURRENT_DATE) AND (required_tier IS NULL OR required_tier=?)",
+        [row.id, row.tier],
+      ),
+    ]);
+    const points = Number(row.points);
+    const customer = customerView(row, addresses);
     const stats = {
-      totalOrders: customer.totalOrders || 12,
-      activeOrders: customerOrders.filter((o) => o.status !== "Delivered" && o.status !== "Cancelled").length,
-      wishlistCount: customer.wishlistCount || 8,
-      rewardPoints: customer.points || 560,
-      totalSpent: customer.totalSpent || "LKR 24,350",
-      voucherAway: customer.voucherAway || "LKR 440",
-      targetVoucher: customer.targetVoucher || "LKR 1,000",
-      voucherTargetPoints: customer.voucherTargetPoints || 1000,
-      voucherProgressPercent: Math.min(100, Math.round(((customer.points || 560) / 1000) * 100)),
-      voucherProgressLabel: `${customer.points || 560} / 1000`,
-      pointsValueLKR: `LKR ${(customer.points || 560).toLocaleString()}.00`,
-      storeCredit: customer.storeCredit || "LKR 1,000.00",
+      totalOrders: orders.length,
+      activeOrders: orders.filter(
+        (o) => !["Delivered", "Cancelled", "Returned"].includes(o.status),
+      ).length,
+      wishlistCount: wishlist.length,
+      rewardPoints: points,
+      totalSpent: money(
+        orders
+          .filter((o) => o.status === "Delivered")
+          .reduce((sum, o) => sum + o.numericTotal, 0),
+      ),
+      voucherAway: money(Math.max(0, 1000 - points)),
+      targetVoucher: money(1000),
+      voucherTargetPoints: 1000,
+      voucherProgressPercent: Math.min(100, Math.round(points / 10)),
+      voucherProgressLabel: `${points} / 1000`,
+      pointsValueLKR: money(points),
+      storeCredit: customer.storeCredit,
       tier: customer.tier,
-      tierProgress: 56,
-      nextTierPoints: 440
+      tierProgress: Math.min(100, points / 10),
+      nextTierPoints: Math.max(0, 1000 - points),
     };
-
-    return this.render("customer/dashboard", {
+    const data = {
       siteName: "teengirls.lk",
       pageTitle: "Customer Dashboard",
       customer,
       stats,
-      activeOrder,
-      orders: customerOrders,
-      wishlist: customerWishlist,
-      coupons: customerCoupons,
-      addresses: customer.addresses,
-      activeTab,
-      welcome,
-      csrfToken: this.context.csrfToken
-    });
+      activeOrder:
+        orders.find((o) =>
+          ["Shipped", "Out For Delivery"].includes(o.status),
+        ) ||
+        orders[0] ||
+        null,
+      orders,
+      wishlist: wishlist.map((p) => ({
+        ...p,
+        id: `WISH-${p.wishlist_id}`,
+        productId: p.sku,
+        price: money(p.price),
+        originalPrice: p.original_price ? money(p.original_price) : "",
+        stockStatus: p.stock ? "In Stock" : "Out of Stock",
+        stockClass: p.stock ? "stock-available" : "stock-preorder",
+        colors: jsonValue(p.colors, []),
+        sizes: jsonValue(p.sizes, []),
+      })),
+      coupons: coupons.map(couponView),
+      commissionBalance: money(row.commission_balance || 0),
+      returns: await db.query(
+        "SELECT r.*,o.order_number FROM return_requests r JOIN orders o ON o.id=r.order_id WHERE r.customer_id=? ORDER BY r.id DESC",
+        [row.id],
+      ),
+      commissions: await db.query(
+        "SELECT level,amount,is_released,created_at FROM referral_commissions WHERE customer_id=? ORDER BY id DESC",
+        [row.id],
+      ),
+      addresses,
+      activeTab: this.query.tab || "dashboard",
+      welcome: this.query.welcome === "true",
+      csrfToken: this.context.csrfToken,
+    };
+    return asJson
+      ? this.json({ success: true, ...data })
+      : this.render("customer/dashboard", data);
   }
-
-  /**
-   * Dedicated sub-routes rendering dashboard with specific tabs open
-   */
+  async data() {
+    return this.dashboard(true);
+  }
   async orders() {
     this.query.tab = "orders";
     return this.dashboard();
   }
-
   async wishlist() {
     this.query.tab = "wishlist";
     return this.dashboard();
   }
-
   async addresses() {
     this.query.tab = "addresses";
     return this.dashboard();
   }
-
   async rewards() {
     this.query.tab = "rewards";
     return this.dashboard();
   }
-
   async profile() {
     this.query.tab = "profile";
     return this.dashboard();
   }
-
   async support() {
     this.query.tab = "support";
     return this.dashboard();
   }
-
-  /**
-   * API: Save / Add Address
-   */
+  async referrals() {
+    this.query.tab = "referrals";
+    return this.dashboard();
+  }
   async saveAddress() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { id, label, recipientName, phone, street, city, district, postalCode, notes, isDefault } = this.body ?? {};
-
-    if (!recipientName || !phone || !street || !city) {
-      return this.json({ success: false, error: "Recipient name, phone, street address, and city are required." }, 422);
-    }
-
-    if (id) {
-      // Edit existing
-      const addrIndex = customer.addresses.findIndex((a) => a.id === id);
-      if (addrIndex !== -1) {
-        if (isDefault) {
-          customer.addresses.forEach((a) => (a.isDefault = false));
-        }
-        customer.addresses[addrIndex] = {
-          ...customer.addresses[addrIndex],
-          label: label || "Other",
-          recipientName,
-          phone,
-          street,
-          city,
-          district: district || "Colombo",
-          postalCode: postalCode || "",
-          notes: notes || "",
-          isDefault: isDefault === true || isDefault === "true" || isDefault === "1"
-        };
-      }
-    } else {
-      // Add new
-      if (isDefault || customer.addresses.length === 0) {
-        customer.addresses.forEach((a) => (a.isDefault = false));
-      }
-      const newAddr = {
-        id: `ADDR-${Math.floor(100 + Math.random() * 900)}`,
-        label: label || "Home",
-        isDefault: isDefault === true || isDefault === "true" || isDefault === "1" || customer.addresses.length === 0,
-        recipientName,
+    return this.api(async () => {
+      const customer = await this.customerRecord();
+      const b = this.body ?? {};
+      const phone = normalizeSriLankanPhone(b.phone);
+      if (!phone) fail("Enter a valid Sri Lankan phone number.");
+      const values = [
+        required(b.label || "Home", "Label", 60),
+        required(b.recipientName, "Recipient name", 120),
         phone,
-        street,
-        city,
-        district: district || "Colombo",
-        postalCode: postalCode || "",
-        notes: notes || ""
+        required(b.street, "Street", 255),
+        required(b.city, "City", 100),
+        required(b.district, "District", 100),
+        String(b.postalCode || "").slice(0, 10),
+        String(b.notes || "").slice(0, 255),
+      ];
+      await transaction(async (db) => {
+        await db.query("SELECT id FROM customers WHERE id=? FOR UPDATE", [
+          customer.id,
+        ]);
+        const rows = await db.query(
+          "SELECT id,is_default FROM customer_addresses WHERE customer_id=?",
+          [customer.id],
+        );
+        const id = b.id
+          ? number(String(b.id).replace("ADDR-", ""), "Address ID", {
+              integer: true,
+              min: 1,
+            })
+          : null;
+        if (id && !rows.some((row) => Number(row.id) === id))
+          fail("Address not found.", 404);
+        const isDefault =
+          boolean(b.isDefault) ||
+          rows.length === 0 ||
+          rows.some((row) => Number(row.id) === id && row.is_default);
+        if (isDefault)
+          await db.query(
+            "UPDATE customer_addresses SET is_default=0 WHERE customer_id=?",
+            [customer.id],
+          );
+        if (id)
+          await db.query(
+            "UPDATE customer_addresses SET label=?,recipient_name=?,phone=?,street=?,city=?,district=?,postal_code=?,notes=?,is_default=? WHERE id=? AND customer_id=?",
+            [...values, isDefault, id, customer.id],
+          );
+        else
+          await db.query(
+            "INSERT INTO customer_addresses (label,recipient_name,phone,street,city,district,postal_code,notes,is_default,customer_id) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            [...values, isDefault, customer.id],
+          );
+      });
+      return {
+        message: "Address saved successfully.",
+        addresses: await addressesFor(customer.id),
       };
-      customer.addresses.push(newAddr);
-    }
-
-    return this.json({
-      success: true,
-      message: "Address saved successfully.",
-      addresses: customer.addresses
     });
   }
-
-  /**
-   * API: Delete Address
-   */
   async deleteAddress() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { addressId } = this.body ?? {};
-    if (!addressId) return this.json({ success: false, error: "Address ID required" }, 422);
-
-    customer.addresses = customer.addresses.filter((a) => a.id !== addressId);
-    if (customer.addresses.length > 0 && !customer.addresses.some((a) => a.isDefault)) {
-      customer.addresses[0].isDefault = true;
-    }
-
-    return this.json({
-      success: true,
-      message: "Address removed from your address book.",
-      addresses: customer.addresses
+    return this.api(async () => {
+      const customer = await this.customerRecord();
+      const id = number(
+        String(this.body.addressId || "").replace("ADDR-", ""),
+        "Address ID",
+        { integer: true, min: 1 },
+      );
+      await transaction(async (db) => {
+        await db.query("SELECT id FROM customers WHERE id=? FOR UPDATE", [
+          customer.id,
+        ]);
+        const result = await db.query(
+          "DELETE FROM customer_addresses WHERE id=? AND customer_id=?",
+          [id, customer.id],
+        );
+        if (!result.affectedRows) fail("Address not found.", 404);
+        const rows = await db.query(
+          "SELECT id,is_default FROM customer_addresses WHERE customer_id=? ORDER BY id",
+          [customer.id],
+        );
+        if (rows.length && !rows.some((a) => a.is_default))
+          await db.query(
+            "UPDATE customer_addresses SET is_default=1 WHERE id=?",
+            [rows[0].id],
+          );
+      });
+      return {
+        message: "Address removed.",
+        addresses: await addressesFor(customer.id),
+      };
     });
   }
-
-  /**
-   * API: Update Customer Profile & Style Preferences
-   */
   async updateProfile() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { name, phone, preferredTopSize, preferredBottomSize, preferredFootwear, styleAesthetics } = this.body ?? {};
-
-    if (name) customer.name = name;
-    if (phone) customer.phone = phone;
-
-    if (!customer.preferences) customer.preferences = {};
-    if (preferredTopSize) customer.preferences.preferredTopSize = preferredTopSize;
-    if (preferredBottomSize) customer.preferences.preferredBottomSize = preferredBottomSize;
-    if (preferredFootwear) customer.preferences.preferredFootwear = preferredFootwear;
-    if (styleAesthetics) {
-      customer.preferences.styleAesthetics = Array.isArray(styleAesthetics) ? styleAesthetics : [styleAesthetics];
-    }
-
-    if (this.context.session?.customer) {
-      this.context.session.customer.name = customer.name;
-      this.context.session.customer.phone = customer.phone;
-    }
-
-    return this.json({
-      success: true,
-      message: "Profile preferences updated successfully!",
-      customer
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const b = this.body ?? {};
+      const name = required(b.name || row.name, "Name", 120);
+      const phone = normalizeSriLankanPhone(b.phone || row.phone);
+      if (!phone) fail("Invalid phone.");
+      const preferences = { ...jsonValue(row.preferences) };
+      for (const key of [
+        "preferredTopSize",
+        "preferredBottomSize",
+        "preferredFootwear",
+      ])
+        if (b[key] != null) preferences[key] = String(b[key]).slice(0, 30);
+      if (b.styleAesthetics != null)
+        preferences.styleAesthetics = (
+          Array.isArray(b.styleAesthetics)
+            ? b.styleAesthetics
+            : String(b.styleAesthetics).split(",")
+        )
+          .slice(0, 10)
+          .map((v) => String(v).trim().slice(0, 60));
+      await (
+        await database()
+      ).query("UPDATE customers SET name=?,phone=?,preferences=? WHERE id=?", [
+        name,
+        phone,
+        JSON.stringify(preferences),
+        row.id,
+      ]);
+      const customer = customerView({ ...row, name, phone, preferences });
+      this.context.session.customer = customer;
+      return { message: "Profile saved.", customer };
     });
   }
-
-  /**
-   * API: Wishlist Item Removal
-   */
+  async changePassword() {
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const b = this.body ?? {};
+      if (!(await verifyPassword(b.currentPassword || "", row.password_hash)))
+        fail("Current password is incorrect.");
+      const password = required(b.password, "Password", 128);
+      if (password.length < 8 || password !== b.confirmPassword)
+        fail("Use a matching password of at least 8 characters.");
+      await (
+        await database()
+      ).query("UPDATE customers SET password_hash=? WHERE id=?", [
+        await hashPassword(password),
+        row.id,
+      ]);
+      return { message: "Password updated." };
+    });
+  }
   async removeWishlistItem() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { itemId } = this.body ?? {};
-    customerWishlist = customerWishlist.filter((w) => w.id !== itemId);
-
-    return this.json({
-      success: true,
-      message: "Item removed from your wishlist.",
-      wishlistCount: customerWishlist.length
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const id = number(
+        String(this.body.itemId || "").replace("WISH-", ""),
+        "Wishlist ID",
+        { integer: true, min: 1 },
+      );
+      const db = await database();
+      const result = await db.query(
+        "DELETE FROM wishlist_items WHERE id=? AND customer_id=?",
+        [id, row.id],
+      );
+      if (!result.affectedRows) fail("Wishlist item not found.", 404);
+      const [{ count }] = await db.query(
+        "SELECT COUNT(*) AS count FROM wishlist_items WHERE customer_id=?",
+        [row.id],
+      );
+      return { message: "Item removed.", wishlistCount: count };
     });
   }
-
-  /**
-   * API: Redeem Loyalty Points for Discount Voucher
-   */
+  async addWishlistItem() {
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const db = await database();
+      const [product] = await db.query(
+        "SELECT id FROM products WHERE sku=? AND is_active=1",
+        [this.body.productId],
+      );
+      if (!product) fail("Product not found.", 404);
+      await db.query(
+        "INSERT IGNORE INTO wishlist_items(customer_id,product_id) VALUES (?,?)",
+        [row.id, product.id],
+      );
+      return { message: "Added to wishlist." };
+    });
+  }
   async redeemPoints() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { pointsToRedeem } = this.body ?? {};
-    const pts = parseInt(pointsToRedeem, 10) || 500;
-
-    if (customer.points < pts) {
-      return this.json({ success: false, error: `Insufficient points. You currently have ${customer.points} points.` }, 400);
-    }
-
-    customer.points -= pts;
-    const generatedVoucherCode = `REDEEM${pts}-${Math.floor(100 + Math.random() * 900)}`;
-
-    const newCoupon = {
-      code: generatedVoucherCode,
-      title: `Rs ${pts}.00 Instant Cash Discount`,
-      discount: `Rs ${pts}.00 OFF`,
-      minSpend: `Min spend Rs ${(pts * 2).toLocaleString()}`,
-      validTill: "Valid for 30 days",
-      type: "Points Redemption",
-      badge: "Redeemed",
-      badgeClass: "badge-purple"
-    };
-
-    customerCoupons.unshift(newCoupon);
-
-    return this.json({
-      success: true,
-      message: `Successfully redeemed ${pts} points for a Rs ${pts}.00 discount voucher!`,
-      newBalance: customer.points,
-      coupon: newCoupon
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const pts = number(this.body.pointsToRedeem, "Points", {
+        integer: true,
+        min: 100,
+        max: 1000000,
+      });
+      return transaction(async (db) => {
+        const result = await db.query(
+          "UPDATE customers SET points=points-? WHERE id=? AND points>=?",
+          [pts, row.id, pts],
+        );
+        if (!result.affectedRows) fail("Insufficient points.", 400);
+        const code = `REDEEM-${randomUUID().slice(0, 8).toUpperCase()}`;
+        await db.query(
+          "INSERT INTO coupons(code,customer_id,title,discount_type,discount_value,min_spend,badge,valid_until,redemption_limit) VALUES (?,?,?,'fixed',?,?, 'Redeemed',DATE_ADD(CURRENT_DATE,INTERVAL 30 DAY),1)",
+          [code, row.id, `${money(pts)} Reward Voucher`, pts, pts * 2],
+        );
+        await db.query(
+          "INSERT INTO reward_transactions(customer_id,amount,reason) VALUES (?,?,?)",
+          [row.id, -pts, `Redeemed ${code}`],
+        );
+        const [customer] = await db.query(
+          "SELECT points FROM customers WHERE id=?",
+          [row.id],
+        );
+        const [coupon] = await db.query("SELECT * FROM coupons WHERE code=?", [
+          code,
+        ]);
+        return {
+          message: "Reward voucher created.",
+          newBalance: customer.points,
+          coupon: couponView(coupon),
+        };
+      });
     });
   }
-
-  /**
-   * API: Submit Return / Exchange Request
-   */
   async submitReturn() {
-    const customer = this.getAuthenticatedCustomer();
-    if (!customer) return this.json({ success: false, error: "Unauthorized" }, 401);
-
-    const { orderId, reason, comments, actionType } = this.body ?? {};
-    if (!orderId || !reason) {
-      return this.json({ success: false, error: "Order ID and return reason are required." }, 422);
-    }
-
-    return this.json({
-      success: true,
-      message: `Your ${actionType || "Return / Exchange"} request for Order ${orderId} has been submitted! Our customer care team will contact you on WhatsApp within 2 hours.`,
-      ticketId: `RET-${Math.floor(1000 + Math.random() * 9000)}`
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const b = this.body ?? {};
+      const reason = required(b.reason, "Reason");
+      const actionType = String(b.actionType || "return").toLowerCase();
+      if (!["return", "exchange"].includes(actionType))
+        fail("Invalid return action.");
+      return transaction(async (db) => {
+        const settings = await settingsFor(db);
+        const [order] = await db.query(
+          "SELECT * FROM orders WHERE order_number=? AND customer_id=? FOR UPDATE",
+          [String(b.orderId || "").replace("#", ""), row.id],
+        );
+        if (!order) fail("Order not found.", 404);
+        if (
+          order.status !== "delivered" ||
+          !order.delivered_at ||
+          Date.now() - new Date(order.delivered_at).getTime() >
+            Number(settings.returnDays ?? 7) * 86400000
+        )
+          fail(
+            "Returns require a delivered order within the configured return period.",
+          );
+        const [existing] = await db.query(
+          "SELECT id FROM return_requests WHERE order_id=? AND status IN ('open','approved','completed')",
+          [order.id],
+        );
+        if (existing) fail("A return already exists for this order.", 409);
+        const ticketId = `RET-${randomUUID().slice(0, 8)}`;
+        await db.query(
+          "INSERT INTO return_requests(ticket,order_id,customer_id,action_type,reason,comments) VALUES (?,?,?,?,?,?)",
+          [
+            ticketId,
+            order.id,
+            row.id,
+            actionType,
+            reason,
+            String(b.comments || "").slice(0, 4000),
+          ],
+        );
+        return { message: "Your request has been saved for review.", ticketId };
+      });
     });
   }
-
-  /**
-   * Helper for HTTP redirection
-   */
-  redirect(url, status = 302) {
-    const response = this.context.response;
-    if (response && !response.writableEnded) {
-      const locals = response.locals;
-      if (locals?.finishSession) {
-        locals.finishSession();
-        locals.finishSession = null;
-      }
-      const headers = { ...(response.baseHeaders ?? {}), Location: url };
-      if (locals?.cookies?.length) {
-        headers["set-cookie"] = locals.cookies;
-      }
-      response.writeHead(status, headers);
-      return response.end();
-    }
+  async tickets() {
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const db = await database();
+      const tickets = await db.query(
+        "SELECT * FROM support_tickets WHERE customer_id=? ORDER BY updated_at DESC",
+        [row.id],
+      );
+      const messages = await db.query(
+        "SELECT m.ticket_id,m.actor,m.message,m.created_at FROM ticket_messages m JOIN support_tickets t ON t.id=m.ticket_id WHERE t.customer_id=? ORDER BY m.id",
+        [row.id],
+      );
+      return {
+        tickets: tickets.map((t) => ({
+          ...t,
+          messages: messages.filter((m) => m.ticket_id === t.id),
+        })),
+      };
+    });
+  }
+  async saveTicket() {
+    return this.api(async () => {
+      const row = await this.customerRecord();
+      const b = this.body ?? {};
+      const db = await database();
+      if (b.id) {
+        const [ticket] = await db.query(
+          "SELECT id FROM support_tickets WHERE id=? AND customer_id=?",
+          [b.id, row.id],
+        );
+        if (!ticket) fail("Ticket not found.", 404);
+        if (b.status === "closed")
+          await db.query(
+            "UPDATE support_tickets SET status='closed' WHERE id=?",
+            [ticket.id],
+          );
+        else
+          await db.query(
+            "INSERT INTO ticket_messages(ticket_id,actor,message) VALUES (?,?,?)",
+            [ticket.id, row.name, required(b.message, "Message", 4000)],
+          );
+      } else
+        await db.query(
+          "INSERT INTO support_tickets(customer_id,subject,message) VALUES (?,?,?)",
+          [
+            row.id,
+            required(b.subject, "Subject"),
+            required(b.message, "Message", 4000),
+          ],
+        );
+      return { message: "Support request saved." };
+    });
   }
 }

@@ -78,28 +78,17 @@ export default {
 
   security: {
     ...securityProfile(process.env.SECURITY_PROFILE ?? "standard"),
+    headers: {
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https:"]
+    },
     appKey: process.env.APP_KEY,
     trustProxy: envBoolean("TRUST_PROXY", false),
-    bodyLimit: envNumber("REQUEST_BODY_LIMIT", profile.security.bodyLimit),
+    bodyLimit: envNumber("REQUEST_BODY_LIMIT", 6 * 1024 * 1024),
     cors: envList("CORS_ORIGINS"),
     csrf: {
-      exempt: [
-        "/sysadmin/login",
-        "/sysadmin/api/cache/clear",
-        "/sysadmin/api/settings",
-        "/customer/login",
-        "/login",
-        "/customer/demo-login",
-        "/customer/register",
-        "/register",
-        "/customer/forgot-password",
-        "/customer/api/profile",
-        "/customer/api/address/save",
-        "/customer/api/address/delete",
-        "/customer/api/wishlist/remove",
-        "/customer/api/rewards/redeem",
-        "/customer/api/order/return"
-      ]
+      exempt: []
     },
     rateLimit: {
       windowMs: envNumber("RATE_LIMIT_WINDOW_MS", 60000),

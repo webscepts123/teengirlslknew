@@ -83,6 +83,13 @@ button {
   flex-shrink: 0;
 }
 
+.tg-site-logo {
+  display: block;
+  width: 170px;
+  height: 58px;
+  object-fit: contain;
+}
+
 .tg-brand-logo-text {
   display: flex;
   align-items: baseline;

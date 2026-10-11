@@ -27,11 +27,7 @@ export async function run(db) {
       `INSERT INTO products
          (sku, title, category, price, original_price, badge, stock, allow_preorder, image, colors, sizes)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE
-         title = VALUES(title), category = VALUES(category), price = VALUES(price),
-         original_price = VALUES(original_price), badge = VALUES(badge), stock = VALUES(stock),
-         allow_preorder = VALUES(allow_preorder), image = VALUES(image),
-         colors = VALUES(colors), sizes = VALUES(sizes)`,
+       ON DUPLICATE KEY UPDATE id = id`,
       [
         product.sku, product.title, product.category, product.price, product.originalPrice ?? null,
         product.badge ?? null, product.stock, product.allowPreorder ?? false, product.image,
@@ -44,10 +40,7 @@ export async function run(db) {
     await db.query(
       `INSERT INTO coupons (code, title, discount_type, discount_value, min_spend, required_tier, badge, valid_until)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE
-         title = VALUES(title), discount_type = VALUES(discount_type), discount_value = VALUES(discount_value),
-         min_spend = VALUES(min_spend), required_tier = VALUES(required_tier), badge = VALUES(badge),
-         valid_until = VALUES(valid_until)`,
+       ON DUPLICATE KEY UPDATE id = id`,
       [
         coupon.code, coupon.title, coupon.type, coupon.value, coupon.minSpend, coupon.tier ?? null,
         coupon.badge, coupon.validDays ? daysFromNow(coupon.validDays) : null

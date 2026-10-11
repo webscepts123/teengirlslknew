@@ -1,5 +1,6 @@
 html lang="en"
   head
+    link rel="icon" type="image/png" href="/public/favicon.png"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="robots" content="noindex, nofollow"
@@ -13,7 +14,8 @@ html lang="en"
     main.admin-layout
       div.admin-login-card
         div.admin-header
-          div.admin-brand-icon "⚡"
+          a href="/" aria-label="Teengirls.lk home"
+            img.admin-site-logo src="/public/images/brand/teengirls-logo-wide.png" alt="Teengirls.lk" width="170" height="76"
           div.admin-badge
             span.admin-live-dot
             span "SysAdmin Console"

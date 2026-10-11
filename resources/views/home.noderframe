@@ -1,5 +1,6 @@
 html lang="en"
   head
+    link rel="icon" type="image/png" href="/public/favicon.png"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="robots" content="index, follow"
@@ -10,104 +11,468 @@ html lang="en"
     link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
     link rel="stylesheet" href="/public/home.css"
+    link rel="stylesheet" href="/public/surprise-box.css"
+    link rel="stylesheet" href="/public/bidding.css"
+    link rel="stylesheet" href="/public/feature-controls.css"
   body.tgl-home
-    header.tgl-nav
-      div.tgl-container.tgl-nav-inner
-        a.tgl-logo href="/"
-          span.tgl-logo-icon
-            span.fa-solid.fa-wand-magic-sparkles
-          span "TeenGirlsLK"
-        nav.tgl-nav-links aria-label="Main"
-          a href="#categories" "Shop"
-          a href="#new-arrivals" "New Arrivals"
-          a href="#perks" "Why Us"
-        div.tgl-nav-actions
-          if customer
-            a.tgl-btn.tgl-btn-ghost href="/customer/wishlist" aria-label="Wishlist"
-              span.fa-regular.fa-heart
-            a.tgl-btn.tgl-btn-primary href="/customer/dashboard"
-              span.fa-solid.fa-user
-              span "My Account"
-          else
-            a.tgl-btn.tgl-btn-ghost href="/login" "Sign in"
-            a.tgl-btn.tgl-btn-primary href="/register" "Join free"
+    div.tgl-promo-bar
+      div.tgl-container.tgl-promo-inner
+        span.tgl-promo-left
+          span
+            span.fa-solid.fa-truck-fast aria-hidden="true"
+            span " Cash on Delivery Available"
+          span
+            span.fa-solid.fa-location-dot aria-hidden="true"
+            span " Islandwide Delivery"
+          span
+            span.fa-solid.fa-rotate-left aria-hidden="true"
+            span " Easy Returns"
+        span.tgl-promo-code "Get 5% OFF on your first order | Use Code: TEENGIRLS5"
+
+    header.tgl-site-header
+      div.tgl-container
+        div.tgl-header-main
+          a.tgl-logo href="/" aria-label="TeenGirlsLK home"
+            img src="/public/images/brand/teengirls-logo-wide.png" alt="TeenGirlsLK" width="170" height="46"
+          form.tgl-search action="/shop" method="get" role="search"
+            input type="search" name="q" placeholder="Search for products, brands and more..." aria-label="Search products"
+            button type="submit" aria-label="Search"
+              span.fa-solid.fa-magnifying-glass aria-hidden="true"
+          div.tgl-header-actions
+            if customer
+              a.tgl-header-action href="/customer/dashboard"
+                span.fa-regular.fa-user aria-hidden="true"
+                span.tgl-action-label "Account"
+            else
+              a.tgl-header-action href="/login"
+                span.fa-regular.fa-user aria-hidden="true"
+                span.tgl-action-label "Account"
+            a.tgl-header-action href="/customer/wishlist"
+              span.fa-regular.fa-heart aria-hidden="true"
+              span.tgl-action-label "Wishlist"
+            button.tgl-header-action.tgl-bag-button type="button" data-open-bag="true" aria-label="Open shopping bag"
+              span.fa-solid.fa-bag-shopping aria-hidden="true"
+              span.tgl-action-label "Cart"
+      div.tgl-nav-wrap
+        div.tgl-container
+          nav.tgl-main-nav aria-label="Shop categories"
+            div.tgl-cat-menu
+              button.tgl-nav-featured type="button" data-cat-toggle="true" aria-expanded="false"
+                span.fa-solid.fa-bars aria-hidden="true"
+                span " Categories"
+                span.fa-solid.fa-chevron-down aria-hidden="true"
+              div.tgl-cat-dropdown hidden="hidden"
+                for category in categories
+                  a href="/category/{{category.slug}}" "{{category.name}}"
+            a href="/shop" "New In"
+            for category in navCategories
+              a href="/category/{{category.slug}}" "{{category.name}}"
+            a.tgl-nav-sale href="/flash-sale" "Sale"
+            a href="/track-order" "Track Order"
 
     main
-      section.tgl-hero
-        div.tgl-container.tgl-hero-inner
-          div.tgl-hero-copy
-            span.tgl-eyebrow
-              span.fa-solid.fa-bolt
-              span "Flash sale: up to 25% off"
-            h1 "Your style, your vibe."
-            p "Trendy dresses, cozy knits, cute bags and beauty must-haves, delivered islandwide across Sri Lanka."
-            div.tgl-hero-ctas
-              a.tgl-btn.tgl-btn-primary.tgl-btn-lg href="#new-arrivals"
-                span "Shop new arrivals"
-                span.fa-solid.fa-arrow-right
-              if customer
-                a.tgl-btn.tgl-btn-outline.tgl-btn-lg href="/customer/dashboard" "Go to my account"
-              else
-                a.tgl-btn.tgl-btn-outline.tgl-btn-lg href="/register" "Create an account"
-            p.tgl-hero-note
-              span.fa-solid.fa-tag
-              span "Use code TEEN10 for 10% off orders over Rs. 2,500"
-          div.tgl-hero-art
-            img src="/public/images/products/floral-maxi-dress.jpg" alt="Floral tiered smocked mini dress" width="420" height="520"
-
-      section.tgl-section id="categories"
+      section.tgl-hero-section
         div.tgl-container
-          div.tgl-section-head
-            h2 "Shop by category"
-          div.tgl-category-grid
-            for category in categories
-              a.tgl-category href="#new-arrivals"
-                span.tgl-category-icon
-                  span.fa-solid class="{{category.icon}}"
-                span "{{category.name}}"
+          div.tgl-hero data-slider="hero"
+            button.tgl-arrow.tgl-arrow-prev type="button" data-slider-prev="true" aria-label="Previous slide"
+              span.fa-solid.fa-chevron-left aria-hidden="true"
+            button.tgl-arrow.tgl-arrow-next type="button" data-slider-next="true" aria-label="Next slide"
+              span.fa-solid.fa-chevron-right aria-hidden="true"
+            div.tgl-hero-track
+              div.tgl-hero-slide.is-active data-slide="true"
+                div.tgl-hero-copy
+                  span.tgl-eyebrow "NEW ARRIVALS"
+                  h1
+                    span.tgl-line "Confidence"
+                    span.tgl-accent.tgl-line "Looks Good"
+                    span " On You ♡"
+                  p "Trendy fits for every version of you. Stay stylish. Stay you."
+                  a.tgl-btn.tgl-btn-primary.tgl-btn-lg href="#new-arrivals" "SHOP NOW"
+                div.tgl-hero-art
+                  img src="/public/images/nethmi-welcome-banner.jpg" alt="Friends shopping with a teengirls.lk bag" width="1376" height="768"
+                div.tgl-hero-sticker role="img" aria-label="Up to 50 percent off"
+                  span "UP TO"
+                  strong "50%"
+                  span "OFF"
+              div.tgl-hero-slide data-slide="true"
+                div.tgl-hero-copy
+                  span.tgl-eyebrow "SPRING DROP"
+                  h1
+                    span.tgl-line "Fresh Florals"
+                    span.tgl-accent.tgl-line "Made For You"
+                    span " ♡"
+                  p "Pretty dresses and cute extras, delivered islandwide."
+                  a.tgl-btn.tgl-btn-primary.tgl-btn-lg href="/shop?category=Dresses#new-arrivals" "SHOP DRESSES"
+                div.tgl-hero-art
+                  img src="/public/images/new-arrivals-promo.jpg" alt="Model wearing a floral dress" width="1376" height="768" loading="lazy"
+                div.tgl-hero-sticker role="img" aria-label="Good vibes only"
+                  span "good"
+                  strong "vibes"
+                  span "only"
+            div.tgl-hero-chips
+              span
+                span.fa-solid.fa-box-open aria-hidden="true"
+                span " Cash on Delivery"
+              span
+                span.fa-solid.fa-truck-fast aria-hidden="true"
+                span " Islandwide Delivery"
+              span
+                span.fa-solid.fa-rotate-left aria-hidden="true"
+                span " Easy Returns"
+              span
+                span.fa-solid.fa-lock aria-hidden="true"
+                span " Secure Payments"
 
-      section.tgl-section.tgl-section-tint id="new-arrivals"
-        div.tgl-container
-          div.tgl-section-head
-            h2 "New arrivals"
-            p "Fresh drops picked for you this week."
-          div.tgl-product-grid
-            for product in products
-              article.tgl-product
-                div.tgl-product-media
-                  img src="{{product.image}}" alt="{{product.title}}" loading="lazy" width="300" height="360"
-                  if product.badge
-                    span.tgl-product-badge "{{product.badge}}"
-                div.tgl-product-body
-                  span.tgl-product-cat "{{product.category}}"
-                  h3 "{{product.title}}"
-                  div.tgl-product-price
-                    strong "{{product.priceLabel}}"
-                    if product.originalPriceLabel
-                      span.tgl-price-old "{{product.originalPriceLabel}}"
-
-      section.tgl-section id="perks"
+      section.tgl-perks aria-label="Shopping benefits"
         div.tgl-container.tgl-perk-grid
           div.tgl-perk
-            span.fa-solid.fa-truck-fast
-            h3 "Islandwide delivery"
-            p "Free courier delivery on orders over Rs. 3,500."
+            span.fa-solid.fa-box-open aria-hidden="true"
+            div
+              h3 "COD Available"
+              p "Pay when you receive"
           div.tgl-perk
-            span.fa-solid.fa-rotate-left
-            h3 "Easy returns"
-            p "Changed your mind? Return within 7 days."
+            span.fa-solid.fa-truck-fast aria-hidden="true"
+            div
+              h3 "Islandwide Delivery"
+              p "Fast & reliable delivery"
           div.tgl-perk
-            span.fa-solid.fa-crown
-            h3 "Rewards club"
-            p "Earn points on every order and unlock VIP perks."
+            span.fa-solid.fa-rotate-left aria-hidden="true"
+            div
+              h3 "Easy Returns"
+              p "Hassle free returns"
           div.tgl-perk
-            span.fa-solid.fa-lock
-            h3 "Secure checkout"
-            p "Cash on delivery, cards and bank transfer."
+            span.fa-solid.fa-lock aria-hidden="true"
+            div
+              h3 "Secure Payments"
+              p "100% secure checkout"
+
+      section.tgl-section
+        div.tgl-container.tgl-two-col
+          div.tgl-card id="categories"
+            div.tgl-card-head
+              h2 "Shop By Category"
+              a.tgl-see-all href="/shop" "See All"
+            div.tgl-category-grid
+              for category in categories
+                a.tgl-category href="/category/{{category.slug}}"
+                  span.tgl-category-img
+                    if category.image
+                      img src="{{category.image}}" alt="" loading="lazy" width="96" height="96"
+                    else
+                      span.fa-solid class="{{category.icon}}" aria-hidden="true"
+                  span.tgl-category-name "{{category.name}}"
+              a.tgl-category.tgl-category-sale href="/flash-sale"
+                span.tgl-category-img
+                  span "Sale"
+                span.tgl-category-name "Up to 50% off"
+          div.tgl-flash-card id="flash-sale"
+            div.tgl-flash-copy
+              h2 "Flash Sale"
+              p "Limited time offer"
+              strong.tgl-flash-off
+                span "30%"
+                span " OFF"
+              div.tgl-countdown data-countdown="true"
+                div
+                  strong data-cd="h" "02"
+                  span "HRS"
+                div
+                  strong data-cd="m" "45"
+                  span "MINS"
+                div
+                  strong data-cd="s" "18"
+                  span "SECS"
+              a.tgl-btn.tgl-btn-primary href="/shop#new-arrivals" "SHOP NOW"
+            div.tgl-flash-art aria-hidden="true"
+              img src="/public/images/new-arrivals-promo.jpg" alt="" width="440" height="440" loading="lazy"
+
+      section.tgl-section id="new-arrivals"
+        div.tgl-container.tgl-two-col.tgl-two-col-wide
+          div.tgl-card
+            div.tgl-card-head
+              h2 "New Arrivals"
+              a.tgl-see-all href="/shop" "See All"
+            div.tgl-product-grid
+              for product in products
+                a.tgl-product href="/product/{{product.slug}}" aria-label="View {{product.title}}"
+                  div.tgl-product-media
+                    img src="{{product.image}}" alt="{{product.title}}" loading="lazy" width="300" height="360"
+                    span.tgl-product-badge "NEW"
+                    span.tgl-product-heart aria-hidden="true"
+                      span.fa-regular.fa-heart aria-hidden="true"
+                  div.tgl-product-body
+                    h3 "{{product.title}}"
+                    div.tgl-product-price
+                      strong "{{product.priceLabel}}"
+                      if product.originalPriceLabel
+                        span.tgl-price-old "{{product.originalPriceLabel}}"
+          div.tgl-offer-stack
+            div.tgl-card.tgl-surprise-panel id="surprise-box" role="complementary" aria-labelledby="surprise-heading"
+              div.tgl-card-head
+                h2#surprise-heading "Surprise Box"
+                span.tgl-surprise-tag "JUST FOR YOU"
+              if surpriseBox
+                div data-surprise-panel="{{surpriseBox.id}}"
+                  p.tgl-surprise-intro "A little mystery. A lovely surprise."
+                  button.tgl-gift-stage type="button" data-gift-toggle="true" aria-label="Open a preview of the Surprise Box" aria-expanded="false"
+                    span.tgl-gift-spark.tgl-gift-spark-one.fa-solid.fa-star aria-hidden="true"
+                    span.tgl-gift-spark.tgl-gift-spark-two.fa-regular.fa-star aria-hidden="true"
+                    span.tgl-gift-heart.fa-regular.fa-heart aria-hidden="true"
+                    span.tgl-gift-bow aria-hidden="true"
+                    span.tgl-gift-lid aria-hidden="true"
+                    span.tgl-gift-base aria-hidden="true"
+                    span.tgl-gift-note "Made for you"
+                  p.tgl-surprise-hint data-gift-hint="true" "Tap the box for a little magic"
+                  h3.tgl-surprise-name "{{surpriseBox.name}}"
+                  div.tgl-surprise-cost
+                    span.fa-solid.fa-star aria-hidden="true"
+                    strong "{{surpriseBox.points}}"
+                    span "points"
+                  p.tgl-surprise-description "{{surpriseBox.description}}"
+                  div.tgl-surprise-perks
+                    span
+                      span.fa-solid.fa-truck-fast aria-hidden="true"
+                      span " Free delivery"
+                    span
+                      span.fa-regular.fa-heart aria-hidden="true"
+                      span " One per customer"
+                  div.tgl-surprise-balance data-surprise-balance="true" aria-live="polite" "Use your reward points to claim a mystery gift."
+                  button.tgl-btn.tgl-btn-primary.tgl-surprise-claim type="button" data-surprise-claim="true" "Claim my surprise"
+                  p.tgl-surprise-status data-surprise-message="true" role="status"
+                  div.tgl-surprise-details
+                    strong "How does it work?"
+                    ol
+                      li "Sign in and check your reward points."
+                      li "Choose your delivery address and confirm your claim."
+                      li "Your surprise arrives with free delivery. Contents stay secret!"
+              else
+                p.tgl-surprise-intro "Our next surprise is on its way. Check back soon!"
+
+            div.tgl-card.tgl-bidding-panel id="bid-and-win" data-bidding-panel="true" aria-labelledby="bidding-heading"
+              div.tgl-card-head
+                h2#bidding-heading "Bid & Win"
+                span.tgl-surprise-tag "1 POINT / BID"
+              p data-bidding-empty="true" "Loading the latest bidding round..."
+              div data-bidding-body="true" hidden="hidden"
+                img.tgl-bidding-photo src="/public/images/placeholder.svg" alt="Bidding prize" width="300" height="220" loading="lazy"
+                h3 data-bid-title="true" "Your next favourite"
+                div.tgl-bid-count
+                  strong "Round progress"
+                  span data-bid-progress="true" "0 bids"
+                div.tgl-bid-progressbar role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Progress towards the bidding target"
+                  span
+                p data-bid-participants="true"
+                p data-my-bids="true"
+                p data-bid-outcome="true"
+                button.tgl-btn.tgl-btn-primary type="button" data-place-bid="true" "Sign in to bid"
+                button.tgl-btn.tgl-btn-primary type="button" data-claim-prize="true" hidden="hidden" "Claim my free prize"
+                button.tgl-bid-cancel type="button" data-cancel-bids="true" hidden="hidden" "Cancel my bids & refund points"
+                p data-bid-deadline="true"
+                p data-bidding-message="true" role="status"
+
+      section.tgl-section
+        div.tgl-container.tgl-promo-trio
+          div.tgl-promo-card
+            span.fa-solid.fa-graduation-cap aria-hidden="true"
+            div
+              h3 "Student Discount"
+              strong "Extra 10% Off"
+              p "Verify your student ID"
+              a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/register" "SHOP NOW"
+          div.tgl-promo-card
+            span.fa-solid.fa-truck-fast aria-hidden="true"
+            div
+              h3 "Free Delivery"
+              strong "For orders over Rs. 5,000"
+              p "Islandwide delivery"
+              a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/shop" "SHOP NOW"
+          div.tgl-promo-card
+            span.fa-solid.fa-gift aria-hidden="true"
+            div
+              h3 "Refer & Earn"
+              strong "Earn up to Rs. 1,500"
+              p "Invite your friends"
+              a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/customer/dashboard" "SHOP NOW"
+
+      section.tgl-section id="offer-builder"
+        div.tgl-container
+          div.tgl-card.tgl-offer data-offers="{{offerJson}}"
+            div.tgl-card-head
+              h2 "Pick Your Offer"
+              span.tgl-surprise-tag "2 STEPS"
+            div.tgl-offer-grid
+              div.tgl-offer-step
+                h3
+                  span.tgl-offer-num "2"
+                  span " Select Promotion Type"
+                p.tgl-offer-sub "Select the best offer type for your product"
+                div.tgl-offer-types role="radiogroup" aria-label="Promotion type"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="combo"
+                    span.fa-solid.fa-gift aria-hidden="true"
+                    strong "Combo Pack"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="bogo"
+                    span.fa-solid.fa-tags aria-hidden="true"
+                    strong "Buy One Get One Free"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="flash"
+                    span.fa-solid.fa-bolt aria-hidden="true"
+                    strong "Flash Sale"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="gift"
+                    span.fa-solid.fa-gift aria-hidden="true"
+                    strong "Free Gift"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="three"
+                    span.fa-solid.fa-layer-group aria-hidden="true"
+                    strong "Any Three"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="shipping"
+                    span.fa-solid.fa-truck-fast aria-hidden="true"
+                    strong "Free Shipping"
+                  button.tgl-offer-type type="button" role="radio" aria-checked="false" data-offer-type="surprise"
+                    span.fa-solid.fa-box-open aria-hidden="true"
+                    strong "Surprise Box"
+                p.tgl-offer-rule data-offer-rule="true" aria-live="polite" "Pick the promotion type you want."
+              div.tgl-offer-step
+                h3
+                  span.tgl-offer-num "3"
+                  span " Select Product (Only One)"
+                div.tgl-offer-picker hidden="hidden" data-offer-picker="true"
+                  button.tgl-offer-nav type="button" data-offer-prev="true" aria-label="Previous product" "‹"
+                  div.tgl-offer-product
+                    img data-offer-image="true" src="" alt="" width="200" height="250"
+                    div.tgl-offer-info
+                      span.tgl-offer-cat data-offer-cat="true"
+                      h3.tgl-offer-title data-offer-title="true"
+                      p.tgl-offer-price data-offer-price="true"
+                      p.tgl-offer-stock data-offer-stock="true"
+                  button.tgl-offer-nav type="button" data-offer-next="true" aria-label="Next product" "›"
+                p.tgl-offer-count data-offer-count="true"
+                div.tgl-offer-partners data-offer-partners="true" hidden="hidden"
+                div.tgl-offer-summary data-offer-summary="true" aria-live="polite"
+                button.tgl-btn.tgl-btn-primary.tgl-offer-go type="button" data-offer-select="true" disabled="disabled" "Select This Product"
+                p.tgl-offer-msg data-offer-message="true" role="status"
+
+      section.tgl-section
+        div.tgl-container
+          div.tgl-card.tgl-social
+            div.tgl-social-intro
+              h2 "#teengirlslk"
+              p "Follow us on Instagram & TikTok"
+              a.tgl-btn.tgl-btn-outline href="https://www.instagram.com/teengirls.lk/" target="_blank" rel="noopener noreferrer" "Follow Us"
+            div.tgl-insta-grid
+              for product in products
+                a.tgl-insta href="/product/{{product.slug}}" aria-label="{{product.title}}"
+                  img src="{{product.image}}" alt="" loading="lazy" width="160" height="160"
+                  span.fa-solid.fa-bag-shopping aria-hidden="true"
+
+      section.tgl-section
+        div.tgl-container
+          div.tgl-card.tgl-testimonials data-slider="reviews"
+            div.tgl-card-head
+              h2 "What Our Girls Say ♡"
+              div.tgl-slider-buttons
+                button.tgl-arrow-small type="button" data-slider-prev="true" aria-label="Previous reviews"
+                  span.fa-solid.fa-chevron-left aria-hidden="true"
+                button.tgl-arrow-small type="button" data-slider-next="true" aria-label="Next reviews"
+                  span.fa-solid.fa-chevron-right aria-hidden="true"
+            div.tgl-review-track
+              div.tgl-review
+                span.tgl-stars aria-hidden="true" "★★★★★"
+                p "Love the quality and the fits! Fast delivery too. Will shop again!"
+                div.tgl-review-by
+                  img src="/public/images/avatars/avatar-1.jpg" alt="" width="40" height="40" loading="lazy"
+                  strong "Nethmi P."
+              div.tgl-review
+                span.tgl-stars aria-hidden="true" "★★★★★"
+                p "So many trendy options! The dress fits perfectly and it arrived in two days."
+                div.tgl-review-by
+                  img src="/public/images/avatars/avatar-2.jpg" alt="" width="40" height="40" loading="lazy"
+                  strong "Sanduni K."
+              div.tgl-review
+                span.tgl-stars aria-hidden="true" "★★★★★"
+                p "Cash on delivery makes it so easy. Cute packaging and great prices!"
+                div.tgl-review-by
+                  img src="/public/images/avatars/avatar-3.jpg" alt="" width="40" height="40" loading="lazy"
+                  strong "Dilini R."
+
+      section.tgl-section
+        div.tgl-container
+          div.tgl-newsletter
+            div.tgl-news-copy
+              span.fa-regular.fa-envelope aria-hidden="true"
+              div
+                h2 "Be the first to know"
+                p "Subscribe for exclusive offers, new arrivals and style inspiration."
+            form.tgl-news-form data-newsletter="true"
+              input type="email" name="email" placeholder="Enter your email address" aria-label="Email address" required="required"
+              button.tgl-btn.tgl-btn-primary type="submit" "Subscribe"
+              p.tgl-news-msg role="status"
+            ul.tgl-news-icons
+              li
+                span.fa-solid.fa-tags aria-hidden="true"
+                span "Exclusive Offers"
+              li
+                span.fa-solid.fa-shirt aria-hidden="true"
+                span "New Arrivals"
+              li
+                span.fa-solid.fa-wand-magic-sparkles aria-hidden="true"
+                span "Style Inspiration"
+              li
+                span.fa-solid.fa-gift aria-hidden="true"
+                span "Special Discounts"
 
     footer.tgl-footer
-      div.tgl-container.tgl-footer-inner
-        span "© {{year}} TeenGirlsLK. Made with love in Sri Lanka."
-        nav aria-label="Footer"
-          a href="/login" "Customer login"
-          a href="/customer/support" "Support"
+      div.tgl-container
+        div.tgl-footer-main
+          div.tgl-footer-brand
+            a.tgl-logo href="/" aria-label="TeenGirlsLK home"
+              img src="/public/images/brand/teengirls-logo-wide.png" alt="TeenGirlsLK" width="170" height="46"
+            p "Feel your style ♡"
+            p "Trendy fashion for teen girls in Sri Lanka."
+            div.tgl-footer-socials
+              a href="https://www.instagram.com/teengirls.lk/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                span.fa-brands.fa-instagram aria-hidden="true"
+              a href="https://www.tiktok.com/@teengirls.lk" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+                span.fa-brands.fa-tiktok aria-hidden="true"
+              a href="https://www.facebook.com/teengirls.lk" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                span.fa-brands.fa-facebook-f aria-hidden="true"
+          div.tgl-footer-column
+            h2 "Shop"
+            a href="/shop" "New In"
+            for category in navCategories
+              a href="/category/{{category.slug}}" "{{category.name}}"
+            a href="/flash-sale" "Sale"
+          div.tgl-footer-column
+            h2 "Customer Service"
+            a href="/track-order" "Track Order"
+            a href="/faq" "FAQ"
+            a href="/customer/support" "Returns & Exchanges"
+            a href="/delivery-info" "Delivery Info"
+          div.tgl-footer-column
+            h2 "Information"
+            a href="/register" "Join the Club"
+            a href="/login" "Sign In"
+            a href="/customer/wishlist" "Wishlist"
+            a href="/customer/support" "Contact"
+          div.tgl-footer-column
+            h2 "Contact Us"
+            span
+              span.fa-solid.fa-phone aria-hidden="true"
+              span " 077 123 4567"
+            span
+              span.fa-regular.fa-envelope aria-hidden="true"
+              span " hello@teengirls.lk"
+            span
+              span.fa-solid.fa-location-dot aria-hidden="true"
+              span " Colombo, Sri Lanka"
+        div.tgl-footer-bottom
+          span "© {{year}} Teengirls.lk | All rights reserved."
+          div.tgl-pay-icons aria-label="Accepted payments"
+            span.fa-brands.fa-cc-visa aria-hidden="true"
+            span.fa-brands.fa-cc-mastercard aria-hidden="true"
+            span.fa-brands.fa-cc-amex aria-hidden="true"
+            span.fa-solid.fa-money-bill-wave aria-hidden="true"
+
+    input type="hidden" name="_csrf" value="{{csrfToken}}"
+    script type="module" src="/public/storefront.js"
+    script type="module" src="/public/offer-builder.js"
+    script src="/public/home-ui.js" defer="defer"
+    script type="module" src="/public/surprise-box.js"
+    script type="module" src="/public/bidding.js"

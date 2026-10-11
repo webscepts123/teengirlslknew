@@ -120,6 +120,14 @@ body.admin-body {
   box-shadow: 0 10px 25px rgba(124, 92, 255, 0.4);
 }
 
+.admin-site-logo {
+  display: block;
+  width: 170px;
+  height: 76px;
+  object-fit: contain;
+  margin: 0 auto 1rem;
+}
+
 .admin-badge {
   display: inline-flex;
   align-items: center;

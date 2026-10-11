@@ -1,45 +1,121 @@
 import { Controller } from "noderyx-framework";
 
-// Storefront highlights shown on the home page. Mirrors database/seeders/02_CatalogSeeder.js
-// until the controllers read from the products table.
-const featuredProducts = [
-  { sku: "PROD-304", title: "Y2K Aesthetic Chunky Knit Cardigan", category: "Outerwear & Knits", price: 3450, originalPrice: 4200, badge: "18% OFF", image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=600&q=80" },
-  { sku: "PROD-101", title: "Floral Tiered Smocked Mini Dress", category: "Dresses", price: 3499, image: "/public/images/products/floral-maxi-dress.jpg" },
-  { sku: "PROD-309", title: "Pleated Pastel Tennis Mini Skirt", category: "Skirts & Bottoms", price: 2290, originalPrice: 2800, badge: "Flash Sale", image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=600&q=80" },
-  { sku: "PROD-103", title: "Pastel Pink Quilted Crossbody Bag", category: "Bags & Totes", price: 2500, image: "/public/images/products/pink-crossbody-bag.jpg" },
-  { sku: "PROD-412", title: "Layered Dainty Butterfly Pendant Necklace", category: "Jewelry & Accessories", price: 950, originalPrice: 1200, badge: "Best Seller", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80" },
-  { sku: "PROD-104", title: "Velvet Lip Tint Trio Set", category: "Beauty", price: 1999, image: "/public/images/products/lip-tint-trio.jpg" },
-  { sku: "PROD-105", title: "Pastel Platform Casual Sneakers", category: "Footwear", price: 1999, image: "/public/images/products/pastel-sneakers.jpg" },
-  { sku: "PROD-106", title: "Dainty Butterfly Hairpins & Clips Set", category: "Jewelry & Accessories", price: 2499, image: "/public/images/products/butterfly-hairpins.jpg" }
-];
-
-const categories = [
-  { name: "Dresses", icon: "fa-person-dress" },
-  { name: "Outerwear & Knits", icon: "fa-shirt" },
-  { name: "Bags & Totes", icon: "fa-bag-shopping" },
-  { name: "Beauty", icon: "fa-wand-magic-sparkles" },
-  { name: "Footwear", icon: "fa-shoe-prints" },
-  { name: "Jewelry & Accessories", icon: "fa-gem" }
-];
-
-const formatLkr = (amount) => `Rs. ${amount.toLocaleString("en-LK")}`;
+import { settingsFor } from "../Services/settings.js";
+import { database, money } from "../Services/database.js";
+import { currentSurprise } from '../Services/surprise-box.js';
 
 export class HomeController extends Controller {
   async index() {
     const customer = this.context.session?.customer ?? null;
+    const db = await database();
+    const settings = await settingsFor(db);
+    const categories = await db.query(
+      "SELECT name,slug,icon FROM categories WHERE is_active=1 AND parent_id IS NULL ORDER BY display_order,id",
+    );
+    const values = [];
+    let where = "is_active=1";
+    if (this.query.category) {
+      const descendants = await db.query(`WITH RECURSIVE selected AS (
+        SELECT id,name FROM categories WHERE name=? AND is_active=1
+        UNION ALL SELECT c.id,c.name FROM categories c JOIN selected s ON c.parent_id=s.id WHERE c.is_active=1
+      ) SELECT name FROM selected`, [String(this.query.category)]);
+      const names = descendants.length ? descendants.map(c => c.name) : [String(this.query.category)];
+      where += " AND category IN (" + names.map(() => '?').join(',') + ")";
+      values.push(...names);
+    }
+    if (this.query.q) {
+      where += " AND (title LIKE ? OR sku LIKE ?)";
+      values.push(
+        "%" + String(this.query.q).slice(0, 100) + "%",
+        "%" + String(this.query.q).slice(0, 100) + "%",
+      );
+    }
+    const products = await db.query(
+      "SELECT * FROM products WHERE " +
+        where +
+        " ORDER BY created_at DESC LIMIT 24",
+      values,
+    );
+
+    const bestSellers = await db.query(
+      "SELECT p.sku,p.title,p.price,p.image,(SELECT ROUND(AVG(r.rating),1) FROM product_reviews r WHERE r.product_id=p.id AND r.is_approved=1) AS rating FROM products p WHERE p.is_active=1 ORDER BY (p.badge='Best Seller') DESC,p.stock DESC,p.id LIMIT 4",
+    );
+    const categoryImages = {};
+    for (const product of products)
+      categoryImages[product.category] ??= product.image;
+
+    const now = Date.now();
+    const live = (data) =>
+      (!data.startsAt || Date.parse(data.startsAt) <= now) &&
+      (!data.endsAt || Date.parse(data.endsAt) > now);
+    const records = await db.query(
+      "SELECT kind,data FROM feature_records WHERE kind IN ('promotions','flash-sale') AND status='active'",
+    );
+    const parsed = records.map((row) => ({
+      kind: row.kind,
+      data: typeof row.data === "string" ? JSON.parse(row.data) : row.data ?? {},
+    })).filter((row) => live(row.data));
+    const promotion = parsed.find((row) => row.kind === "promotions")?.data ?? null;
+    const flash = {};
+    for (const row of parsed)
+      if (row.kind === "flash-sale" && Number(row.data.quantity) > 0)
+        flash[row.data.productSku] = Number(row.data.salePrice);
+    const offerJson = Buffer.from(JSON.stringify({
+      freeShippingMin: 5000,
+      hasSurprise: Boolean(await currentSurprise(db)),
+      promotion: promotion && {
+        name: promotion.name,
+        percent: Number(promotion.discountPercent) || 0,
+        minSpend: Number(promotion.minSpend) || 0,
+        category: promotion.category || "",
+      },
+      products: products.map((product) => ({
+        sku: product.sku,
+        slug: String(product.sku).replace(/\//g, "-"),
+        title: product.title,
+        price: Number(product.price),
+        image: product.image,
+        category: product.category,
+        stock: Number(product.stock),
+        flashPrice: flash[product.sku] ?? null,
+      })),
+    })).toString("base64");
 
     return this.render("home", {
-      siteName: "TeenGirlsLK",
+      offerJson,
+      siteName: settings.siteName || "TeenGirlsLK",
       pageTitle: "Trendy Fashion for Teen Girls",
-      description: process.env.SITE_DESCRIPTION ?? "Trendy fashion, beauty and accessories for teen girls in Sri Lanka.",
+      description:
+        settings.description ||
+        process.env.SITE_DESCRIPTION ||
+        "Trendy fashion, beauty and accessories for teen girls in Sri Lanka.",
       customer,
-      categories,
-      products: featuredProducts.map((product) => ({
-        ...product,
-        priceLabel: formatLkr(product.price),
-        originalPriceLabel: product.originalPrice ? formatLkr(product.originalPrice) : null
+      surpriseBox:await currentSurprise(db),
+      csrfToken: this.context.csrfToken,
+      categories: categories.map((category) => ({
+        ...category,
+        categoryQuery: encodeURIComponent(category.name),
+        image: categoryImages[category.name] ?? null,
       })),
-      year: new Date().getFullYear()
+      navCategories: categories.slice(0, 5).map((category) => ({
+        name: category.name,
+        slug: category.slug,
+        categoryQuery: encodeURIComponent(category.name),
+      })),
+      bestSellers: bestSellers.map((product) => ({
+        ...product,
+        slug: String(product.sku).replace(/\//g, "-"),
+        priceLabel: money(product.price),
+      })),
+      products: products.slice(0, 8).map((product) => ({
+        ...product,
+        slug: String(product.sku).replace(/\//g, "-"),
+        priceLabel: money(product.price),
+        originalPriceLabel: product.original_price
+          ? money(product.original_price)
+          : null,
+      })),
+      year: new Date().getFullYear(),
     });
   }
 

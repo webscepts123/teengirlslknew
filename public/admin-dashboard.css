@@ -3609,6 +3609,13 @@ body.dark-theme .tgl-cat-card {
   display: block;
 }
 
+.tgl-brand-logo-img.tgl-site-logo {
+  width: 170px;
+  max-width: 100%;
+  height: 58px;
+  object-fit: contain;
+}
+
 .tgl-avatar-img {
   width: 38px !important;
   height: 38px !important;

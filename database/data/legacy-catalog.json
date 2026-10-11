@@ -1,0 +1,972 @@
+{
+  "source": "Legacy catalog backup dated 2025-02-19",
+  "categories": [
+    {
+      "key": "root-18",
+      "name": "Accessories",
+      "slug": "accessories",
+      "active": true,
+      "parent": null
+    },
+    {
+      "key": "root-19",
+      "name": "Health and Beauty",
+      "slug": "health-and-beauty",
+      "active": true,
+      "parent": null
+    },
+    {
+      "key": "root-21",
+      "name": "Jewelry & Watches",
+      "slug": "jewelry-watches",
+      "active": true,
+      "parent": null
+    },
+    {
+      "key": "root-22",
+      "name": "Bags & Shoes",
+      "slug": "bags-shoes",
+      "active": true,
+      "parent": null
+    },
+    {
+      "key": "root-24",
+      "name": "Woman Clothing",
+      "slug": "woman-clothing",
+      "active": true,
+      "parent": null
+    },
+    {
+      "key": "sub-6",
+      "name": "Hair Care",
+      "slug": "hair-care",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-7",
+      "name": "Skin Care",
+      "slug": "skin-care",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-8",
+      "name": "Hair Accessories",
+      "slug": "hair-accessories",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-9",
+      "name": "Umbrellas",
+      "slug": "umbrellas",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-10",
+      "name": "Scarp and Gloves",
+      "slug": "scarp-and-gloves",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-12",
+      "name": "Hats and Caps",
+      "slug": "hats-and-caps",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-13",
+      "name": "Belts",
+      "slug": "belts",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-15",
+      "name": "Bags",
+      "slug": "bags",
+      "active": true,
+      "parent": "root-22"
+    },
+    {
+      "key": "sub-16",
+      "name": "Shoes",
+      "slug": "shoes",
+      "active": true,
+      "parent": "root-22"
+    },
+    {
+      "key": "sub-17",
+      "name": "Bath Wear and Swimming Kit",
+      "slug": "bath-wear-and-swimming-kit",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-18",
+      "name": "Sarees",
+      "slug": "sarees",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-19",
+      "name": "Office Wear",
+      "slug": "office-wear",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-20",
+      "name": "Under Wear and Sleep Wear",
+      "slug": "under-wear-and-sleep-wear",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-21",
+      "name": "Lehenga, Salwar, Kurtha",
+      "slug": "lehenga-salwar-kurtha",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-22",
+      "name": "Party Wear",
+      "slug": "party-wear",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-23",
+      "name": "Trousers",
+      "slug": "trousers",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-24",
+      "name": "Shorts",
+      "slug": "shorts",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-25",
+      "name": "Jumpsuits and Rompers",
+      "slug": "jumpsuits-and-rompers",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-26",
+      "name": "Blouse",
+      "slug": "blouse",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-27",
+      "name": "Skirt",
+      "slug": "skirt",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-29",
+      "name": "Frock",
+      "slug": "frock",
+      "active": true,
+      "parent": "root-24"
+    },
+    {
+      "key": "sub-33",
+      "name": "Makeup",
+      "slug": "makeup",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-34",
+      "name": "Women Fragrance",
+      "slug": "women-fragrance",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-35",
+      "name": "Bath and Body",
+      "slug": "bath-and-body",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-36",
+      "name": "Nails Care",
+      "slug": "nails-care",
+      "active": true,
+      "parent": "root-19"
+    },
+    {
+      "key": "sub-37",
+      "name": "Watches",
+      "slug": "watches",
+      "active": true,
+      "parent": "root-21"
+    },
+    {
+      "key": "sub-38",
+      "name": "Sunglasses",
+      "slug": "sunglasses",
+      "active": true,
+      "parent": "root-21"
+    },
+    {
+      "key": "sub-39",
+      "name": "Bracelets",
+      "slug": "bracelets",
+      "active": true,
+      "parent": "root-18"
+    },
+    {
+      "key": "sub-40",
+      "name": "Necklaces",
+      "slug": "necklaces",
+      "active": true,
+      "parent": "root-21"
+    },
+    {
+      "key": "sub-41",
+      "name": "Rings",
+      "slug": "rings",
+      "active": true,
+      "parent": "root-21"
+    },
+    {
+      "key": "sub-42",
+      "name": "Earrings",
+      "slug": "earrings",
+      "active": true,
+      "parent": "root-21"
+    },
+    {
+      "key": "child-35",
+      "name": "Tops",
+      "slug": "tops",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-36",
+      "name": "Sleeveless",
+      "slug": "sleeveless",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-37",
+      "name": "T Shirt",
+      "slug": "t-shirt",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-38",
+      "name": "Crop Top",
+      "slug": "crop-top",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-39",
+      "name": "Jackets",
+      "slug": "jackets",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-40",
+      "name": "Sweaters and Cardigans",
+      "slug": "sweaters-and-cardigans",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-41",
+      "name": "Coats",
+      "slug": "coats",
+      "active": true,
+      "parent": "sub-26"
+    },
+    {
+      "key": "child-42",
+      "name": "Mini Shorts",
+      "slug": "mini-shorts",
+      "active": true,
+      "parent": "sub-24"
+    },
+    {
+      "key": "child-43",
+      "name": "Three Quarter",
+      "slug": "three-quarter",
+      "active": true,
+      "parent": "sub-24"
+    },
+    {
+      "key": "child-44",
+      "name": "Professional Trousers",
+      "slug": "professional-trousers",
+      "active": true,
+      "parent": "sub-23"
+    },
+    {
+      "key": "child-45",
+      "name": "Pants",
+      "slug": "pants",
+      "active": true,
+      "parent": "sub-23"
+    },
+    {
+      "key": "child-46",
+      "name": "Jeans",
+      "slug": "jeans",
+      "active": true,
+      "parent": "sub-23"
+    },
+    {
+      "key": "child-47",
+      "name": "Leggings",
+      "slug": "leggings",
+      "active": true,
+      "parent": "sub-23"
+    },
+    {
+      "key": "child-49",
+      "name": "Party Wear / Skirt",
+      "slug": "party-wear-skirt",
+      "active": true,
+      "parent": "sub-22"
+    },
+    {
+      "key": "child-50",
+      "name": "Party Wear / Blouse",
+      "slug": "party-wear-blouse",
+      "active": true,
+      "parent": "sub-22"
+    },
+    {
+      "key": "child-51",
+      "name": "Saree",
+      "slug": "saree",
+      "active": true,
+      "parent": "sub-22"
+    },
+    {
+      "key": "child-52",
+      "name": "Under Skirt",
+      "slug": "under-skirt",
+      "active": true,
+      "parent": "sub-20"
+    },
+    {
+      "key": "child-53",
+      "name": "Skinner",
+      "slug": "skinner",
+      "active": true,
+      "parent": "sub-20"
+    },
+    {
+      "key": "child-54",
+      "name": "Under Wear and Sleep Wear / Pants",
+      "slug": "under-wear-and-sleep-wear-pants",
+      "active": true,
+      "parent": "sub-20"
+    },
+    {
+      "key": "child-55",
+      "name": "Bra",
+      "slug": "bra",
+      "active": true,
+      "parent": "sub-20"
+    },
+    {
+      "key": "child-56",
+      "name": "Tight Shorts",
+      "slug": "tight-shorts",
+      "active": true,
+      "parent": "sub-20"
+    },
+    {
+      "key": "child-58",
+      "name": "Skirt and Blouse",
+      "slug": "skirt-and-blouse",
+      "active": true,
+      "parent": "sub-19"
+    },
+    {
+      "key": "child-59",
+      "name": "Office Wear / Trousers",
+      "slug": "office-wear-trousers",
+      "active": true,
+      "parent": "sub-19"
+    },
+    {
+      "key": "child-60",
+      "name": "Office Kit",
+      "slug": "office-kit",
+      "active": true,
+      "parent": "sub-19"
+    },
+    {
+      "key": "child-61",
+      "name": "Coat",
+      "slug": "coat",
+      "active": true,
+      "parent": "sub-19"
+    },
+    {
+      "key": "child-62",
+      "name": "Handlooms",
+      "slug": "handlooms",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-63",
+      "name": "Silk",
+      "slug": "silk",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-64",
+      "name": "Batik",
+      "slug": "batik",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-65",
+      "name": "Cotton",
+      "slug": "cotton",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-66",
+      "name": "Printed Saree",
+      "slug": "printed-saree",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-67",
+      "name": "Embroider Saree",
+      "slug": "embroider-saree",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-68",
+      "name": "Indian Saree",
+      "slug": "indian-saree",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-69",
+      "name": "Bridal Saree",
+      "slug": "bridal-saree",
+      "active": true,
+      "parent": "sub-18"
+    },
+    {
+      "key": "child-70",
+      "name": "Boots",
+      "slug": "boots",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-71",
+      "name": "Bouts Shoes Flat Shoes",
+      "slug": "bouts-shoes-flat-shoes",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-72",
+      "name": "Heels",
+      "slug": "heels",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-73",
+      "name": "Sandals",
+      "slug": "sandals",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-74",
+      "name": "Sneakers",
+      "slug": "sneakers",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-75",
+      "name": "Wedges",
+      "slug": "wedges",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-76",
+      "name": "Shoes Accessories",
+      "slug": "shoes-accessories",
+      "active": true,
+      "parent": "sub-16"
+    },
+    {
+      "key": "child-77",
+      "name": "Backpacks",
+      "slug": "backpacks",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-78",
+      "name": "Tote Bags",
+      "slug": "tote-bags",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-79",
+      "name": "Cross body and Shoulder Bags",
+      "slug": "cross-body-and-shoulder-bags",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-80",
+      "name": "Wallets and Coin Purses",
+      "slug": "wallets-and-coin-purses",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-81",
+      "name": "Cards Holders",
+      "slug": "cards-holders",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-82",
+      "name": "Hand Bags",
+      "slug": "hand-bags",
+      "active": true,
+      "parent": "sub-15"
+    },
+    {
+      "key": "child-83",
+      "name": "Hair Dryers",
+      "slug": "hair-dryers",
+      "active": true,
+      "parent": "sub-8"
+    },
+    {
+      "key": "child-84",
+      "name": "Removal Appliances",
+      "slug": "removal-appliances",
+      "active": true,
+      "parent": "sub-8"
+    },
+    {
+      "key": "child-85",
+      "name": "Style Appliances",
+      "slug": "style-appliances",
+      "active": true,
+      "parent": "sub-8"
+    },
+    {
+      "key": "child-86",
+      "name": "Straight Combs and Brushers",
+      "slug": "straight-combs-and-brushers",
+      "active": true,
+      "parent": "sub-8"
+    },
+    {
+      "key": "child-87",
+      "name": "Moisturizers and Creams",
+      "slug": "moisturizers-and-creams",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-88",
+      "name": "Serum and Essence",
+      "slug": "serum-and-essence",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-89",
+      "name": "Face Scrubs",
+      "slug": "face-scrubs",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-90",
+      "name": "Facial Cleansers",
+      "slug": "facial-cleansers",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-91",
+      "name": "Toner and Mists",
+      "slug": "toner-and-mists",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-92",
+      "name": "Night Cream",
+      "slug": "night-cream",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-93",
+      "name": "Facial oils",
+      "slug": "facial-oils",
+      "active": true,
+      "parent": "sub-7"
+    },
+    {
+      "key": "child-94",
+      "name": "Shampoo & Conditionals",
+      "slug": "shampoo-conditionals",
+      "active": true,
+      "parent": "sub-6"
+    },
+    {
+      "key": "child-95",
+      "name": "Hair Coloring",
+      "slug": "hair-coloring",
+      "active": true,
+      "parent": "sub-6"
+    },
+    {
+      "key": "child-96",
+      "name": "Wig and Hair Extensions and Pads",
+      "slug": "wig-and-hair-extensions-and-pads",
+      "active": true,
+      "parent": "sub-6"
+    },
+    {
+      "key": "child-97",
+      "name": "Makeup Bag and Organisers",
+      "slug": "makeup-bag-and-organisers",
+      "active": true,
+      "parent": "sub-33"
+    },
+    {
+      "key": "child-98",
+      "name": "Makeup Accessories",
+      "slug": "makeup-accessories",
+      "active": true,
+      "parent": "sub-33"
+    },
+    {
+      "key": "child-99",
+      "name": "Makeup Removers",
+      "slug": "makeup-removers",
+      "active": true,
+      "parent": "sub-33"
+    },
+    {
+      "key": "child-100",
+      "name": "Manicure kits and Accessories",
+      "slug": "manicure-kits-and-accessories",
+      "active": true,
+      "parent": "sub-33"
+    },
+    {
+      "key": "child-101",
+      "name": "Body Soaps",
+      "slug": "body-soaps",
+      "active": true,
+      "parent": "sub-35"
+    },
+    {
+      "key": "child-102",
+      "name": "Shower Gel",
+      "slug": "shower-gel",
+      "active": true,
+      "parent": "sub-35"
+    },
+    {
+      "key": "child-103",
+      "name": "Foot Care",
+      "slug": "foot-care",
+      "active": true,
+      "parent": "sub-35"
+    },
+    {
+      "key": "child-104",
+      "name": "Hand Care",
+      "slug": "hand-care",
+      "active": true,
+      "parent": "sub-35"
+    },
+    {
+      "key": "child-105",
+      "name": "Body Scrubs",
+      "slug": "body-scrubs",
+      "active": true,
+      "parent": "sub-35"
+    },
+    {
+      "key": "child-106",
+      "name": "Casual",
+      "slug": "casual",
+      "active": true,
+      "parent": "sub-37"
+    },
+    {
+      "key": "child-107",
+      "name": "Fashionable",
+      "slug": "fashionable",
+      "active": true,
+      "parent": "sub-37"
+    },
+    {
+      "key": "child-108",
+      "name": "Drop",
+      "slug": "drop",
+      "active": true,
+      "parent": "sub-42"
+    },
+    {
+      "key": "child-109",
+      "name": "normal",
+      "slug": "normal",
+      "active": true,
+      "parent": "sub-42"
+    },
+    {
+      "key": "child-110",
+      "name": "Hair Styling Appliances",
+      "slug": "hair-styling-appliances",
+      "active": true,
+      "parent": "sub-6"
+    }
+  ],
+  "products": [
+    {
+      "legacyId": 623,
+      "sku": "TG/F/001",
+      "title": "Mini Cute Dress",
+      "category": "Frock",
+      "price": 4750,
+      "originalPrice": 5449,
+      "stock": 45,
+      "colors": [
+        "#13095c",
+        "#8dfaf5"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/623-1737462092_mini-cute-dress.jpg",
+      "sourceImage": "items/1737462092_mini-cute-dress.jpeg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        175,
+        75,
+        50
+      ]
+    },
+    {
+      "legacyId": 624,
+      "sku": "TG/F/002",
+      "title": "off shoulder dress",
+      "category": "Frock",
+      "price": 3950,
+      "originalPrice": null,
+      "stock": 68,
+      "colors": [
+        "#af08d8",
+        "#000000"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/624-1737465671_off-shoulder-dress.jpg",
+      "sourceImage": "items/1737465671_off-shoulder-dress.jpg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        175,
+        75,
+        50
+      ]
+    },
+    {
+      "legacyId": 625,
+      "sku": "TG/F/003",
+      "title": "Cute Long Dress",
+      "category": "Frock",
+      "price": 2999,
+      "originalPrice": 3450,
+      "stock": 72,
+      "colors": [
+        "#ff8503",
+        "#0466f3"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/625-1737466833_cute-long-dress.jpg",
+      "sourceImage": "items/1737466833_cute-long-dress.jpeg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        100,
+        50,
+        25
+      ]
+    },
+    {
+      "legacyId": 626,
+      "sku": "TG/S/001",
+      "title": "Women Casual Mini Skirt",
+      "category": "Skirt",
+      "price": 1699,
+      "originalPrice": null,
+      "stock": 90,
+      "colors": [
+        "#000000",
+        "#6a0303",
+        "#af0303"
+      ],
+      "sizes": [],
+      "active": true,
+      "image": "/public/images/legacy-catalog/626-1737518182_women-casual-mini-skirt.jpg",
+      "sourceImage": "items/1737518182_women-casual-mini-skirt.jpeg",
+      "description": "PRODUCT DETAILS : WASH & CARE : Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS : LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        150,
+        75,
+        25
+      ]
+    },
+    {
+      "legacyId": 627,
+      "sku": "TG/F/004",
+      "title": "Women Casual Border Long Frock",
+      "category": "Frock",
+      "price": 3750,
+      "originalPrice": 4250,
+      "stock": 20,
+      "colors": [
+        "#032d73",
+        "#000000"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/627-1737528007_women-casual-border-long-frock.jpg",
+      "sourceImage": "items/1737528007_women-casual-border-long-frock.jpg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        175,
+        100,
+        25
+      ]
+    },
+    {
+      "legacyId": 628,
+      "sku": "TG/F/005",
+      "title": "Women Casual Long Frock",
+      "category": "Frock",
+      "price": 3750,
+      "originalPrice": 4250,
+      "stock": 70,
+      "colors": [
+        "#18d4dd",
+        "#060cbf",
+        "#9a07b8",
+        "#fbda07"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/628-1737531377_women-casual-long-frock.jpg",
+      "sourceImage": "items/1737531377_women-casual-long-frock.jpg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        175,
+        100,
+        50
+      ]
+    },
+    {
+      "legacyId": 629,
+      "sku": "TG/F/006",
+      "title": "Women Casual Shot Frock for teen girls",
+      "category": "Frock",
+      "price": 3249,
+      "originalPrice": 3660,
+      "stock": 10,
+      "colors": [
+        "#000000",
+        "#05587a",
+        "#ecff00"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "active": true,
+      "image": "/public/images/legacy-catalog/629-1738315973_women-casual-shot-frock-for-teen-girls.jpg",
+      "sourceImage": "items/1738315973_women-casual-shot-frock-for-teen-girls.jpg",
+      "description": "PRODUCT DETAILS WASH & CARE Cotton - Hot Water Wash (Tumble Dry Warm) Linen - Cool Water Wash Air Dry (Hand wash first time) Polyester - Cool Water Wash (Tumble Dry Warm or Air Dry) Silk - Hand Wash or Cool Warm Wash (Tumble Dry Cool or Air Dry) DELIVERY DETAILS LOCAL DELIVERY Free delivery for all orders above 8,500 LKR Pay Online, Cash on delivery we are accept What are the Delivery Charges? 250 LKR all City in Sri Lanka",
+      "referralLevels": [
+        100,
+        75,
+        25
+      ]
+    }
+  ]
+}

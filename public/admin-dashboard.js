@@ -1797,24 +1797,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Handle hash on load or hashchange for form pages
-    function checkHashRoute() {
-      const hash = window.location.hash.replace("#", "");
-      if (hash === "product-form" || hash === "new-product") {
-        openProductPage(false);
-      } else if (hash === "category-form" || hash === "new-category") {
-        openCategoryPage(false);
-      } else if (hash === "coupon-form" || hash === "new-coupon") {
-        openCouponPage(false);
-      } else if (hash === "customer-form" || hash === "new-customer") {
-        openCustomerPage(false);
-      } else if (hash === "order-form" || hash === "new-order") {
-        openOrderPage("#TG1008");
-      }
-    }
-
-    window.addEventListener("hashchange", checkHashRoute);
-    checkHashRoute();
+    // Form state and persisted records are handled by admin-features.js.
 
     // Expose to window
     window.openProductPage = openProductPage;

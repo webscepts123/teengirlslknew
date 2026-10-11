@@ -459,6 +459,13 @@ body.tgl-auth-body::before {
   justify-content: center;
   font-size: 14px;
 }
+
+.tgl-auth-site-logo {
+  display: block;
+  width: 170px;
+  height: 60px;
+  object-fit: contain;
+}
 .tgl-brand-text-mini {
   font-size: 15px;
   font-weight: 800;

@@ -1,5 +1,6 @@
 import { hashPassword } from "noderyx-framework";
 import { idFor, skipInProduction } from "../support.js";
+import { normalizeSriLankanPhone } from '../../public/customer-registration-rules.js';
 
 // Both demo customers sign in with "password123".
 const customers = [
@@ -38,18 +39,16 @@ export async function run(db) {
   const passwordHash = await hashPassword("password123");
 
   for (const customer of customers) {
-    // Profile fields are refreshed on every run; the password is set only once.
+    const [existingCustomer] = await db.query('SELECT id FROM customers WHERE code = ? OR email = ?', [customer.code, customer.email]);
+    if (existingCustomer) continue;
+    // Preserve accounts that have already been seeded or edited.
     await db.query(
       `INSERT INTO customers
          (code, name, first_name, last_name, email, phone, nic, referral_code, password_hash, avatar, tier, points, store_credit, preferences)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE
-         name = VALUES(name), first_name = VALUES(first_name), last_name = VALUES(last_name), phone = VALUES(phone),
-         nic = VALUES(nic), referral_code = VALUES(referral_code), avatar = VALUES(avatar),
-         tier = VALUES(tier), points = VALUES(points), store_credit = VALUES(store_credit),
-         preferences = VALUES(preferences)`,
+       ON DUPLICATE KEY UPDATE id = id`,
       [
-        customer.code, customer.name, customer.firstName, customer.lastName, customer.email, customer.phone,
+        customer.code, customer.name, customer.firstName, customer.lastName, customer.email, normalizeSriLankanPhone(customer.phone),
         customer.nic, customer.referralCode, passwordHash,
         customer.avatar, customer.tier, customer.points, customer.storeCredit, JSON.stringify(customer.preferences)
       ]
@@ -87,16 +86,15 @@ export async function run(db) {
     }
 
     for (const order of customer.orders) {
+      const [existingOrder] = await db.query("SELECT id FROM orders WHERE order_number = ?", [order.number]);
+      if (existingOrder) continue;
       const total = order.items.reduce((sum, [, , price, quantity]) => sum + price * quantity, 0);
       await db.query(
         `INSERT INTO orders
            (order_number, customer_id, shipping_address_id, status, total, payment_method,
             payment_status, courier_name, tracking_number, placed_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
-           status = VALUES(status), total = VALUES(total), payment_method = VALUES(payment_method),
-           payment_status = VALUES(payment_status), courier_name = VALUES(courier_name),
-           tracking_number = VALUES(tracking_number), placed_at = VALUES(placed_at)`,
+         ON DUPLICATE KEY UPDATE id = id`,
         [
           order.number, customerId, defaultAddress?.id ?? null, order.status, total, order.paymentMethod,
           order.paymentStatus, order.courier, order.tracking, order.placedAt

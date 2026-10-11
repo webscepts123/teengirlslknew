@@ -1,0 +1,609 @@
+html lang="en"
+  head
+    link rel="icon" type="image/png" href="/public/favicon.png"
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="robots" content="index, follow"
+    meta name="description" content="{{description}}"
+    title "{{pageTitle}} | {{siteName}}"
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
+    link rel="stylesheet" href="/public/home.css"
+    link rel="stylesheet" href="/public/store.css"
+    link rel="stylesheet" href="/public/feature-controls.css"
+    link rel="stylesheet" href="/public/cart-checkout.css"
+  body.tgl-home
+    div.tgl-promo-bar
+      div.tgl-container.tgl-promo-inner
+        span.tgl-promo-left
+          span
+            span.fa-solid.fa-truck-fast aria-hidden="true"
+            span " Cash on Delivery Available"
+          span
+            span.fa-solid.fa-location-dot aria-hidden="true"
+            span " Islandwide Delivery"
+          span
+            span.fa-solid.fa-rotate-left aria-hidden="true"
+            span " Easy Returns"
+        span.tgl-promo-code "Get 5% OFF on your first order | Use Code: TEENGIRLS5"
+
+    header.tgl-site-header
+      div.tgl-container
+        div.tgl-header-main
+          a.tgl-logo href="/" aria-label="TeenGirlsLK home"
+            img src="/public/images/brand/teengirls-logo-wide.png" alt="TeenGirlsLK" width="170" height="46"
+          form.tgl-search action="/shop" method="get" role="search"
+            input type="search" name="q" placeholder="Search for products, brands and more..." aria-label="Search products"
+            button type="submit" aria-label="Search"
+              span.fa-solid.fa-magnifying-glass aria-hidden="true"
+          div.tgl-header-actions
+            if customer
+              a.tgl-header-action href="/customer/dashboard"
+                span.fa-regular.fa-user aria-hidden="true"
+                span.tgl-action-label "Account"
+            else
+              a.tgl-header-action href="/login"
+                span.fa-regular.fa-user aria-hidden="true"
+                span.tgl-action-label "Account"
+            a.tgl-header-action href="/customer/wishlist"
+              span.fa-regular.fa-heart aria-hidden="true"
+              span.tgl-action-label "Wishlist"
+            button.tgl-header-action.tgl-bag-button type="button" data-open-bag="true" aria-label="Open shopping bag"
+              span.fa-solid.fa-bag-shopping aria-hidden="true"
+              span.tgl-action-label "Cart"
+      div.tgl-nav-wrap
+        div.tgl-container
+          nav.tgl-main-nav aria-label="Shop categories"
+            div.tgl-cat-menu
+              button.tgl-nav-featured type="button" data-cat-toggle="true" aria-expanded="false"
+                span.fa-solid.fa-bars aria-hidden="true"
+                span " Categories"
+                span.fa-solid.fa-chevron-down aria-hidden="true"
+              div.tgl-cat-dropdown hidden="hidden"
+                for category in categories
+                  a href="/category/{{category.slug}}" "{{category.name}}"
+            a href="/shop" "New In"
+            for category in navCategories
+              a href="/category/{{category.slug}}" "{{category.name}}"
+            a.tgl-nav-sale href="/flash-sale" "Sale"
+            a href="/track-order" "Track Order"
+
+    main.tgl-page
+      if isCart
+        div.tgl-container.tgl-commerce-page data-cart-page="true"
+          div.tgl-commerce-heading
+            div
+              p.tgl-commerce-kicker "YOUR FAVOURITES, ALL TOGETHER"
+              h1 "Shopping Cart"
+            a.tgl-see-all href="/shop" "Continue shopping"
+          div data-cart-content="true"
+            p "Loading your cart..."
+          p.tgl-commerce-message data-cart-message="true" role="status"
+      if isCheckout
+        div.tgl-container.tgl-commerce-page data-checkout-page="true"
+          div.tgl-commerce-heading
+            div
+              p.tgl-commerce-kicker "A FEW DETAILS, THEN IT’S YOURS"
+              h1 "Checkout"
+            a.tgl-see-all href="/cart" "Back to cart"
+          div data-checkout-content="true"
+            p "Loading checkout..."
+          p.tgl-commerce-message data-checkout-message="true" role="status"
+      if isSuccess
+        div.tgl-container.tgl-commerce-page
+          div.tgl-card.tgl-order-confirmed
+            span.fa-solid.fa-circle-check aria-hidden="true"
+            h1 "Thank you! Your order is confirmed."
+            p "Order {{confirmation.orderNumber}}"
+            p "Total: {{confirmation.total}}"
+            p "Payment: {{confirmation.paymentMethod}}"
+            if confirmation.pointsUsed
+              p "{{confirmation.pointsUsed}} reward points used"
+            if confirmation.isBank
+              div.tgl-commerce-note
+                strong "Bank transfer instructions"
+                p "{{confirmation.bankInstructions}}"
+                p "Use your order number as the payment reference. Your payment is pending verification."
+            div.tgl-commerce-actions
+              a.tgl-btn.tgl-btn-primary href="/customer/orders" "View my orders"
+              a.tgl-btn.tgl-btn-outline href="/shop" "Continue shopping"
+      if isCategory
+        div.tgl-container
+          nav.tgl-crumbs aria-label="Breadcrumb"
+            a href="/" "Home"
+            span "/"
+            a href="/shop" "Shop"
+            if hasParent
+              span "/"
+              a href="{{parentHref}}" "{{parentName}}"
+            if heading
+              span "/"
+              span "{{heading}}"
+          div.tgl-page-title
+            h1 "{{heading}}"
+            p "{{intro}}"
+
+          div.tgl-listing
+            div.tgl-filters id="filters"
+              div.tgl-filter-head
+                h2 "Filters"
+                button.tgl-filter-close type="button" data-filter-close="true" aria-label="Close filters"
+                  span.fa-solid.fa-xmark aria-hidden="true"
+              if children
+                div.tgl-filter-block
+                  h3 "{{childrenTitle}}"
+                  div.tgl-filter-links
+                    for child in children
+                      a href="{{child.href}}" "{{child.name}}"
+              form.tgl-filter-block action="{{formAction}}" method="get"
+                h3 "Price (LKR)"
+                div.tgl-price-inputs
+                  input type="number" name="min" min="0" step="1" placeholder="{{priceMin}}" value="{{filters.min}}" aria-label="Minimum price"
+                  span "–"
+                  input type="number" name="max" min="0" step="1" placeholder="{{priceMax}}" value="{{filters.max}}" aria-label="Maximum price"
+                if filters.q
+                  input type="hidden" name="q" value="{{filters.q}}"
+                if filters.size
+                  input type="hidden" name="size" value="{{filters.size}}"
+                if filters.color
+                  input type="hidden" name="color" value="{{filters.color}}"
+                if filters.sale
+                  input type="hidden" name="sale" value="1"
+                if filters.stock
+                  input type="hidden" name="stock" value="1"
+                if filters.sort
+                  input type="hidden" name="sort" value="{{filters.sort}}"
+                button.tgl-btn.tgl-btn-primary.tgl-btn-sm type="submit" "Apply"
+              div.tgl-filter-block
+                h3 "Availability"
+                div.tgl-filter-toggles
+                  if saleActive
+                    a.is-active href="{{saleHref}}" "On sale"
+                  else
+                    a href="{{saleHref}}" "On sale"
+                  if stockActive
+                    a.is-active href="{{stockHref}}" "In stock only"
+                  else
+                    a href="{{stockHref}}" "In stock only"
+              if sizeOptions
+                div.tgl-filter-block
+                  h3 "Size"
+                  div.tgl-chips
+                    for option in sizeOptions
+                      if option.active
+                        a.tgl-chip.is-active href="{{option.href}}" "{{option.value}}"
+                      else
+                        a.tgl-chip href="{{option.href}}" "{{option.value}}"
+              if colorOptions
+                div.tgl-filter-block
+                  h3 "Colour"
+                  div.tgl-chips
+                    for option in colorOptions
+                      if option.active
+                        a.tgl-chip.is-active href="{{option.href}}" "{{option.value}}"
+                      else
+                        a.tgl-chip href="{{option.href}}" "{{option.value}}"
+              if hasFilters
+                a.tgl-clear href="{{clearHref}}" "Clear all filters"
+            div.tgl-filter-backdrop data-filter-close="true"
+
+            section.tgl-results
+              div.tgl-toolbar
+                button.tgl-btn.tgl-btn-outline.tgl-btn-sm.tgl-filter-open type="button" data-filter-open="true"
+                  span.fa-solid.fa-sliders aria-hidden="true"
+                  span " Filters"
+                span.tgl-count "{{resultLabel}}"
+                div.tgl-sort
+                  span "Sort by"
+                  div.tgl-sort-links
+                    for option in sortOptions
+                      if option.active
+                        a.is-active href="{{option.href}}" "{{option.label}}"
+                      else
+                        a href="{{option.href}}" "{{option.label}}"
+              if activeFilters
+                div.tgl-active-filters
+                  for filter in activeFilters
+                    a.tgl-tag href="{{filter.href}}"
+                      span "{{filter.label}}"
+                      span.fa-solid.fa-xmark aria-hidden="true"
+              if products
+                div.tgl-product-grid.tgl-grid-listing
+                  for product in products
+                    a.tgl-product href="/product/{{product.slug}}"
+                      div.tgl-product-media
+                        img src="{{product.image}}" alt="{{product.title}}" loading="lazy" width="300" height="375"
+                        if product.discount
+                          span.tgl-product-badge "-{{product.discount}}%"
+                        else if product.badge
+                          span.tgl-product-badge "{{product.badge}}"
+                        if product.soldOut
+                          span.tgl-sold-out "Sold out"
+                      div.tgl-product-body
+                        h3 "{{product.title}}"
+                        div.tgl-product-price
+                          strong "{{product.priceLabel}}"
+                          if product.originalPriceLabel
+                            span.tgl-price-old "{{product.originalPriceLabel}}"
+                if pagination
+                  nav.tgl-pagination aria-label="Pagination"
+                    if hasPrev
+                      a href="{{prevHref}}" aria-label="Previous page"
+                        span.fa-solid.fa-chevron-left aria-hidden="true"
+                    for item in pagination
+                      if item.active
+                        a.is-active href="{{item.href}}" "{{item.number}}"
+                      else
+                        a href="{{item.href}}" "{{item.number}}"
+                    if hasNext
+                      a href="{{nextHref}}" aria-label="Next page"
+                        span.fa-solid.fa-chevron-right aria-hidden="true"
+              else
+                div.tgl-empty
+                  span.fa-regular.fa-face-frown aria-hidden="true"
+                  h2 "No products found"
+                  p "Try removing a filter or searching for something else."
+                  a.tgl-btn.tgl-btn-primary href="{{clearHref}}" "Clear filters"
+
+      if isProduct
+        div.tgl-container
+          nav.tgl-crumbs aria-label="Breadcrumb"
+            a href="/" "Home"
+            span "/"
+            a href="{{categoryHref}}" "{{categoryName}}"
+            span "/"
+            span "{{product.title}}"
+          div.tgl-pdp
+            div.tgl-pdp-media
+              img src="{{product.image}}" alt="{{product.title}}" width="640" height="800"
+              if product.discount
+                span.tgl-product-badge "-{{product.discount}}%"
+            div.tgl-pdp-info
+              a.tgl-pdp-cat href="{{categoryHref}}" "{{categoryName}}"
+              h1 "{{product.title}}"
+              div.tgl-pdp-rating
+                if hasReviews
+                  span.tgl-stars aria-hidden="true" "{{averageStars}}"
+                  span "{{averageLabel}} ({{reviewCount}} reviews)"
+                else
+                  span.tgl-muted "No reviews yet"
+                span.tgl-muted "SKU: {{product.sku}}"
+              div.tgl-pdp-price
+                strong "{{product.priceLabel}}"
+                if product.originalPriceLabel
+                  span.tgl-price-old "{{product.originalPriceLabel}}"
+                  span.tgl-save "Save {{product.discount}}%"
+              p.tgl-pdp-stock "{{stockLabel}}"
+              p.tgl-pdp-about "{{about}}"
+              form#pdp-form.tgl-pdp-form data-sku="{{product.sku}}"
+                if hasColors
+                  div.tgl-option
+                    h3 "Colour"
+                    div.tgl-chips
+                      for color in product.colors
+                        button.tgl-chip type="button" data-pick="color" data-value="{{color}}" "{{color}}"
+                    input type="hidden" name="color" value=""
+                if hasSizes
+                  div.tgl-option
+                    h3 "Size"
+                    div.tgl-chips
+                      for size in product.sizes
+                        button.tgl-chip type="button" data-pick="size" data-value="{{size}}" "{{size}}"
+                    input type="hidden" name="size" value=""
+                div.tgl-option
+                  h3 "Quantity"
+                  div.tgl-qty
+                    button type="button" data-qty="-1" aria-label="Decrease quantity" "−"
+                    input type="number" name="quantity" min="1" max="99" value="1" aria-label="Quantity"
+                    button type="button" data-qty="1" aria-label="Increase quantity" "+"
+                div.tgl-pdp-actions
+                  if canBuy
+                    button.tgl-btn.tgl-btn-primary.tgl-btn-lg type="submit"
+                      span.fa-solid.fa-bag-shopping aria-hidden="true"
+                      span " Add to Bag"
+                  else
+                    button.tgl-btn.tgl-btn-outline.tgl-btn-lg type="button" disabled="disabled" "Out of stock"
+                  button.tgl-btn.tgl-btn-outline.tgl-btn-lg type="button" data-wishlist="true"
+                    span.fa-regular.fa-heart aria-hidden="true"
+                    span " Wishlist"
+                p.tgl-form-message data-feature-message="true" role="status"
+              ul.tgl-pdp-perks
+                li
+                  span.fa-solid.fa-truck-fast aria-hidden="true"
+                  span " Islandwide delivery · "
+                  a href="/delivery-info" "Delivery info"
+                li
+                  span.fa-solid.fa-money-bill-wave aria-hidden="true"
+                  span " Cash on delivery available"
+                li
+                  span.fa-solid.fa-rotate-left aria-hidden="true"
+                  span " Easy returns"
+          section.tgl-card.tgl-reviews
+            div.tgl-card-head
+              h2 "Customer Reviews"
+            if hasReviews
+              div.tgl-review-list
+                for review in reviews
+                  article.tgl-review
+                    div.tgl-review-top
+                      strong "{{review.author}}"
+                      span.tgl-stars aria-hidden="true" "{{review.stars}}"
+                      span.tgl-muted "{{review.date}}"
+                    p "{{review.comment}}"
+            else
+              p.tgl-muted "Be the first to review this product after your purchase."
+          if hasRelated
+            section.tgl-section
+              div.tgl-card
+                div.tgl-card-head
+                  h2 "You May Also Like"
+                  a.tgl-see-all href="{{categoryHref}}" "See All"
+                div.tgl-product-grid
+                  for product in related
+                    a.tgl-product href="/product/{{product.slug}}"
+                      div.tgl-product-media
+                        img src="{{product.image}}" alt="{{product.title}}" loading="lazy" width="300" height="375"
+                        if product.discount
+                          span.tgl-product-badge "-{{product.discount}}%"
+                      div.tgl-product-body
+                        h3 "{{product.title}}"
+                        div.tgl-product-price
+                          strong "{{product.priceLabel}}"
+                          if product.originalPriceLabel
+                            span.tgl-price-old "{{product.originalPriceLabel}}"
+
+      if isTrack
+        div.tgl-container.tgl-narrow
+          div.tgl-page-title.tgl-center
+            h1 "Track Your Order"
+            p "Enter your order number and the email or phone number you used at checkout."
+          form.tgl-card.tgl-track-form action="/track-order" method="post"
+            input type="hidden" name="_csrf" value="{{csrfToken}}"
+            label "Order number"
+              input type="text" name="orderNumber" placeholder="e.g. TG12458" value="{{old.number}}" required="required" maxlength="20"
+            label "Email or phone number"
+              input type="text" name="contact" placeholder="you@example.com or 0771234567" value="{{old.contact}}" required="required" maxlength="120"
+            if error
+              p.tgl-alert role="alert" "{{error}}"
+            button.tgl-btn.tgl-btn-primary.tgl-btn-lg type="submit" "Track Order"
+          if order
+            section.tgl-card.tgl-track-result
+              div.tgl-card-head
+                h2 "Order {{order.number}}"
+                span.tgl-status "{{order.status}}"
+              if order.closed
+                p.tgl-alert "This order is {{order.status}}."
+              else
+                ol.tgl-timeline
+                  for step in order.steps
+                    if step.current
+                      li.is-done.is-current
+                        span.tgl-step-icon
+                          span aria-hidden="true" class="fa-solid {{step.icon}}"
+                        span "{{step.label}}"
+                    else if step.done
+                      li.is-done
+                        span.tgl-step-icon
+                          span aria-hidden="true" class="fa-solid {{step.icon}}"
+                        span "{{step.label}}"
+                    else
+                      li
+                        span.tgl-step-icon
+                          span aria-hidden="true" class="fa-solid {{step.icon}}"
+                        span "{{step.label}}"
+              div.tgl-meta
+                div
+                  span "Placed on"
+                  strong "{{order.placed}}"
+                div
+                  span "Payment"
+                  strong "{{order.paymentMethod}} · {{order.paymentStatus}}"
+                if order.hasCourier
+                  div
+                    span "Courier"
+                    strong "{{order.courier}}"
+                  div
+                    span "Tracking number"
+                    strong "{{order.trackingNumber}}"
+                div
+                  span "Total"
+                  strong "{{order.totalLabel}}"
+              div.tgl-track-items
+                for item in order.items
+                  div.tgl-track-item
+                    img src="{{item.image}}" alt="" width="56" height="70" loading="lazy"
+                    div
+                      strong "{{item.title}}"
+                      span "{{item.variant}} × {{item.quantity}}"
+                    strong "{{item.totalLabel}}"
+
+      if isFaq
+        div.tgl-container.tgl-narrow
+          div.tgl-page-title.tgl-center
+            h1 "Frequently Asked Questions"
+            p "Quick answers to the things our customers ask most."
+          if hasItems
+            div.tgl-faq
+              for faq in faqs
+                article.tgl-card.tgl-faq-item
+                  h2 "{{faq.question}}"
+                  p "{{faq.answer}}"
+          else
+            div.tgl-empty
+              h2 "No questions yet"
+              p "Check back soon or contact our support team."
+
+      if isDelivery
+        div.tgl-container
+          div.tgl-page-title.tgl-center
+            h1 "Delivery Information"
+            p "Charges and estimated times for our delivery services."
+          if hasItems
+            div.tgl-card.tgl-table-wrap
+              div.tgl-table
+                div.tgl-table-row.tgl-table-head
+                  span "Service"
+                  span "Area"
+                  span "Charge"
+                  span "Free above"
+                  span "Estimated time"
+                for service in services
+                  div.tgl-table-row
+                    strong "{{service.name}}"
+                    span "{{service.area}}"
+                    span "{{service.charge}}"
+                    span "{{service.freeAbove}}"
+                    span "{{service.days}}"
+          else
+            div.tgl-empty
+              h2 "Delivery details coming soon"
+
+      if isOffers
+        div.tgl-container
+          div.tgl-page-title.tgl-center
+            h1 "Offers & Promotions"
+            p "Current discounts applied automatically at checkout."
+          if hasItems
+            div.tgl-info-grid
+              for offer in offers
+                article.tgl-card.tgl-offer
+                  span.tgl-offer-pct "{{offer.discount}}% OFF"
+                  h2 "{{offer.name}}"
+                  p "{{offer.category}}"
+                  p.tgl-muted "Min. spend: {{offer.minSpend}}"
+                  p.tgl-muted "Ends {{offer.ends}}"
+          else
+            div.tgl-empty
+              h2 "No active offers right now"
+              p "Check back soon for new promotions."
+              a.tgl-btn.tgl-btn-primary href="/shop" "Keep shopping"
+
+      if isFlash
+        div.tgl-container
+          div.tgl-page-title.tgl-center
+            h1 "Flash Sale"
+            p "Limited quantities. When the timer ends, the price goes back up."
+          if hasItems
+            div.tgl-info-grid
+              for sale in sales
+                article.tgl-card.tgl-deal
+                  a.tgl-deal-media href="/product/{{sale.slug}}"
+                    img src="{{sale.image}}" alt="{{sale.title}}" loading="lazy" width="300" height="375"
+                    span.tgl-product-badge "-{{sale.discount}}%"
+                  div.tgl-deal-body
+                    h2 "{{sale.title}}"
+                    div.tgl-product-price
+                      strong "{{sale.saleLabel}}"
+                      span.tgl-price-old "{{sale.oldLabel}}"
+                    p.tgl-muted "{{sale.left}} left"
+                    p.tgl-countdown data-countdown="{{sale.endsAt}}" "Ends soon"
+                    a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/product/{{sale.slug}}" "Shop Now"
+          else
+            div.tgl-empty
+              h2 "No flash sale running"
+              p "Follow us to be first to know when the next one starts."
+              a.tgl-btn.tgl-btn-primary href="/shop" "Keep shopping"
+
+      if isAuctions
+        div.tgl-container
+          div.tgl-page-title.tgl-center
+            h1 "Bid & Win"
+            p "Use reward points. Highest contributor wins a free prize."
+          if hasItems
+            div.tgl-info-grid
+              for auction in auctions
+                article.tgl-card.tgl-deal
+                  a.tgl-deal-media href="/#bid-and-win"
+                    img src="{{auction.image}}" alt="{{auction.title}}" loading="lazy" width="300" height="375"
+                  div.tgl-deal-body
+                    h2 "{{auction.name}}"
+                    p.tgl-muted "{{auction.title}}"
+                    div.tgl-product-price
+                      strong "{{auction.currentLabel}}"
+                      span.tgl-muted "{{auction.bids}} bids"
+                    p.tgl-muted "Next bid: {{auction.nextLabel}}"
+                    p.tgl-muted "Free prize and delivery. Winner must claim within {{auction.claimHours}} hours."
+                    a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/#bid-and-win" "View bidding round"
+          else
+            div.tgl-empty
+              h2 "No live auctions"
+              p "New auctions are added regularly."
+
+      if isSurprise
+        div.tgl-container
+          div.tgl-page-title.tgl-center
+            h1 "Surprise Boxes"
+            p "A hand-picked bundle of teen favourites at a special price."
+          if hasItems
+            div.tgl-info-grid
+              for box in boxes
+                article.tgl-card.tgl-offer
+                  span.tgl-offer-pct
+                    span.fa-solid.fa-gift aria-hidden="true"
+                    span " {{box.priceLabel}}"
+                  h2 "{{box.name}}"
+                  p "{{box.description}}"
+                  p.tgl-muted "Free delivery · One box per customer"
+                  a.tgl-btn.tgl-btn-primary.tgl-btn-sm href="/customer/surprise-box" "Get this box"
+          else
+            div.tgl-empty
+              h2 "No surprise boxes available"
+
+    footer.tgl-footer
+      div.tgl-container
+        div.tgl-footer-main
+          div.tgl-footer-brand
+            a.tgl-logo href="/" aria-label="TeenGirlsLK home"
+              img src="/public/images/brand/teengirls-logo-wide.png" alt="TeenGirlsLK" width="170" height="46"
+            p "Feel your style ♡"
+            p "Trendy fashion for teen girls in Sri Lanka."
+            div.tgl-footer-socials
+              a href="https://www.instagram.com/teengirls.lk/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                span.fa-brands.fa-instagram aria-hidden="true"
+              a href="https://www.tiktok.com/@teengirls.lk" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+                span.fa-brands.fa-tiktok aria-hidden="true"
+              a href="https://www.facebook.com/teengirls.lk" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                span.fa-brands.fa-facebook-f aria-hidden="true"
+          div.tgl-footer-column
+            h2 "Shop"
+            a href="/shop" "New In"
+            for category in navCategories
+              a href="/category/{{category.slug}}" "{{category.name}}"
+            a href="/flash-sale" "Sale"
+          div.tgl-footer-column
+            h2 "Customer Service"
+            a href="/track-order" "Track Order"
+            a href="/faq" "FAQ"
+            a href="/delivery-info" "Delivery Info"
+            a href="/customer/support" "Returns & Exchanges"
+          div.tgl-footer-column
+            h2 "Explore"
+            a href="/offers" "Offers"
+            a href="/auctions" "Auctions"
+            a href="/surprise-boxes" "Surprise Boxes"
+            a href="/customer/wishlist" "Wishlist"
+          div.tgl-footer-column
+            h2 "Contact Us"
+            span
+              span.fa-solid.fa-phone aria-hidden="true"
+              span " 077 123 4567"
+            span
+              span.fa-regular.fa-envelope aria-hidden="true"
+              span " hello@teengirls.lk"
+            span
+              span.fa-solid.fa-location-dot aria-hidden="true"
+              span " Colombo, Sri Lanka"
+        div.tgl-footer-bottom
+          span "© {{year}} Teengirls.lk | All rights reserved."
+          div.tgl-pay-icons aria-label="Accepted payments"
+            span.fa-brands.fa-cc-visa aria-hidden="true"
+            span.fa-brands.fa-cc-mastercard aria-hidden="true"
+            span.fa-brands.fa-cc-amex aria-hidden="true"
+            span.fa-solid.fa-money-bill-wave aria-hidden="true"
+
+    input type="hidden" name="_csrf" value="{{csrfToken}}"
+    script type="module" src="/public/storefront.js"
+    script type="module" src="/public/store-ui.js"
+    script type="module" src="/public/cart-checkout.js"

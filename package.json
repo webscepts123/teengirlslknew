@@ -25,10 +25,12 @@
     "mobile:ios": "noderyx-framework mobile:run ios",
     "editor:install": "noderyx-framework editor:install",
     "migrate": "noderyx-framework migrate",
-    "seed": "noderyx-framework db:seed"
+    "seed": "noderyx-framework db:seed",
+    "test": "node --test tests/*.test.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
+    "nodemailer": "^10.1.0",
     "noderyx-framework": ">=0.7.2 <1.0.0"
   },
   "engines": {
