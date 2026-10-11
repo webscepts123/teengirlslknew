@@ -159,6 +159,38 @@ body.tgl-mobile-menu-open { overflow:hidden; }
   .tgl-home .tgl-hero h1 { font-size:29px; }
   .tgl-home .tgl-commerce-heading { flex-wrap:wrap; gap:4px; }
 }
+/* Fit the available viewport instead of retaining desktop minimum widths. */
+@media (max-width:680px) {
+  body.tgl-home,body.tg-dashboard-body,body.tgl-auth-body { width:100%; min-width:0; margin-inline:0; }
+  .tgl-home .tgl-container { width:100%; padding-inline:max(12px,env(safe-area-inset-left)) max(12px,env(safe-area-inset-right)); }
+  .tgl-home main,.tgl-home section,.tgl-home .tgl-card,.tgl-home .tgl-results,.tgl-home .tgl-pdp-gallery { min-width:0; max-width:100%; }
+  .tgl-home .tgl-two-col,.tgl-home .tgl-two-col-wide,.tgl-home .tgl-offer-grid,.tgl-home .tgl-info-grid,.tgl-home .tgl-commerce-grid { grid-template-columns:minmax(0,1fr); }
+  .tgl-home .tgl-product-grid,.tgl-home .tgl-grid-listing { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .tgl-home .tgl-product-body,.tgl-home .tgl-offer-product > div,.tgl-home .tgl-commerce-grid > * { min-width:0; }
+  .tgl-home .tgl-card h2,.tgl-home .tgl-card h3,.tgl-home .tgl-offer-summary,.tgl-home .tgl-commerce-note { overflow-wrap:anywhere; }
+  .tgl-home .tgl-crumbs { flex-wrap:wrap; }
+  .tgl-home .tgl-meta { grid-template-columns:minmax(0,1fr); }
+  .tgl-home .tgl-track-item { grid-template-columns:48px minmax(0,1fr); }
+  .tgl-home .tgl-track-item > :last-child { grid-column:2; }
+  .tgl-home .tgl-commerce-actions,.tgl-home .tgl-news-form { min-width:0; }
+  .tgl-home .tgl-commerce-actions .tgl-btn { width:100%; white-space:normal; }
+  .tgl-home .tgl-offer-picker { grid-template-columns:32px minmax(0,1fr) 32px; gap:4px; }
+  .tgl-home .tgl-offer-product { grid-template-columns:72px minmax(0,1fr); gap:8px; padding:8px; }
+  .tgl-home .tgl-offer-product img { width:72px; height:100px; }
+  .tgl-home .tgl-offer-nav { width:32px; }
+  .tgl-home .tgl-table-wrap { max-width:100%; min-width:0; padding-inline:12px; }
+  .tgl-mobile-dock { width:100%; max-width:100%; }
+  .tg-app-layout { grid-template-columns:minmax(0,1fr); }
+  .tg-metrics-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .tg-metric-value { overflow-wrap:anywhere; }
+}
+@media (max-width:320px) {
+  .tgl-home .tgl-logo img { width:76px; }
+  .tgl-home .tgl-header-action { width:40px; }
+  .tgl-home .tgl-header-main { gap:6px; }
+  .tgl-home .tgl-btn { padding-inline:14px; white-space:normal; }
+  .tgl-home .tgl-offer-types { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
 @media (prefers-reduced-motion:reduce) {
   html { scroll-behavior:auto; }
   .tgl-hero-slide,.tgl-product,.tgl-login-card-exact { transition:none; animation:none; }
