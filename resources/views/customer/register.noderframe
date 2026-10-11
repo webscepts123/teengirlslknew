@@ -11,6 +11,7 @@ html lang="en"
     link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
     link rel="stylesheet" href="/public/customer-auth.css"
     script type="module" src="/public/customer-register.js"
+    link rel="stylesheet" href="/public/mobile.css"
   body.tgl-auth-body.tgl-register-body
     a.tgl-floating-brand href="/"
       img.tgl-auth-site-logo src="/public/images/brand/teengirls-logo-wide.png" alt="Teengirls.lk home" width="170" height="70"

@@ -14,6 +14,7 @@ html lang="en"
     link rel="stylesheet" href="/public/store.css"
     link rel="stylesheet" href="/public/feature-controls.css"
     link rel="stylesheet" href="/public/cart-checkout.css"
+    link rel="stylesheet" href="/public/mobile.css"
   body.tgl-home
     div.tgl-promo-bar
       div.tgl-container.tgl-promo-inner
@@ -607,3 +608,4 @@ html lang="en"
     script type="module" src="/public/storefront.js"
     script type="module" src="/public/store-ui.js"
     script type="module" src="/public/cart-checkout.js"
+    script type="module" src="/public/mobile-ui.js"

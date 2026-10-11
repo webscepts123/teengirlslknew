@@ -11,6 +11,7 @@ html lang="en"
     link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
     link rel="stylesheet" href="/public/customer-panel.css"
     link rel="stylesheet" href="/public/feature-controls.css"
+    link rel="stylesheet" href="/public/mobile.css"
   body.tg-dashboard-body
     // Top Navigation Header
     header.tg-top-header
