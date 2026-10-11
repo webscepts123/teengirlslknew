@@ -31,8 +31,14 @@ export function fail(message, status = 422) {
   error.status = status;
   throw error;
 }
-export const jsonValue = (value, fallback = {}) =>
-  typeof value === "string" ? JSON.parse(value) : (value ?? fallback);
+export const jsonValue = (value, fallback = {}) => {
+  if (typeof value !== "string") return value ?? fallback;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
+};
 export const money = (value) =>
   `Rs ${Number(value).toLocaleString("en-LK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 export const initials = (name) =>
