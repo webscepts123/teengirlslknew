@@ -4,6 +4,20 @@ import { settingsFor } from "../Services/settings.js";
 import { database, money } from "../Services/database.js";
 import { currentSurprise } from '../Services/surprise-box.js';
 
+const ICONS = [
+  [/cloth|dress|wear|frock|fashion/i, "fa-shirt"],
+  [/beauty|health|cosmetic|skin/i, "fa-spa"],
+  [/jewel|watch|ring|necklace/i, "fa-gem"],
+  [/bag|shoe|foot|sandal/i, "fa-bag-shopping"],
+  [/access/i, "fa-glasses"],
+  [/gift|toy/i, "fa-gift"],
+];
+function categoryIcon(category) {
+  const found = ICONS.find(([pattern]) => pattern.test(category.name));
+  if (found) return found[1];
+  return category.icon && category.icon !== "fa-bag-shopping" ? category.icon : "fa-tag";
+}
+
 export class HomeController extends Controller {
   async index() {
     const customer = this.context.session?.customer ?? null;
@@ -94,6 +108,7 @@ export class HomeController extends Controller {
       csrfToken: this.context.csrfToken,
       categories: categories.map((category) => ({
         ...category,
+        iconClass: categoryIcon(category),
         categoryQuery: encodeURIComponent(category.name),
         image: categoryImages[category.name] ?? null,
       })),

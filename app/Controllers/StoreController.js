@@ -15,11 +15,6 @@ import { settingsFor } from "../Services/settings.js";
 import { purchaseSpecial } from "../Services/special-order.js";
 import { surpriseEligibility, currentSurprise } from '../Services/surprise-box.js';
 import {latestBidding,placePointBid,cancelPointBids} from '../Services/points-bidding.js';
-import {
-  validateVariant,
-  couponDiscount,
-  roundMoney,
-} from "../Services/pricing.js";
 
 export class StoreController extends AppController {
   async products() {

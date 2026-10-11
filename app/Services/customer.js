@@ -1,4 +1,15 @@
 import { database, jsonValue, money, initials, titleCase } from "./database.js";
+import { normalizeSriLankanPhone } from "../../public/customer-registration-rules.js";
+
+export const normalizedCustomerPhoneSql =
+  "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '-', ''), '(', ''), ')', ''), '+', '')";
+
+export function customerPhoneCandidates(value) {
+  const normalizedPhone = normalizeSriLankanPhone(value);
+  if (!normalizedPhone) return [String(value ?? "").trim()];
+  const localPhone = normalizedPhone.slice(2);
+  return [normalizedPhone, localPhone, `0${localPhone}`];
+}
 
 export function customerView(row, addresses = []) {
   return {
@@ -24,6 +35,38 @@ export function customerView(row, addresses = []) {
     addresses,
   };
 }
+export async function customerForLogin(value, db) {
+  db ??= await database();
+  const input = String(value ?? "").trim();
+  const [emailMatch] = await db.query(
+    "SELECT * FROM customers WHERE email = ? AND is_active = 1 LIMIT 1",
+    [input.toLowerCase()],
+  );
+  if (emailMatch) return emailMatch;
+
+  const phoneCandidates = customerPhoneCandidates(input);
+  if (phoneCandidates.length === 1 && phoneCandidates[0] === input) {
+    const [phoneMatch] = await db.query(
+      "SELECT * FROM customers WHERE phone = ? AND is_active = 1 LIMIT 1",
+      [input],
+    );
+    return phoneMatch ?? null;
+  }
+
+  const placeholders = phoneCandidates.map(() => "?").join(", ");
+  const [phoneMatch] = await db.query(
+    `SELECT * FROM customers WHERE phone IN (${placeholders}) AND is_active = 1 LIMIT 1`,
+    phoneCandidates,
+  );
+  if (phoneMatch) return phoneMatch;
+
+  const [legacyPhoneMatch] = await db.query(
+    `SELECT * FROM customers WHERE ${normalizedCustomerPhoneSql} IN (${placeholders}) AND is_active = 1 LIMIT 1`,
+    phoneCandidates,
+  );
+  return legacyPhoneMatch ?? null;
+}
+
 export async function addressesFor(id, db) {
   db ??= await database();
   return (

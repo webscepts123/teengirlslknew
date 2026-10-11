@@ -30,7 +30,7 @@ test('Surprise Box claims are atomic, one per customer, free of shipping and inv
     const results=await Promise.allSettled([transaction(q=>purchaseSpecial(q,buyer,body)),transaction(q=>purchaseSpecial(q,buyer,body))]);
     assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
     assert.match(results.find(r=>r.status==='rejected').reason.message,/already claimed/);
-    assert.equal((await db.query('SELECT points FROM customers WHERE id=?',[buyer.id]))[0].points,75);
+    assert.equal(Number((await db.query('SELECT points FROM customers WHERE id=?',[buyer.id]))[0].points),75);
     const [order]=await db.query('SELECT * FROM orders WHERE customer_id=?',[buyer.id]);
     assert.equal(Number(order.total),0);assert.equal(Number(order.shipping_total),0);assert.equal(order.payment_method,'points');
     const [item]=await db.query('SELECT * FROM order_items WHERE order_id=?',[order.id]);

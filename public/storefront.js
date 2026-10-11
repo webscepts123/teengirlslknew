@@ -38,7 +38,7 @@ export async function openProduct(sku) {
     try {
       const result = await api(
         "/customer/api/cart/save",
-        Object.fromEntries(new FormData(event.target)),
+        {...Object.fromEntries(new FormData(event.target)),mode:'add'},
       );
       d.querySelector("[data-feature-message]").textContent = result.message;
     } catch (error) {

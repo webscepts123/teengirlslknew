@@ -159,7 +159,7 @@ html lang="en"
                     if category.image
                       img src="{{category.image}}" alt="" loading="lazy" width="96" height="96"
                     else
-                      span.fa-solid class="{{category.icon}}" aria-hidden="true"
+                      span class="fa-solid {{category.iconClass}}" aria-hidden="true"
                   span.tgl-category-name "{{category.name}}"
               a.tgl-category.tgl-category-sale href="/flash-sale"
                 span.tgl-category-img

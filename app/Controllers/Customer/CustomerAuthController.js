@@ -2,7 +2,12 @@
 import { hashPassword, verifyPassword } from "noderyx-framework";
 import { AppController } from "../AppController.js";
 import { database, transaction } from "../../Services/database.js";
-import { customerView } from "../../Services/customer.js";
+import {
+  customerForLogin,
+  customerPhoneCandidates,
+  customerView,
+  normalizedCustomerPhoneSql,
+} from "../../Services/customer.js";
 import {
   normalizeSriLankanPhone,
   validateRegistration,
@@ -24,6 +29,7 @@ export class CustomerAuthController extends AppController {
       error: this.query.error ?? null,
       success: this.query.success ?? null,
       returnUrl: safeReturn(this.query.returnUrl),
+      allowDemoLogin: process.env.NODE_ENV !== "production",
       csrfToken: this.context.csrfToken,
     });
   }
@@ -33,10 +39,7 @@ export class CustomerAuthController extends AppController {
     const input = String(b.emailOrPhone || "")
       .trim()
       .toLowerCase();
-    const [row] = await db.query(
-      "SELECT * FROM customers WHERE (LOWER(email)=? OR phone=?) AND is_active=1 LIMIT 1",
-      [input, normalizeSriLankanPhone(input) || input],
-    );
+    const row = await customerForLogin(input, db);
     if (row && (await verifyPassword(b.password || "", row.password_hash))) {
       this.context.session.customer = customerView(row);
       return this.redirect(safeReturn(b.returnUrl));
@@ -48,6 +51,7 @@ export class CustomerAuthController extends AppController {
         pageTitle: "Customer Sign In",
         error: "Invalid email/phone or password.",
         returnUrl: safeReturn(b.returnUrl),
+        allowDemoLogin: process.env.NODE_ENV !== "production",
         csrfToken: this.context.csrfToken,
       },
       401,
@@ -86,9 +90,11 @@ export class CustomerAuthController extends AppController {
   async register() {
     const { values: v, errors } = validateRegistration(this.body ?? {});
     const db = await database();
+    const phoneCandidates = customerPhoneCandidates(v.phone);
+    const phonePlaceholders = phoneCandidates.map(() => "?").join(", ");
     const existing = await db.query(
-      "SELECT email,phone,nic FROM customers WHERE email=? OR phone=? OR nic=?",
-      [v.email, v.phone, v.nic],
+      `SELECT email,phone,nic FROM customers WHERE email=? OR nic=? OR phone IN (${phonePlaceholders}) OR ${normalizedCustomerPhoneSql} IN (${phonePlaceholders})`,
+      [v.email, v.nic, ...phoneCandidates, ...phoneCandidates],
     );
     for (const row of existing) {
       if (row.email.toLowerCase() === v.email)

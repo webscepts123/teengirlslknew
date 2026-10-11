@@ -15,7 +15,7 @@ export async function executeCheckout(db,customer,b,preview=false) {
         const requestId=b.requestId?String(b.requestId):null;
         if(requestId&&!/^[a-zA-Z0-9-]{8,64}$/.test(requestId))fail('Invalid checkout request.');
         if(!preview&&requestId){
-          const [previous]=await db.query('SELECT order_number,total FROM orders WHERE customer_id=? AND checkout_request_id=?',[customer.id,requestId]);
+          const [previous]=await db.query('SELECT order_number,total FROM orders WHERE customer_id=? AND checkout_request_id=? FOR UPDATE',[customer.id,requestId]);
           if(previous)return {message:'Order already placed.',orderNumber:previous.order_number,total:Number(previous.total)};
         }
         const [address] = await db.query(

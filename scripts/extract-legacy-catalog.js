@@ -76,7 +76,7 @@ for (const r of table('items')) {
   products.push({legacyId:r.id,sku:r.sku || `LEGACY-${r.id}`,title:r.name,
     category:(categories.find(c=>c.key===`child-${r.childcategory_id}`)||categories.find(c=>c.key===`sub-${r.subcategory_id}`)||categories.find(c=>c.key===`root-${r.category_id}`))?.name || 'Uncategorized',
     price:discount>0&&discount<regular?discount:regular,originalPrice:discount>0&&discount<regular?regular:null,
-    stock:Array.from({length:7},(_,i)=>Math.max(0,Number(r[i===0?'stock':`stock${i+1}`])||0)).reduce((a,b)=>a+b,0),
+    stock:Array.from({length:7},(_,i)=>Math.max(0,Number(r[i===0?'stock':`stock${i+1}`])||0)).reduce((a,b)=>a+b,0),weightKg:Math.max(0,Number(r.weight)||0),
     colors:Array.from({length:7},(_,i)=>r[i===0?'color':`color${i+1}`]).filter(Boolean).map(c=>String(c).replace(/\s+/g,'')),
     sizes:Array.from({length:6},(_,i)=>r[`size${i+1}`]).filter(Boolean),
     active:Number(r.status)===1,image,sourceImage:r.photo,description:String(r.sort_details||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim(),

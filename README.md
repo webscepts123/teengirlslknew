@@ -64,6 +64,7 @@ npm run seed      # load demo data; safe to run again
 | `06_LegacyCatalogSeeder` | Actual products and category hierarchy from the legacy backup; hides sample catalog records |
 | `07_SurpriseBoxSeeder` | Initial published 25-point Surprise Box; preserves admin changes |
 | `08_PointsBiddingSeeder` | Initial points bidding round for an imported product; preserves admin changes |
+| `09_CheckoutSettingsSeeder` | COD fee, points conversion, payment availability and bank instructions; preserves existing settings |
 
 Run one seeder with `npx noderyx db:seed --class=02_CatalogSeeder`. With `NODE_ENV=production`
 the superadmin, store settings and categories are seeded; demo data is skipped. Other commands: `npx noderyx migrate:status`
@@ -86,6 +87,15 @@ orders, returns, reviews, support, settings and feature records. Customers can m
 addresses, profiles, wishlists, carts, orders, rewards, referrals and support tickets.
 Checkout calculates prices and stock on the server and supports cash on delivery,
 bank transfer and points. Reports export CSV.
+
+The separate `/cart` and `/checkout` pages support guest carts that merge after
+sign-in, variant quantities, saved/new delivery addresses, coupons and order
+confirmation. Checkout applies location delivery charges, whole-kilogram weight
+surcharges and the COD fee (default Rs 50). Regular points payments use Rs 100
+per point by default and preserve fractional balances. Admin can edit product
+weight and checkout settings. Prices, stock, address ownership and coupon limits
+are checked inside a transaction; duplicate requests create one order. Orders
+retain the delivery address as it was entered at checkout.
 
 Legacy card payment gateways, SMS/OTP and social login, automated courier services,
 label printing and automatic payouts still require integration. Delivery and payment
@@ -115,5 +125,9 @@ emails in production. Development mail is printed to the server console.
 Run `npm test` for business rule checks. To include the HTTP integration test, set
 `FEATURE_TEST_URL` to a separately migrated and seeded test app; it creates orders
 and modifies test inventory, so use a test database.
+Set `CHECKOUT_DB_TEST=1` and a `DB_NAME` containing `test` to run
+`node --env-file=.env --test tests/checkout.test.js` against a separate migrated,
+seeded database. This checks guest merging, delivery/COD fees, address isolation,
+insufficient funds, fractional points and simultaneous checkout retries.
 
 Health check: `GET /health`. For deploying to cPanel, see [deployment/README.md](deployment/README.md).

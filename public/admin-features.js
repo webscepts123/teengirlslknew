@@ -342,6 +342,7 @@ function fillExisting(kind, form, r) {
     set("colors", (r.colors || []).join(", "));
     set("sizes", (r.sizes || []).join(", "));
     set("allowPreorder", r.allow_preorder ? "true" : "false");
+    set("weightKg", r.weight_kg || 0);
     for (let level = 1; level <= 3; level++)
       set("referralLevel" + level, r["referral_level_" + level]);
     const preview = document.getElementById("prod-img-preview");
@@ -456,6 +457,7 @@ if (group) {
           ),
         )
         .join("") +
+      field("weightKg", "Weight (kg)", "number", 0) +
       `<div class="tgl-form-group"><label class="tgl-form-label">Allow preorders</label><select class="tgl-select" name="allowPreorder"><option value="false">No</option><option value="true">Yes</option></select></div>`,
   );
 }

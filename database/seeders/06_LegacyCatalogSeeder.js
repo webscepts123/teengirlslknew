@@ -15,9 +15,9 @@ export async function run(db) {
       ids.set(c.key,rows[0].id);
     }
     for(const p of catalog.products) {
-      await query(`INSERT INTO products(sku,title,category,price,original_price,stock,image,colors,sizes,is_active,description,referral_level_1,referral_level_2,referral_level_3)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id`,
-        [p.sku,p.title,p.category,p.price,p.originalPrice,p.stock,p.image,JSON.stringify(p.colors),JSON.stringify(p.sizes),p.active,p.description,...p.referralLevels]);
+      await query(`INSERT INTO products(sku,title,category,price,original_price,stock,image,colors,sizes,is_active,description,referral_level_1,referral_level_2,referral_level_3,weight_kg)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id`,
+        [p.sku,p.title,p.category,p.price,p.originalPrice,p.stock,p.image,JSON.stringify(p.colors),JSON.stringify(p.sizes),p.active,p.description,...p.referralLevels,p.weightKg||0]);
       if (p.image && !p.image.endsWith('image-unavailable.svg'))
         await query("UPDATE products SET image=? WHERE sku=? AND (image IS NULL OR image='' OR image='/public/images/legacy-catalog/image-unavailable.svg')", [p.image,p.sku]);
     }

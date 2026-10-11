@@ -265,7 +265,7 @@ export class AuthController extends AppController {
         if (!allowed.includes(key)) continue;
         const validated = ["siteName", "description", "bankInstructions"].includes(key)
           ? required(value, key, 500)
-          : number(value, key);
+          : number(value, key, {min:key === "pointValue" ? 0.01 : 0, max: key.endsWith("Enabled") ? 1 : 100000000, integer:key.endsWith("Enabled")});
         await db.query(
           "INSERT INTO settings(setting_key,value) VALUES (?,?) ON DUPLICATE KEY UPDATE value=VALUES(value)",
           [key, JSON.stringify(validated)],
@@ -390,8 +390,10 @@ export class AuthController extends AppController {
             const value = ["siteName", "description", "bankInstructions"].includes(key)
               ? required(b[key], key, 500)
               : number(b[key], key, {
+                  min: key === "pointValue" ? 0.01 : 0,
+                  integer: key.endsWith("Enabled"),
                   max:
-                    key === "returnDays"
+                    key.endsWith("Enabled") ? 1 : key === "returnDays"
                       ? 30
                       : key === "pointsPerLkr"
                         ? 1
@@ -428,18 +430,19 @@ export class AuthController extends AppController {
             String(b.description || "").slice(0, 4000),
             b.status !== "Hidden",
             boolean(b.allowPreorder),
+            number(b.weightKg || 0, "Weight (kg)", {max:1000}),
             ...["referralLevel1", "referralLevel2", "referralLevel3"].map(
               (key) => number(b[key] || 0, key),
             ),
           ];
           if (id)
             await db.query(
-              "UPDATE products SET sku=?,title=?,category=?,price=?,stock=?,image=?,colors=?,sizes=?,description=?,is_active=?,allow_preorder=?,referral_level_1=?,referral_level_2=?,referral_level_3=? WHERE id=?",
+              "UPDATE products SET sku=?,title=?,category=?,price=?,stock=?,image=?,colors=?,sizes=?,description=?,is_active=?,allow_preorder=?,weight_kg=?,referral_level_1=?,referral_level_2=?,referral_level_3=? WHERE id=?",
               [...vals, id],
             );
           else
             await db.query(
-              "INSERT INTO products(sku,title,category,price,stock,image,colors,sizes,description,is_active,allow_preorder,referral_level_1,referral_level_2,referral_level_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+              "INSERT INTO products(sku,title,category,price,stock,image,colors,sizes,description,is_active,allow_preorder,weight_kg,referral_level_1,referral_level_2,referral_level_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
               vals,
             );
         } else if (kind === "categories") {

@@ -38,22 +38,23 @@ html lang="en"
             span.fa-solid.fa-circle-check
             span "{{success}}"
 
-        // 1-Click Demo Login Bar
-        div.tgl-demo-bar-compact
-          span.tgl-demo-bar-label
-            span.fa-solid.fa-bolt
-            span "1-Click Demo"
-          div style="display:flex; gap:6px;"
-            form method="post" action="/customer/demo-login" style="margin:0;"
-              input type="hidden" name="_csrf" value="{{csrfToken}}"
-              input type="hidden" name="customerId" value="CUST-1001"
-              button.tgl-demo-btn-chip type="submit"
-                span "⭐ Kavindi (Gold)"
-            form method="post" action="/customer/demo-login" style="margin:0;"
-              input type="hidden" name="_csrf" value="{{csrfToken}}"
-              input type="hidden" name="customerId" value="CUST-1002"
-              button.tgl-demo-btn-chip type="submit"
-                span "🥈 Ananya"
+        if allowDemoLogin
+          // 1-Click Demo Login Bar
+          div.tgl-demo-bar-compact
+            span.tgl-demo-bar-label
+              span.fa-solid.fa-bolt
+              span "1-Click Demo"
+            div style="display:flex; gap:6px;"
+              form method="post" action="/customer/demo-login" style="margin:0;"
+                input type="hidden" name="_csrf" value="{{csrfToken}}"
+                input type="hidden" name="customerId" value="CUST-1001"
+                button.tgl-demo-btn-chip type="submit"
+                  span "⭐ Kavindi (Gold)"
+              form method="post" action="/customer/demo-login" style="margin:0;"
+                input type="hidden" name="_csrf" value="{{csrfToken}}"
+                input type="hidden" name="customerId" value="CUST-1002"
+                button.tgl-demo-btn-chip type="submit"
+                  span "🥈 Ananya"
 
         form.tgl-form-exact method="post" action="/customer/login"
           input type="hidden" name="_csrf" value="{{csrfToken}}"
@@ -63,19 +64,21 @@ html lang="en"
             label.tgl-label-caps for="login-email-input" "EMAIL ADDRESS"
             div.tgl-input-wrapper
               span.fa-regular.fa-envelope.tgl-input-left-icon
-              input#login-email-input.tgl-input-modern type="text" name="emailOrPhone" placeholder="you@example.com" value="kavindi.silva@gmail.com" required="required" autocomplete="username"
+              input#login-email-input.tgl-input-modern type="text" name="emailOrPhone" placeholder="you@example.com" required="required" autocomplete="username"
               div.tgl-input-right-actions
-                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-email-input').value='kavindi.silva@gmail.com'"
-                  span.fa-solid.fa-ellipsis
+                if allowDemoLogin
+                  button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-email-input').value='kavindi.silva@gmail.com'"
+                    span.fa-solid.fa-ellipsis
 
           div.tgl-form-group
             label.tgl-label-caps for="login-password-input" "PASSWORD"
             div.tgl-input-wrapper
               span.fa-solid.fa-lock.tgl-input-left-icon
-              input#login-password-input.tgl-input-modern type="password" name="password" placeholder="••••••••" value="password123" required="required" autocomplete="current-password"
+              input#login-password-input.tgl-input-modern type="password" name="password" placeholder="••••••••" required="required" autocomplete="current-password"
               div.tgl-input-right-actions
-                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-password-input').value='password123'"
-                  span.fa-solid.fa-ellipsis
+                if allowDemoLogin
+                  button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-password-input').value='password123'"
+                    span.fa-solid.fa-ellipsis
                 button#toggle-pass-btn.tgl-input-icon-btn type="button" title="Show/Hide Password" onclick="const p=document.getElementById('login-password-input'); const i=document.getElementById('pass-eye-icon'); if(p.type==='password'){ p.type='text'; i.className='fa-regular fa-eye-slash'; }else{ p.type='password'; i.className='fa-regular fa-eye'; }"
                   span#pass-eye-icon.fa-regular.fa-eye
 

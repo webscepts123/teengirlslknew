@@ -781,6 +781,7 @@
       "price": 4750,
       "originalPrice": 5449,
       "stock": 45,
+      "weightKg": 0.3,
       "colors": [
         "#13095c",
         "#8dfaf5"
@@ -809,6 +810,7 @@
       "price": 3950,
       "originalPrice": null,
       "stock": 68,
+      "weightKg": 0.25,
       "colors": [
         "#af08d8",
         "#000000"
@@ -837,6 +839,7 @@
       "price": 2999,
       "originalPrice": 3450,
       "stock": 72,
+      "weightKg": 0.2,
       "colors": [
         "#ff8503",
         "#0466f3"
@@ -865,6 +868,7 @@
       "price": 1699,
       "originalPrice": null,
       "stock": 90,
+      "weightKg": 0.25,
       "colors": [
         "#000000",
         "#6a0303",
@@ -889,6 +893,7 @@
       "price": 3750,
       "originalPrice": 4250,
       "stock": 20,
+      "weightKg": 0.25,
       "colors": [
         "#032d73",
         "#000000"
@@ -917,6 +922,7 @@
       "price": 3750,
       "originalPrice": 4250,
       "stock": 70,
+      "weightKg": 0.25,
       "colors": [
         "#18d4dd",
         "#060cbf",
@@ -947,6 +953,7 @@
       "price": 3249,
       "originalPrice": 3660,
       "stock": 10,
+      "weightKg": 0.25,
       "colors": [
         "#000000",
         "#05587a",
