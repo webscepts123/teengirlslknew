@@ -1,0 +1,56 @@
+name: Deploy to cPanel
+
+# Runs "bash ~/public_html/deployment/deploy.sh" on the host after a push.
+#
+# Repository secrets to add under Settings > Secrets and variables > Actions:
+#   CPANEL_HOST  server address, for example server123.web-hosting.com
+#   CPANEL_USER  cPanel account name
+#   CPANEL_KEY   private SSH key, the whole file including the header lines
+#   CPANEL_PORT  optional, defaults to 22
+#
+# Create the key pair in cPanel > SSH Access > Manage SSH Keys, authorise the
+# public key there, and paste the private key into CPANEL_KEY.
+#
+# No SSH on the account? Delete this file and use the webhook printed by
+# noderyx-deploy.php instead.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cpanel-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy public_html
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Authorise the host
+        env:
+          CPANEL_KEY: ${{ secrets.CPANEL_KEY }}
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$CPANEL_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "${CPANEL_PORT:-22}" -H "$CPANEL_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Run the deploy script
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${CPANEL_PORT:-22}" -o BatchMode=yes \
+            "$CPANEL_USER@$CPANEL_HOST" \
+            'bash ~/public_html/deployment/deploy.sh --branch=main'
+
+      - name: Forget the key
+        if: always()
+        run: rm -f ~/.ssh/id_deploy
