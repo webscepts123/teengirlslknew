@@ -5,46 +5,63 @@ html lang="en"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="robots" content="noindex, nofollow"
     title "{{pageTitle}} | {{siteName}}"
-    link rel="stylesheet" href="/public/cool.css"
+    link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
     link rel="stylesheet" href="/public/admin-login.css"
   body.admin-body
-    div.admin-orb.admin-orb-1 aria-hidden="true"
-    div.admin-orb.admin-orb-2 aria-hidden="true"
-    div.admin-grid-pattern aria-hidden="true"
     main.admin-layout
+      div.admin-brand-panel
+        a.admin-brand href="/" aria-label="Teengirls.lk home"
+          img.admin-site-logo src="/public/images/brand/teengirls-logo-wide.png" alt="Teengirls.lk" width="200" height="110"
+        div.admin-brand-copy
+          span.admin-eyebrow "THE TEENGIRLS TEAM"
+          h2 "Your store, beautifully managed."
+          p "Everything you need to care for your customers and keep your collection moving."
+        div.admin-brand-art aria-hidden="true"
+          div.admin-art-circle
+            span.fa-solid.fa-bag-shopping
+          div.admin-art-label.admin-art-label-top
+            span.fa-solid.fa-heart
+            span "A little style. A lot of love."
+          div.admin-art-label.admin-art-label-bottom
+            span.fa-solid.fa-check
+            span "Made for your next chapter"
+        p.admin-brand-footnote "Look good. Feel you."
       div.admin-login-card
         div.admin-header
-          a href="/" aria-label="Teengirls.lk home"
-            img.admin-site-logo src="/public/images/brand/teengirls-logo-wide.png" alt="Teengirls.lk" width="170" height="76"
-          div.admin-badge
-            span.admin-live-dot
-            span "SysAdmin Console"
-          h1.admin-title "Administrator Login"
-          p.admin-subtitle "Secure access gateway for system administration"
+          span.admin-badge
+            span.fa-solid.fa-lock aria-hidden="true"
+            span "ADMIN ACCESS"
+          h1.admin-title "Welcome back."
+          p.admin-subtitle "Sign in to manage your Teengirls store."
         if error
-          div.admin-alert.error
-            strong "Authentication Error:"
+          div.admin-alert.error role="alert"
+            span.fa-solid.fa-circle-exclamation aria-hidden="true"
             span "{{error}}"
         if success
-          div.admin-alert.success
+          div.admin-alert.success role="status"
             span "{{success}}"
-        form method="post" action="/sysadmin/login"
+        form#admin-login-form method="post" action="/sysadmin/login"
           input type="hidden" name="_csrf" value="{{csrfToken}}"
           div.admin-form-group
-            label.admin-label for="admin-username" "Admin Username or Email"
+            label.admin-label for="admin-username" "Username or email"
             div.admin-input-wrap
-              input#admin-username.admin-input type="text" name="username" placeholder="sysadmin@example.com" required="required" autocomplete="username"
+              span.fa-regular.fa-user.admin-input-icon aria-hidden="true"
+              input#admin-username.admin-input type="text" name="username" placeholder="Enter your username or email" required="required" autocomplete="username" autocapitalize="none" spellcheck="false"
           div.admin-form-group
-            label.admin-label for="admin-password" "Master Password / Security Key"
+            label.admin-label for="admin-password" "Password"
             div.admin-input-wrap
-              input#admin-password.admin-input type="password" name="password" placeholder="••••••••••••" required="required" autocomplete="current-password"
-          div.admin-options-row
-            label.admin-checkbox-label
-              input type="checkbox" name="remember" value="1"
-              span "Remember this device for 30 days"
-          button.admin-btn-primary type="submit" "Authenticate & Sign In"
+              span.fa-solid.fa-lock.admin-input-icon aria-hidden="true"
+              input#admin-password.admin-input type="password" name="password" placeholder="Enter your password" required="required" autocomplete="current-password"
+              button.admin-password-toggle type="button" aria-label="Show password" aria-pressed="false" aria-controls="admin-password" data-password-toggle="true"
+                span.fa-regular.fa-eye aria-hidden="true"
+          p.admin-access-note "For authorised team members only."
+          button.admin-btn-primary type="submit"
+            span "Sign in"
+            span.fa-solid.fa-arrow-right aria-hidden="true"
         div.admin-footer-links
-          a.admin-back-link href="/" "← Return to Main Application"
-        div.admin-security-note
-          span "🔒 Protected with 256-Bit Session Key Encryption"
+          a.admin-back-link href="/"
+            span.fa-solid.fa-arrow-left aria-hidden="true"
+            span "Back to the store"
+        p.admin-security-note "Teengirls.lk administration"
+    script src="/public/admin-login.js" defer="defer"
     script src="/public/untitled-live.js" defer="defer"
