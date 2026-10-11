@@ -467,3 +467,209 @@ body.tgl-auth-body::before {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* ==========================================================================
+   Customer Registration
+   ========================================================================== */
+
+.tgl-register-layout {
+  justify-content: center;
+  padding-top: 90px;
+  padding-bottom: 40px;
+}
+
+.tgl-register-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  width: 100%;
+  max-width: 920px;
+  padding: 34px 36px 32px;
+  animation: cardFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tgl-register-head {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.tgl-register-head .tgl-login-sub {
+  justify-content: center;
+  margin-bottom: 0;
+}
+.tgl-register-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-heading);
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.tgl-register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 16px;
+}
+
+.tgl-reg-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tgl-reg-label {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-slate);
+  margin-bottom: 7px;
+}
+.tgl-req {
+  color: var(--color-pink-deep);
+  font-weight: 700;
+}
+.tgl-optional {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.tgl-reg-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-dark);
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  outline: none;
+  transition: var(--transition);
+}
+.tgl-reg-input::placeholder {
+  color: #94a3b8;
+}
+.tgl-reg-input:focus {
+  border-color: var(--color-pink-deep);
+  background: white;
+  box-shadow: 0 0 0 3.5px rgba(244, 63, 94, 0.15);
+}
+.tgl-reg-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+.tgl-reg-input.has-action {
+  padding-right: 44px;
+}
+.tgl-reg-field.is-invalid .tgl-reg-input {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.tgl-reg-eye {
+  position: absolute;
+  right: 10px;
+}
+
+.tgl-field-error {
+  font-size: 12px;
+  color: #b91c1c;
+  margin-top: 5px;
+  line-height: 1.35;
+}
+.tgl-field-error:empty {
+  display: none;
+}
+
+/* Searchable district / city pickers */
+.tgl-combo {
+  position: relative;
+}
+.tgl-combo-input {
+  padding-right: 38px;
+}
+.tgl-combo-caret {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #64748b;
+  pointer-events: none;
+}
+.tgl-combo-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 240px;
+  overflow-y: auto;
+  list-style: none;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 16px 32px -12px rgba(15, 23, 42, 0.25);
+  padding: 6px;
+}
+.tgl-combo-list[hidden] {
+  display: none;
+}
+.tgl-combo-option {
+  padding: 9px 12px;
+  font-size: 14px;
+  color: var(--color-dark);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tgl-combo-option.is-active,
+.tgl-combo-option:hover {
+  background: var(--color-pink-light);
+  color: var(--color-pink-deep);
+}
+.tgl-combo-option[aria-selected="true"] {
+  font-weight: 700;
+}
+.tgl-combo-empty {
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.tgl-reg-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+.tgl-btn-register {
+  width: auto;
+  min-width: 200px;
+  margin-top: 0;
+}
+.tgl-btn-register:disabled {
+  cursor: wait;
+  opacity: 0.75;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .tgl-register-layout {
+    padding: 70px 0 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .tgl-register-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tgl-register-card {
+    padding: 26px 18px 24px;
+    border-radius: 20px;
+  }
+  .tgl-btn-register {
+    width: 100%;
+  }
+}

@@ -26,7 +26,7 @@ const app = noderyx({
 
 app.provide("ai", ai(config.ai));
 
-app.get("/", CustomerAuthController.handle("showLogin"));
+app.get("/", HomeController.handle("index"));
 app.get("/health", HomeController.handle("health"));
 
 // Customer Authentication Routes

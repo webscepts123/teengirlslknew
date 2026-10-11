@@ -1,4 +1,5 @@
 import { Controller } from "noderyx-framework";
+import { normalizeSriLankanPhone, validateRegistration } from "../../../public/customer-registration-rules.js";
 
 // In-memory customer repository for stateful interaction
 export const customersDb = [
@@ -6,6 +7,9 @@ export const customersDb = [
     id: "CUST-1001",
     name: "Nethmi Perera",
     firstName: "Nethmi",
+    lastName: "Perera",
+    nic: "200254301234",
+    referralCode: "NETHMI1001",
     email: "nethmi.perera@gmail.com",
     phone: "077 123 4567",
     avatar: "/public/images/avatars/nethmi-avatar.jpg",
@@ -59,6 +63,9 @@ export const customersDb = [
     id: "CUST-1002",
     name: "Kavindi Silva",
     firstName: "Kavindi",
+    lastName: "Silva",
+    nic: "985431234V",
+    referralCode: "KAVINDI1002",
     email: "kavindi.silva@gmail.com",
     phone: "+94 77 892 3411",
     avatar: "/images/avatars/avatar-1.jpg",
@@ -132,9 +139,10 @@ export class CustomerAuthController extends Controller {
     }
 
     const cleanInput = emailOrPhone.trim().toLowerCase();
+    const inputPhone = normalizeSriLankanPhone(cleanInput);
     const customer = customersDb.find(
       (c) =>
-        (c.email.toLowerCase() === cleanInput || c.phone.replace(/[\s-]/g, "") === cleanInput.replace(/[\s-]/g, "")) &&
+        (c.email.toLowerCase() === cleanInput || (inputPhone && normalizeSriLankanPhone(c.phone) === inputPhone)) &&
         c.password === password
     );
 
@@ -198,76 +206,104 @@ export class CustomerAuthController extends Controller {
       return this.redirect("/customer/dashboard");
     }
 
-    const error = this.query.error ?? null;
-    const success = this.query.success ?? null;
+    return this.renderRegister({
+      error: this.query.error ?? null,
+      success: this.query.success ?? null,
+      old: { referralCode: this.query.ref ?? "" }
+    });
+  }
 
+  renderRegister({ error = null, success = null, errors = {}, old = {} } = {}, status = 200) {
+    // Never echo passwords back into the form.
+    const { password, confirmPassword, ...safeOld } = old;
     return this.render("customer/register", {
       siteName: "TeenGirlsLK",
       pageTitle: "Create Your Account",
       error,
       success,
+      errors,
+      old: safeOld,
       csrfToken: this.context.csrfToken
-    });
+    }, status);
   }
 
   /**
    * Process Customer Registration
    */
   async register() {
-    const { firstName, lastName, email, phone, password, confirmPassword, topSize, styleInterest } = this.body ?? {};
+    const { values, errors } = validateRegistration(this.body ?? {});
 
-    if (!firstName || !email || !password) {
-      return this.render("customer/register", {
-        siteName: "TeenGirlsLK",
-        pageTitle: "Create Your Account",
-        error: "Please fill in all required fields (Name, Email, and Password).",
-        csrfToken: this.context.csrfToken
-      }, 422);
+    if (!errors.email && customersDb.some((c) => c.email.toLowerCase() === values.email)) {
+      errors.email = "An account with this e-mail already exists. Please sign in instead.";
+    }
+    if (!errors.phone && customersDb.some((c) => normalizeSriLankanPhone(c.phone) === values.phone)) {
+      errors.phone = "This phone number is already registered.";
+    }
+    if (!errors.nic && customersDb.some((c) => c.nic?.toUpperCase() === values.nic)) {
+      errors.nic = "This NIC number is already registered.";
     }
 
-    if (password !== confirmPassword) {
-      return this.render("customer/register", {
-        siteName: "TeenGirlsLK",
-        pageTitle: "Create Your Account",
-        error: "Passwords do not match. Please verify and re-type.",
-        csrfToken: this.context.csrfToken
-      }, 422);
+    const referrer = values.referralCode
+      ? customersDb.find((c) => c.referralCode?.toUpperCase() === values.referralCode)
+      : null;
+    if (values.referralCode && !errors.referralCode && !referrer) {
+      errors.referralCode = "This referral code is not valid.";
     }
 
-    // Check if email already registered
-    const existing = customersDb.find((c) => c.email.toLowerCase() === email.trim().toLowerCase());
-    if (existing) {
-      return this.render("customer/register", {
-        siteName: "TeenGirlsLK",
-        pageTitle: "Create Your Account",
-        error: "An account with this email already exists. Please sign in instead.",
-        csrfToken: this.context.csrfToken
-      }, 409);
+    if (Object.keys(errors).length) {
+      const conflict = errors.email?.includes("already") || errors.phone?.includes("already") || errors.nic?.includes("already");
+      return this.renderRegister({
+        error: "Please correct the highlighted fields and try again.",
+        errors,
+        old: values
+      }, conflict ? 409 : 422);
     }
 
-    const fullName = `${firstName.trim()} ${lastName ? lastName.trim() : ""}`.trim();
-    const initials = `${firstName[0]}${lastName ? lastName[0] : ""}`.toUpperCase();
+    const fullName = `${values.firstName} ${values.lastName}`;
+    const initials = `${values.firstName[0]}${values.lastName[0]}`.toUpperCase();
+    let id;
+    do {
+      id = `CUST-${Math.floor(1000 + Math.random() * 9000)}`;
+    } while (customersDb.some((c) => c.id === id));
 
     const newCustomer = {
-      id: `CUST-${Math.floor(1000 + Math.random() * 9000)}`,
+      id,
       name: fullName,
-      email: email.trim(),
-      phone: phone ? phone.trim() : "+94 77 000 0000",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80",
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      nic: values.nic,
+      referralCode: `${values.firstName.replace(/[^A-Za-z]/g, "").slice(0, 8).toUpperCase()}${id.slice(5)}`,
+      referredBy: referrer?.id ?? null,
+      avatar: "/public/images/placeholder.svg",
       initials,
       tier: "Bronze Member",
       tierColor: "bronze",
       points: 200, // Welcome gift points
       storeCredit: "Rs 500.00", // Welcome gift voucher
-      joinedDate: "Just now",
-      password: password,
+      joinedDate: new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+      password: values.password,
       preferences: {
-        preferredTopSize: topSize || "M",
+        preferredTopSize: "M",
         preferredBottomSize: "28",
         preferredFootwear: "38 (EU)",
-        styleAesthetics: styleInterest ? [styleInterest] : ["Casual Chic"]
+        styleAesthetics: ["Casual Chic"]
       },
-      addresses: []
+      addresses: [
+        {
+          id: `ADDR-${Date.now()}`,
+          label: "Home",
+          isDefault: true,
+          recipientName: fullName,
+          phone: values.phone,
+          street: values.address,
+          city: values.city,
+          district: values.district,
+          postalCode: values.postalCode,
+          notes: ""
+        }
+      ]
     };
 
     customersDb.push(newCustomer);

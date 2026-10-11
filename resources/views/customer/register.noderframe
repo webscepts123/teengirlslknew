@@ -9,25 +9,20 @@ html lang="en"
     link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
     link rel="stylesheet" href="/public/customer-auth.css"
-  body.tgl-auth-body
-    div.tgl-auth-orb.tgl-auth-orb-1 aria-hidden="true"
-    div.tgl-auth-orb.tgl-auth-orb-2 aria-hidden="true"
-    
-    div.tgl-auth-container.wide
-      div.tgl-auth-header
-        a.tgl-auth-brand href="/"
-          div.tgl-auth-logo-badge
-            span.fa-solid.fa-wand-magic-sparkles
-          span.tgl-auth-brand-name "TeenGirlsLK"
-        p.tgl-auth-tagline "Join 12,000+ stylish teens across Sri Lanka"
+    script type="module" src="/public/customer-register.js"
+  body.tgl-auth-body.tgl-register-body
+    a.tgl-floating-brand href="/"
+      div.tgl-brand-icon-mini
+        span.fa-solid.fa-wand-magic-sparkles
+      span.tgl-brand-text-mini "TeenGirlsLK"
 
-      div.tgl-auth-card
-        div.tgl-card-title-row
-          h1.tgl-auth-title "Create Your Account"
-          span.tgl-perk-badge
-            span.fa-solid.fa-gift
-            span "Rs 500 Gift"
-        p.tgl-auth-desc "Get Rs 500 welcome credit, earn reward points on every order & enjoy free express delivery."
+    main.tgl-auth-screen-layout.tgl-register-layout
+      div.tgl-register-card
+        div.tgl-register-head
+          h1.tgl-register-title "Register"
+          p.tgl-login-sub
+            span "Already have an account? "
+            a.tgl-pink-link href="/customer/login" "Sign in"
 
         if error
           div.tgl-alert.error
@@ -39,77 +34,105 @@ html lang="en"
             span.fa-solid.fa-circle-check
             span "{{success}}"
 
-        form.tgl-form method="post" action="/customer/register"
+        form#register-form.tgl-register-grid method="post" action="/customer/register" novalidate="novalidate"
           input type="hidden" name="_csrf" value="{{csrfToken}}"
-          
-          div.tgl-form-row
-            div.tgl-form-group
-              label.tgl-label for="reg-first-name" "First Name *"
-              div.tgl-input-wrap
-                span.fa-solid.fa-user.tgl-input-icon
-                input#reg-first-name.tgl-input type="text" name="firstName" placeholder="e.g. Kavindi" required="required" autocomplete="given-name"
-            div.tgl-form-group
-              label.tgl-label for="reg-last-name" "Last Name"
-              div.tgl-input-wrap
-                span.fa-solid.fa-user.tgl-input-icon
-                input#reg-last-name.tgl-input type="text" name="lastName" placeholder="e.g. Silva" autocomplete="family-name"
 
-          div.tgl-form-row
-            div.tgl-form-group
-              label.tgl-label for="reg-email" "Email Address *"
-              div.tgl-input-wrap
-                span.fa-solid.fa-envelope.tgl-input-icon
-                input#reg-email.tgl-input type="email" name="email" placeholder="kavindi@example.com" required="required" autocomplete="email"
-            div.tgl-form-group
-              label.tgl-label for="reg-phone" "Mobile Phone Number (WhatsApp updates)"
-              div.tgl-input-wrap
-                span.fa-solid.fa-phone.tgl-input-icon
-                input#reg-phone.tgl-input type="tel" name="phone" placeholder="+94 77 123 4567" autocomplete="tel"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-referral"
+              span "Referral Code"
+              span.tgl-optional "(Optional)"
+            input#reg-referral.tgl-reg-input type="text" name="referralCode" value="{{old.referralCode}}" placeholder="Referral Code" maxlength="20" autocomplete="off"
+            span.tgl-field-error data-error-for="referralCode" "{{errors.referralCode}}"
 
-          div.tgl-form-row
-            div.tgl-form-group
-              label.tgl-label for="reg-password" "Password *"
-              div.tgl-input-wrap
-                span.fa-solid.fa-lock.tgl-input-icon
-                input#reg-password.tgl-input type="password" name="password" placeholder="At least 6 characters" required="required" autocomplete="new-password"
-            div.tgl-form-group
-              label.tgl-label for="reg-confirm-password" "Confirm Password *"
-              div.tgl-input-wrap
-                span.fa-solid.fa-lock.tgl-input-icon
-                input#reg-confirm-password.tgl-input type="password" name="confirmPassword" placeholder="Re-enter password" required="required" autocomplete="new-password"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-first-name"
+              span "First Name"
+              span.tgl-req "*"
+            input#reg-first-name.tgl-reg-input type="text" name="firstName" value="{{old.firstName}}" placeholder="First Name" maxlength="60" required="required" autocomplete="given-name"
+            span.tgl-field-error data-error-for="firstName" "{{errors.firstName}}"
 
-          div.tgl-form-row
-            div.tgl-form-group
-              label.tgl-label for="reg-size" "Preferred Top / Dress Size"
-              select#reg-size.tgl-select name="topSize"
-                option value="XS" "XS (UK 6)"
-                option value="S" "S (UK 8)"
-                option value="M" selected="selected" "M (UK 10)"
-                option value="L" "L (UK 12)"
-                option value="XL" "XL (UK 14)"
-            div.tgl-form-group
-              label.tgl-label for="reg-style" "Favorite Fashion Aesthetic"
-              select#reg-style.tgl-select name="styleInterest"
-                option value="Streetwear & Oversized" selected="selected" "Streetwear & Oversized"
-                option value="Pastel & Soft Aesthetic" "Pastel & Soft Aesthetic"
-                option value="Floral & Casual Chic" "Floral & Casual Chic"
-                option value="Y2K & Vintage Trends" "Y2K & Vintage Trends"
-                option value="Glam & Partywear" "Glam & Partywear"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-last-name"
+              span "Last Name"
+              span.tgl-req "*"
+            input#reg-last-name.tgl-reg-input type="text" name="lastName" value="{{old.lastName}}" placeholder="Last Name" maxlength="60" required="required" autocomplete="family-name"
+            span.tgl-field-error data-error-for="lastName" "{{errors.lastName}}"
 
-          div.tgl-form-group style="margin-top: 4px;"
-            label.tgl-checkbox-label
-              input type="checkbox" name="terms" required="required" checked="checked"
-              span "I agree to TeenGirlsLK Terms of Service & Privacy Policy"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-email"
+              span "E-mail Address"
+              span.tgl-req "*"
+            input#reg-email.tgl-reg-input type="email" name="email" value="{{old.email}}" placeholder="E-mail Address" maxlength="191" required="required" autocomplete="email"
+            span.tgl-field-error data-error-for="email" "{{errors.email}}"
 
-          button.tgl-btn-submit type="submit"
-            span "Create Account & Claim Rs 500 Gift"
-            span.fa-solid.fa-sparkles
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-phone"
+              span "Phone Number"
+              span.tgl-req "*"
+            input#reg-phone.tgl-reg-input type="tel" name="phone" value="{{old.phone}}" placeholder="94771234567" maxlength="15" inputmode="numeric" required="required" autocomplete="tel"
+            span.tgl-field-error data-error-for="phone" "{{errors.phone}}"
 
-        div.tgl-auth-switch
-          span "Already have an account? "
-          a.tgl-link href="/customer/login" "Sign In Here"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-nic"
+              span "NIC Number"
+              span.tgl-req "*"
+            input#reg-nic.tgl-reg-input type="text" name="nic" value="{{old.nic}}" placeholder="980545355V or 199805403554" maxlength="12" required="required" autocomplete="off"
+            span.tgl-field-error data-error-for="nic" "{{errors.nic}}"
 
-      div style="text-align: center;"
-        a.tgl-auth-back href="/"
-          span.fa-solid.fa-store
-          span "Return to TeenGirlsLK Store"
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-district"
+              span "District"
+              span.tgl-req "*"
+            div.tgl-combo data-combo="district"
+              input#reg-district.tgl-reg-input.tgl-combo-input type="text" name="district" value="{{old.district}}" placeholder="Search districts..." required="required" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="reg-district-list"
+              span.fa-solid.fa-chevron-down.tgl-combo-caret aria-hidden="true"
+              ul#reg-district-list.tgl-combo-list role="listbox" hidden="hidden"
+            span.tgl-field-error data-error-for="district" "{{errors.district}}"
+
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-city"
+              span "City"
+              span.tgl-req "*"
+            div.tgl-combo data-combo="city"
+              input#reg-city.tgl-reg-input.tgl-combo-input type="text" name="city" value="{{old.city}}" placeholder="Select a district first" required="required" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="reg-city-list"
+              span.fa-solid.fa-chevron-down.tgl-combo-caret aria-hidden="true"
+              ul#reg-city-list.tgl-combo-list role="listbox" hidden="hidden"
+            span.tgl-field-error data-error-for="city" "{{errors.city}}"
+
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-address"
+              span "Address"
+              span.tgl-req "*"
+            input#reg-address.tgl-reg-input type="text" name="address" value="{{old.address}}" placeholder="Address" maxlength="255" required="required" autocomplete="street-address"
+            span.tgl-field-error data-error-for="address" "{{errors.address}}"
+
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-postal"
+              span "Postal Code"
+              span.tgl-req "*"
+            input#reg-postal.tgl-reg-input type="text" name="postalCode" value="{{old.postalCode}}" placeholder="Postal Code" maxlength="5" inputmode="numeric" required="required" autocomplete="postal-code"
+            span.tgl-field-error data-error-for="postalCode" "{{errors.postalCode}}"
+
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-password"
+              span "Password"
+              span.tgl-req "*"
+            div.tgl-input-wrapper
+              input#reg-password.tgl-reg-input.has-action type="password" name="password" placeholder="Password" minlength="8" required="required" autocomplete="new-password"
+              button.tgl-input-icon-btn.tgl-reg-eye type="button" data-toggle-password="reg-password" aria-label="Show password"
+                span.fa-regular.fa-eye
+            span.tgl-field-error data-error-for="password" "{{errors.password}}"
+
+          div.tgl-reg-field
+            label.tgl-reg-label for="reg-confirm-password"
+              span "Confirm Password"
+              span.tgl-req "*"
+            div.tgl-input-wrapper
+              input#reg-confirm-password.tgl-reg-input.has-action type="password" name="confirmPassword" placeholder="Confirm Password" minlength="8" required="required" autocomplete="new-password"
+              button.tgl-input-icon-btn.tgl-reg-eye type="button" data-toggle-password="reg-confirm-password" aria-label="Show password"
+                span.fa-regular.fa-eye
+            span.tgl-field-error data-error-for="confirmPassword" "{{errors.confirmPassword}}"
+
+          div.tgl-reg-actions
+            button.tgl-btn-signin.tgl-btn-register type="submit"
+              span "Register"

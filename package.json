@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "locations:refresh": "node scripts/refresh-osm-locations.js",
+    "setup": "node scripts/setup.js",
     "dev": "noderyx-framework serve --watch",
     "live": "noderyx-framework live",
     "start": "node server.js",

@@ -3,111 +3,111 @@ html lang="en"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     meta name="robots" content="index, follow"
+    meta name="description" content="{{description}}"
     title "{{pageTitle}} | {{siteName}}"
     link rel="preconnect" href="https://fonts.googleapis.com"
     link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"
     link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"
-    link rel="stylesheet" href="/public/customer-auth.css"
-  body.tgl-auth-body
-    // Top-Left Floating Brand Link
-    a.tgl-floating-brand href="/"
-      div.tgl-brand-icon-mini
-        span.fa-solid.fa-wand-magic-sparkles
-      span.tgl-brand-text-mini "TeenGirlsLK"
+    link rel="stylesheet" href="/public/home.css"
+  body.tgl-home
+    header.tgl-nav
+      div.tgl-container.tgl-nav-inner
+        a.tgl-logo href="/"
+          span.tgl-logo-icon
+            span.fa-solid.fa-wand-magic-sparkles
+          span "TeenGirlsLK"
+        nav.tgl-nav-links aria-label="Main"
+          a href="#categories" "Shop"
+          a href="#new-arrivals" "New Arrivals"
+          a href="#perks" "Why Us"
+        div.tgl-nav-actions
+          if customer
+            a.tgl-btn.tgl-btn-ghost href="/customer/wishlist" aria-label="Wishlist"
+              span.fa-regular.fa-heart
+            a.tgl-btn.tgl-btn-primary href="/customer/dashboard"
+              span.fa-solid.fa-user
+              span "My Account"
+          else
+            a.tgl-btn.tgl-btn-ghost href="/login" "Sign in"
+            a.tgl-btn.tgl-btn-primary href="/register" "Join free"
 
-    // Screen Layout Container
-    main.tgl-auth-screen-layout
-      div.tgl-login-card-exact
-        div.tgl-card-head
-          h1.tgl-login-title "Welcome Back!"
-          p.tgl-login-sub
-            span "Don't have an account? "
-            a.tgl-pink-link href="/customer/register" "Register free"
-          div.tgl-accent-dots
-            span.tgl-dot-pill
-            span.tgl-dot-circle
-            span.tgl-dot-circle
+    main
+      section.tgl-hero
+        div.tgl-container.tgl-hero-inner
+          div.tgl-hero-copy
+            span.tgl-eyebrow
+              span.fa-solid.fa-bolt
+              span "Flash sale: up to 25% off"
+            h1 "Your style, your vibe."
+            p "Trendy dresses, cozy knits, cute bags and beauty must-haves, delivered islandwide across Sri Lanka."
+            div.tgl-hero-ctas
+              a.tgl-btn.tgl-btn-primary.tgl-btn-lg href="#new-arrivals"
+                span "Shop new arrivals"
+                span.fa-solid.fa-arrow-right
+              if customer
+                a.tgl-btn.tgl-btn-outline.tgl-btn-lg href="/customer/dashboard" "Go to my account"
+              else
+                a.tgl-btn.tgl-btn-outline.tgl-btn-lg href="/register" "Create an account"
+            p.tgl-hero-note
+              span.fa-solid.fa-tag
+              span "Use code TEEN10 for 10% off orders over Rs. 2,500"
+          div.tgl-hero-art
+            img src="/public/images/products/floral-maxi-dress.jpg" alt="Floral tiered smocked mini dress" width="420" height="520"
 
-        if error
-          div.tgl-alert.error
-            span.fa-solid.fa-circle-exclamation
-            span "{{error}}"
+      section.tgl-section id="categories"
+        div.tgl-container
+          div.tgl-section-head
+            h2 "Shop by category"
+          div.tgl-category-grid
+            for category in categories
+              a.tgl-category href="#new-arrivals"
+                span.tgl-category-icon
+                  span.fa-solid class="{{category.icon}}"
+                span "{{category.name}}"
 
-        if success
-          div.tgl-alert.success
-            span.fa-solid.fa-circle-check
-            span "{{success}}"
+      section.tgl-section.tgl-section-tint id="new-arrivals"
+        div.tgl-container
+          div.tgl-section-head
+            h2 "New arrivals"
+            p "Fresh drops picked for you this week."
+          div.tgl-product-grid
+            for product in products
+              article.tgl-product
+                div.tgl-product-media
+                  img src="{{product.image}}" alt="{{product.title}}" loading="lazy" width="300" height="360"
+                  if product.badge
+                    span.tgl-product-badge "{{product.badge}}"
+                div.tgl-product-body
+                  span.tgl-product-cat "{{product.category}}"
+                  h3 "{{product.title}}"
+                  div.tgl-product-price
+                    strong "{{product.priceLabel}}"
+                    if product.originalPriceLabel
+                      span.tgl-price-old "{{product.originalPriceLabel}}"
 
-        // 1-Click Demo Login Bar
-        div.tgl-demo-bar-compact
-          span.tgl-demo-bar-label
-            span.fa-solid.fa-bolt
-            span "1-Click Demo"
-          div style="display:flex; gap:6px;"
-            form method="post" action="/customer/demo-login" style="margin:0;"
-              input type="hidden" name="_csrf" value="{{csrfToken}}"
-              input type="hidden" name="customerId" value="CUST-1001"
-              button.tgl-demo-btn-chip type="submit"
-                span "⭐ Kavindi (Gold)"
-            form method="post" action="/customer/demo-login" style="margin:0;"
-              input type="hidden" name="_csrf" value="{{csrfToken}}"
-              input type="hidden" name="customerId" value="CUST-1002"
-              button.tgl-demo-btn-chip type="submit"
-                span "🥈 Ananya"
+      section.tgl-section id="perks"
+        div.tgl-container.tgl-perk-grid
+          div.tgl-perk
+            span.fa-solid.fa-truck-fast
+            h3 "Islandwide delivery"
+            p "Free courier delivery on orders over Rs. 3,500."
+          div.tgl-perk
+            span.fa-solid.fa-rotate-left
+            h3 "Easy returns"
+            p "Changed your mind? Return within 7 days."
+          div.tgl-perk
+            span.fa-solid.fa-crown
+            h3 "Rewards club"
+            p "Earn points on every order and unlock VIP perks."
+          div.tgl-perk
+            span.fa-solid.fa-lock
+            h3 "Secure checkout"
+            p "Cash on delivery, cards and bank transfer."
 
-        form.tgl-form-exact method="post" action="/customer/login"
-          input type="hidden" name="_csrf" value="{{csrfToken}}"
-          input type="hidden" name="returnUrl" value="{{returnUrl}}"
-
-          div.tgl-form-group
-            label.tgl-label-caps for="login-email-input" "EMAIL ADDRESS"
-            div.tgl-input-wrapper
-              span.fa-regular.fa-envelope.tgl-input-left-icon
-              input#login-email-input.tgl-input-modern type="text" name="emailOrPhone" placeholder="you@example.com" value="kavindi.silva@gmail.com" required="required" autocomplete="username"
-              div.tgl-input-right-actions
-                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-email-input').value='kavindi.silva@gmail.com'"
-                  span.fa-solid.fa-ellipsis
-
-          div.tgl-form-group
-            label.tgl-label-caps for="login-password-input" "PASSWORD"
-            div.tgl-input-wrapper
-              span.fa-solid.fa-lock.tgl-input-left-icon
-              input#login-password-input.tgl-input-modern type="password" name="password" placeholder="••••••••" value="password123" required="required" autocomplete="current-password"
-              div.tgl-input-right-actions
-                button.tgl-input-icon-btn type="button" title="Autofill" onclick="document.getElementById('login-password-input').value='password123'"
-                  span.fa-solid.fa-ellipsis
-                button#toggle-pass-btn.tgl-input-icon-btn type="button" title="Show/Hide Password" onclick="const p=document.getElementById('login-password-input'); const i=document.getElementById('pass-eye-icon'); if(p.type==='password'){ p.type='text'; i.className='fa-regular fa-eye-slash'; }else{ p.type='password'; i.className='fa-regular fa-eye'; }"
-                  span#pass-eye-icon.fa-regular.fa-eye
-
-          div.tgl-auth-meta-row
-            label.tgl-checkbox-label
-              input type="checkbox" name="remember" value="1" checked="checked"
-              span "Remember me"
-            a.tgl-pink-link href="/customer/forgot-password" "Forgot password?"
-
-          button.tgl-btn-signin type="submit"
-            span.fa-solid.fa-right-to-bracket
-            span "Sign In"
-
-        div.tgl-divider-wrap
-          span.tgl-divider-text "Or"
-
-        div.tgl-bottom-actions-row
-          a.tgl-btn-outline href="/customer/register"
-            span.fa-solid.fa-user-plus style="color:#e11d48;"
-            span "Register"
-          button.tgl-btn-outline type="button" onclick="alert('OTP verification code sent via WhatsApp & SMS to your registered number!')"
-            span.fa-solid.fa-mobile-screen-button style="color:#e11d48;"
-            span "Verify OTP"
-
-        div.tgl-trust-badges-row
-          div.tgl-trust-item
-            span.fa-solid.fa-shield-halved style="color:#e11d48;"
-            span "Secure Login"
-          div.tgl-trust-item
-            span.fa-solid.fa-lock style="color:#e11d48;"
-            span "SSL Encrypted"
-          div.tgl-trust-item
-            span.fa-solid.fa-star style="color:#e11d48;"
-            span "Trusted by 5K+"
+    footer.tgl-footer
+      div.tgl-container.tgl-footer-inner
+        span "© {{year}} TeenGirlsLK. Made with love in Sri Lanka."
+        nav aria-label="Footer"
+          a href="/login" "Customer login"
+          a href="/customer/support" "Support"
