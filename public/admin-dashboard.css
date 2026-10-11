@@ -4231,3 +4231,21 @@ body.dark-theme .tgl-section-card-head {
 }
 
 
+/* Keep sidebar branding steady while long navigation lists scroll. */
+.tgl-admin-portal { --tgl-sidebar-width:260px; }
+.tgl-admin-portal .tgl-sidebar { overflow:hidden; }
+.tgl-admin-portal .tgl-sidebar-header,.tgl-admin-portal .tgl-admin-profile-card,.tgl-admin-portal .tgl-sidebar-footer { flex-shrink:0; }
+.tgl-admin-portal .tgl-sidebar-nav { min-height:0; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#e9d7e1 transparent; padding-bottom:16px; gap:18px; }
+.tgl-admin-portal .tgl-sidebar-footer { margin-top:0; }
+.tgl-admin-portal .tgl-admin-name { white-space:normal; line-height:1.4; font-size:12px; }
+.tgl-admin-portal .tgl-nav-content { min-width:0; gap:10px; }
+.tgl-admin-portal .tgl-nav-icon { width:20px; }
+.tgl-admin-portal .tgl-accordion-btn { border:0; background:transparent; font-family:inherit; text-align:left; cursor:pointer; min-height:42px; }
+.tgl-admin-portal .tgl-accordion-btn.active { background:var(--tgl-primary-light); }
+.tgl-admin-portal .tgl-accordion-btn:hover { background:var(--tgl-primary-light); }
+.tgl-admin-portal .tgl-chevron { width:24px; height:24px; display:grid; place-items:center; flex-shrink:0; font-size:12px; }
+.tgl-admin-portal .tgl-sub-menu { padding:4px 0 8px 28px; margin-left:20px; border-left:1px solid #f1dae5; gap:2px; }
+.tgl-admin-portal .tgl-sub-item { padding:9px 10px; font-size:12px; line-height:1.4; }
+.tgl-admin-portal .tgl-nav-item:focus-visible,.tgl-admin-portal .tgl-sub-item:focus-visible { outline:2px solid var(--tgl-primary); outline-offset:-2px; }
+.tgl-form-grid .tgl-form-group[hidden] { display:none!important; }
+.tgl-promotion-form-note { margin:18px 0; padding:12px 16px; border-radius:12px; background:#fff0f6; color:#775466; font-size:12px; line-height:1.7; }

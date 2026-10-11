@@ -2,6 +2,7 @@ import {randomUUID} from 'node:crypto';
 import {fail,number,jsonValue} from './database.js';
 import {validateVariant,couponDiscount,roundMoney} from './pricing.js';
 import {settingsFor} from './settings.js';
+import {promotionPricing,promotionLive} from './promotions.js';
 
 export async function executeCheckout(db,customer,b,preview=false) {
         const settings=await settingsFor(db);
@@ -104,7 +105,10 @@ export async function executeCheckout(db,customer,b,preview=false) {
               : Number(services[0].charge);
         let discount = 0,
           coupon = null;
+        const offers=promotionPricing(features.filter(f=>f.kind==='promotions'),items);
+        if(offers.freeShipping)shipping=0;
         if (b.couponCode) {
+          if(offers.applied.length)fail('Coupons cannot be combined with product promotions.');
           if(items.some(i=>i.flashId))fail('Coupons cannot be combined with flash-sale products.');
           [coupon] = await db.query(
             "SELECT * FROM coupons WHERE code=? FOR UPDATE",
@@ -121,10 +125,10 @@ export async function executeCheckout(db,customer,b,preview=false) {
             (f) => f.kind === "promotions",
           )) {
             const d = jsonValue(feature.data);
+            if(d.type&&d.type!=='percentage')continue;
             if (
-              Date.parse(d.startsAt) <= now &&
-              Date.parse(d.endsAt) > now &&
-              subtotal >= d.minSpend
+              promotionLive(d,now) &&
+              subtotal >= Number(d.minSpend||0)
             ) {
               const eligible = items
                 .filter((i) => !d.category || i.category === d.category)
@@ -136,6 +140,7 @@ export async function executeCheckout(db,customer,b,preview=false) {
             }
           }
         discount = roundMoney(discount);
+        discount=roundMoney(Math.min(subtotal,discount+offers.discount));
         const weight=roundMoney(items.reduce((sum,i)=>sum+Number(i.weight_kg||0)*i.quantity,0));
         const extraWeightCharge=shipping>0?roundMoney(Math.floor(weight)*Number(services[0]?.chargePerKg||0)):0;
         const codFee=b.paymentMethod==='cod'?Number(settings.codFee??50):0;

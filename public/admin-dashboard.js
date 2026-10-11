@@ -171,23 +171,41 @@ document.addEventListener("DOMContentLoaded", () => {
     "order-form": "Order Details"
   };
 
+  function setAccordion(accordion, open) {
+    accordion.classList.toggle('open', open);
+    const button=accordion.querySelector('.tgl-accordion-btn');
+    button?.setAttribute('aria-expanded',String(open));
+    if(button?.dataset.toggle)button.setAttribute('aria-controls',button.dataset.toggle);
+  }
+  document.querySelectorAll('.tgl-nav-accordion').forEach(a=>setAccordion(a,a.classList.contains('open')));
+
   function switchTab(tabId) {
     if (!tabId) return;
 
     // Reset all nav active states
     document.querySelectorAll(".tgl-nav-item, .tgl-sub-item").forEach(item => {
       item.classList.remove("active");
+      item.removeAttribute('aria-current');
     });
 
     // Mark current clicked item active
     const activeTargets = document.querySelectorAll(`[data-tab="${tabId}"]`);
-    activeTargets.forEach(t => t.classList.add("active"));
+    const selectedSubmenus=new Set();
+    activeTargets.forEach(t => {
+      const menu=t.closest('.tgl-sub-menu');
+      if(menu&&selectedSubmenus.has(menu))return;
+      if(menu)selectedSubmenus.add(menu);
+      t.classList.add('active');
+      if(t.matches('.tgl-sidebar a'))t.setAttribute('aria-current','page');
+    });
 
     // If active item is inside an accordion, open the accordion
+    document.querySelectorAll('.tgl-nav-accordion').forEach(a=>setAccordion(a,false));
     activeTargets.forEach(t => {
       const accordion = t.closest(".tgl-nav-accordion");
       if (accordion) {
-        accordion.classList.add("open");
+        setAccordion(accordion,true);
+        accordion.querySelector('.tgl-accordion-btn')?.classList.add('active');
       }
     });
 
@@ -228,17 +246,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Global click event delegation for data-tab, data-back, and accordion buttons
   document.addEventListener("click", (e) => {
+    const accordionButton=e.target.closest('.tgl-accordion-btn');
+    if(accordionButton){
+      e.preventDefault();
+      const accordion=accordionButton.closest('.tgl-nav-accordion');
+      const open=!accordion.classList.contains('open');
+      document.querySelectorAll('.tgl-nav-accordion').forEach(a=>setAccordion(a,a===accordion&&open));
+      // Chevron clicks expand the menu without changing the current page.
+      if(open&&!e.target.closest('.tgl-chevron'))switchTab(accordionButton.dataset.tab);
+      return;
+    }
     const tabItem = e.target.closest("[data-tab]");
     if (tabItem) {
       const tabId = tabItem.getAttribute("data-tab");
       if (tabId) {
         e.preventDefault();
-        
-        // If it is an accordion button, also ensure accordion is open
-        const parentAccordion = tabItem.closest(".tgl-nav-accordion");
-        if (parentAccordion && tabItem.classList.contains("tgl-accordion-btn")) {
-          parentAccordion.classList.add("open");
-        }
         
         switchTab(tabId);
       }

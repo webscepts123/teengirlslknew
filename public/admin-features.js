@@ -1,4 +1,5 @@
 import { featureSchemas } from "./admin-feature-schema.js";
+import {enhancePromotionForm} from './admin-promotion-fields.js';
 import {
   api,
   escapeHtml as esc,
@@ -79,6 +80,7 @@ function makeForm(kind, record = null) {
   }
   card.innerHTML = `<div class="tgl-section-card-head"><h3 class="tgl-section-card-title">${record ? "Edit" : "Add"} ${esc(kind.replaceAll("-", " "))}</h3></div><div class="tgl-section-card-body"><form data-feature-form="${kind}"><input type="hidden" name="id" value="${record?.id || ""}"><div class="tgl-form-grid">${schemas[kind].map(([key, label, type, optional]) => (type === "select" ? `<div class="tgl-form-group"><label class="tgl-form-label">Role</label><select class="tgl-select" name="role">${["Superadmin", "Catalog Manager", "Support Agent", "Analyst"].map((r) => `<option ${data.role === r ? "selected" : ""}>${r}</option>`).join("")}</select></div>` : field(key, label, type, key === "name" && kind === "tickets" ? record?.subject || "" : key === "isApproved" ? String(Boolean(record?.is_approved)) : (data[key] ?? ""), !optional))).join("")}${statusSelect(kind, record?.status)}</div>${record?.message ? "<p>" + esc(record.message) + "</p>" : ""}${record?.comment ? "<p>Rating " + esc(record.rating) + ": " + esc(record.comment) + "</p>" : ""}${(record?.messages || []).map((m) => "<p><strong>" + esc(m.actor) + "</strong>: " + esc(m.message) + "</p>").join("")}<p data-feature-message role="status"></p><div class="tgl-form-actions-bar"><button class="tgl-btn-outline" type="button" data-close-editor>Cancel</button><button class="tgl-btn-primary" type="submit">Save changes</button></div></form></div>`;
   card.querySelector("[data-close-editor]").onclick = () => card.remove();
+  if(['promotions','flash-sale'].includes(kind))enhancePromotionForm(card.querySelector('form'),kind,data).catch(e=>{card.querySelector('[data-feature-message]').textContent=e.message;});
   if (["tickets", "returns", "reviews"].includes(kind)) {
     card.querySelector('[name="name"]').readOnly = true;
   }

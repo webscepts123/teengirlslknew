@@ -1,0 +1,1 @@
+export async function run(db){for(const [key,value] of Object.entries({senderName:'Teengirls.lk',senderPhone:'',senderAddress:'',labelInstructions:''}))await db.query('INSERT IGNORE INTO settings(setting_key,value) VALUES (?,?)',[key,JSON.stringify(value)]);}

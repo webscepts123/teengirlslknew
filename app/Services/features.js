@@ -1,11 +1,18 @@
 import { featureSchemas } from "../../public/admin-feature-schema.js";
 import { required, number, fail, jsonValue } from "./database.js";
+import {promotionFields,validatePromotion} from './promotions.js';
 
 export async function validateFeature(kind, body, db) {
   const schema = featureSchemas[kind];
   if (!schema) fail("Unknown feature.", 404);
   const data = {};
   for (const [key, label, type, optional] of schema) {
+    if(kind==='promotions'){
+      const promotionType=body.type||'percentage';
+      const conditional=Object.values(promotionFields).flat();
+      if(conditional.includes(key)&&!(promotionFields[promotionType]||[]).includes(key))continue;
+      if(['discountPercent','category'].includes(key)&&promotionType!=='percentage')continue;
+    }
     if (optional && !body[key]) {
       data[key] = "";
       continue;
@@ -32,6 +39,7 @@ export async function validateFeature(kind, body, db) {
     fail("End must be after start.");
   if (data.increment === 0) fail("Bid increment must be positive.");
   if (kind==='surprise-box') number(data.price,'Box points',{min:1,integer:true});
+  if(['promotions','flash-sale'].includes(kind))await validatePromotion(data,body,db,kind);
   if (kind==='bidding') {
     number(data.targetBids,'Bid target',{min:1,integer:true});
     number(data.cancelHours,'Cancellation window',{integer:true});
